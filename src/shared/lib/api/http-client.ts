@@ -1,13 +1,14 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 import { showNotification } from "../notification";
 import { ENV } from "@/app/config/env";
+import { usePublicStore } from "@/features/public/store/public.store";
 
 const createApiClient = (options?: { contentType?: string; baseUrl: string }): AxiosInstance => {
   if (!options?.baseUrl) {
     console.warn("cannot find appConfig baseUrl");
   }
 
-  const getAccessToken = () => window.localStorage.getItem("accessToken") || undefined;
+  const getAccessToken = () => usePublicStore.getState().token || undefined;
 
   const requestHeaders: Record<string, string> = {
     "Content-Type": options?.contentType || "application/json",
@@ -28,8 +29,8 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
 
       const currentToken = getAccessToken();
       if (accessToken && accessToken !== currentToken) {
+        usePublicStore.getState().logout();
         window.location.href = "/";
-        window.localStorage.clear();
       }
 
       return config;
@@ -44,6 +45,10 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
 
       switch (status) {
         case 400:
+          return Promise.reject(error);
+        case 401:
+          usePublicStore.getState().logout();
+          window.location.href = "/sign-in";
           return Promise.reject(error);
         case 404:
           showNotification("error", error);

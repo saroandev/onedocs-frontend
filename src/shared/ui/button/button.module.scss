@@ -1,0 +1,120 @@
+.button {
+  //TODO
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  outline: none;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--ring, #000000);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+.default {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+.secondary {
+  background-color: var(--secondary, #f3f4f6);
+  color: var(--secondary-foreground, #1a1a1a);
+
+  &:hover:not(:disabled) {
+    background-color: var(--accent, #e5e7eb);
+    color: var(--accent-foreground, #1a1a1a);
+  }
+}
+
+.outline {
+  border: 1px solid var(--border, #e5e7eb);
+  background-color: var(--background, #ffffff);
+
+  &:hover:not(:disabled) {
+    background-color: var(--accent, #f3f4f6);
+    color: var(--accent-foreground, #1a1a1a);
+  }
+}
+
+.ghost {
+  background: transparent;
+  border: none;
+
+  &:hover:not(:disabled) {
+    background-color: var(--accent, #f3f4f6);
+    color: var(--accent-foreground, #1a1a1a);
+  }
+}
+
+.destructive {
+  background-color: var(--destructive, #ef4444);
+  color: var(--destructive-foreground, #ffffff);
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+}
+
+.link {
+  color: var(--primary, #3b82f6);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  background: transparent;
+  border: none;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+}
+
+.black {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #ffffff;
+    color: #000000;
+  }
+}
+
+.default {
+  height: 36px;
+  padding: 8px 16px;
+}
+
+.sm {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.lg {
+  height: 40px;
+  padding: 0 32px;
+  border-radius: 6px;
+}
+
+.icon {
+  height: 36px;
+  width: 36px;
+  padding: 0;
+}

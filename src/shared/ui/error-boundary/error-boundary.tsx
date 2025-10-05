@@ -1,5 +1,6 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import styles from "./error-boundary.module.scss";
+import { IconMaintenance } from "../icons";
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
@@ -19,7 +20,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    if (import.meta.env.env.NODE_ENV === "development") {
+    if (import.meta.env.DEV) {
       console.error("ErrorBoundary caught an error:", error, errorInfo);
     }
 
@@ -46,23 +47,18 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     const { hasError, error, errorInfo } = this.state;
     const { children, fallback } = this.props;
 
-    if (!hasError) {
-      return children;
-    }
-    if (fallback) {
-      return fallback;
-    }
+    if (!hasError) return children;
+
+    if (fallback) return fallback;
 
     return (
       <div className={styles.container}>
         <div className={styles.content}>
           <div className={styles.iconWrapper}>
-            {/* <IconMaintenance /> //TODO */}
-            error icon
+            <IconMaintenance />
           </div>
 
           <h1 className={styles.title}>Oops! Something went wrong</h1>
-
           <p className={styles.description}>
             We're sorry for the inconvenience. An unexpected error has occurred.
           </p>

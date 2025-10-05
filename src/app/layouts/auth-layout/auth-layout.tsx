@@ -1,21 +1,22 @@
-import { Outlet, Navigate } from "react-router-dom";
-import { useAuthStore } from "@/features/auth/store/auth.store";
-import { ROUTES } from "../../router/routes.config";
+import React from "react";
+import { Outlet } from "react-router-dom";
 import styles from "./auth-layout.module.scss";
+import { Header } from "@/widgets/header";
+import { Sidebar } from "@/widgets/sidebar";
 
-export const AuthLayout = () => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
-  if (isAuthenticated) {
-    return <Navigate to={ROUTES.DASHBOARD} replace />;
-  }
-
+export const AuthLayout: React.FC = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.content}>
-        <div className={styles.children}>
-          <Outlet />
-        </div>
+      <Sidebar />
+
+      <div className={styles.mainWrapper}>
+        <Header />
+
+        <main className={styles.main}>
+          <div className={styles.mainContent}>
+            <Outlet />
+          </div>
+        </main>
       </div>
     </div>
   );

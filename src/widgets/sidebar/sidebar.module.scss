@@ -1,0 +1,110 @@
+.sidebarContainer {
+  display: flex;
+  height: 100vh;
+  background-color: var(--sidebar-bg, #f8f9fa);
+  color: var(--foreground, #1a1a1a);
+}
+
+.iconRail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 57px;
+  padding: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-right: 1px solid var(--sidebar-border, #e5e7eb);
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoContainer {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+}
+
+.appsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  outline: none;
+  border: none;
+  background: transparent;
+  color: var(--sidebar-foreground, #6b7280);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--sidebar-accent, #f3f4f6);
+    color: var(--sidebar-accent-foreground, #1a1a1a);
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &.selected {
+    background-color: #000000;
+    color: #ffffff;
+  }
+}
+
+.profileButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.sheetContent {
+  width: 320px;
+}
+
+.profileActions {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profileActionButton {
+  width: 100%;
+  justify-content: flex-start;
+}

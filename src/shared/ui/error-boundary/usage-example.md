@@ -24,7 +24,7 @@ const CustomErrorFallback = () => (
   </div>
 )
 
-export const DashboardLayout = () => {
+export const AuthLayout = () => {
 return (
 <ErrorBoundary fallback={<CustomErrorFallback />}>
 {/_ Layout content _/}
@@ -63,6 +63,7 @@ export const DashboardStats = () => {
 return (
 <ErrorBoundary
 fallback={
+
 <div className="widget-error">
 <p>Failed to load dashboard stats</p>
 </div>

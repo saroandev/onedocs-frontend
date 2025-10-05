@@ -1,0 +1,112 @@
+.editorAside {
+  position: relative;
+  display: flex;
+  height: 100%;
+  width: 900px;
+  flex-shrink: 0;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+  background-color: var(--background);
+}
+
+.header {
+  display: flex;
+  height: 60px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton {
+  height: 32px;
+  width: 32px;
+  color: var(--text-secondary);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--surface);
+  padding: 8px 12px;
+}
+
+.toolButton {
+  height: 32px;
+  width: 32px;
+}
+
+.toolbarSeparator {
+  margin: 0 4px;
+  height: 24px;
+}
+
+.fontSizeSelect {
+  height: 32px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  padding: 0 8px;
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+
+  &:focus {
+    box-shadow: 0 0 0 2px var(--ring);
+  }
+}
+
+.documentArea {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #e8e8e8;
+  padding: 24px;
+}
+
+.documentWrapper {
+  margin: 0 auto;
+  max-width: 210mm;
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 25mm;
+  min-height: 297mm;
+}
+
+.documentTextarea {
+  width: 100%;
+  height: 100%;
+  min-height: calc(297mm - 50mm);
+  resize: none;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 1.625;
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}

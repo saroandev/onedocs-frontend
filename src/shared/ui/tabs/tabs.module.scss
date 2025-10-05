@@ -1,0 +1,132 @@
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tabsList {
+  display: inline-flex;
+  height: 36px;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: #f1f5f9;
+  padding: 3px;
+  color: #64748b;
+}
+
+.tabsTrigger {
+  display: inline-flex;
+  height: calc(100% - 2px);
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #64748b;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  outline: none;
+
+  // Hover state
+  &:hover:not(:disabled):not([data-state="active"]) {
+    color: #475569;
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  // Active state
+  &[data-state="active"] {
+    background-color: #ffffff;
+    color: #020817;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    // Dark mode için (opsiyonel, kullanmak isterseniz)
+    @media (prefers-color-scheme: dark) {
+      color: #f8fafc;
+      border-color: #334155;
+      background-color: rgba(51, 65, 85, 0.3);
+    }
+  }
+
+  // Focus state
+  &:focus-visible {
+    outline: 1px solid #3b82f6;
+    outline-offset: 1px;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    border-color: #3b82f6;
+  }
+
+  // Disabled state
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // İçerideki SVG'ler için
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+
+    &:not([class*="size-"]) {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.tabsContent {
+  flex: 1;
+  outline: none;
+
+  // Animasyon için (opsiyonel)
+  &[data-state="active"] {
+    animation: fadeIn 0.15s ease-out;
+  }
+
+  &[data-state="inactive"] {
+    display: none;
+  }
+}
+
+// Animasyon
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// // Tema varyasyonları için ek sınıflar (opsiyonel)
+// .tabs {
+//   &.vertical {
+//     flex-direction: row;
+
+//     .tabsList {
+//       flex-direction: column;
+//       width: auto;
+//       height: auto;
+//     }
+
+//     .tabsTrigger {
+//       width: 100%;
+//     }
+//   }
+
+//   &.fullWidth {
+//     .tabsList {
+//       width: 100%;
+//     }
+//   }
+// }

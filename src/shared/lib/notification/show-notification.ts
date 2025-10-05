@@ -1,4 +1,4 @@
-import { ToastOptions, toast } from "react-toastify";
+import { toast, type ToastOptions } from "react-toastify";
 
 export const showNotification = (
   type: "info" | "warning" | "success" | "error",

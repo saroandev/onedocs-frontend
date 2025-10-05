@@ -1,0 +1,124 @@
+@use "../../styles/variables.module.scss";
+@use "../../styles/mixins.module.scss" as mixins;
+
+.authLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: variables.$bg-secondary;
+}
+
+.illustrationSection {
+  position: relative;
+  flex: 1;
+  background: linear-gradient(135deg, variables.$primary-600 0%, variables.$primary-800 100%);
+  display: none;
+
+  @include mixins.respond-to("lg") {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.defaultIllustration {
+  @include mixins.flex-center;
+  width: 100%;
+  height: 100%;
+  padding: variables.$spacing-3xl;
+}
+
+.illustrationContent {
+  max-width: 500px;
+  color: variables.$text-inverse;
+  text-align: center;
+}
+
+.illustrationTitle {
+  font-size: variables.$font-5xl;
+  font-weight: variables.$font-bold;
+  margin-bottom: variables.$spacing-lg;
+  line-height: variables.$line-height-tight;
+}
+
+.illustrationText {
+  font-size: variables.$font-lg;
+  opacity: 0.9;
+  line-height: variables.$line-height-relaxed;
+}
+
+.formSection {
+  @include mixins.flex-center;
+  flex: 1;
+  padding: variables.$spacing-xl;
+
+  @include mixins.respond-to("lg") {
+    max-width: 600px;
+  }
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 440px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: variables.$spacing-2xl;
+  font-size: variables.$font-2xl;
+  font-weight: variables.$font-bold;
+  color: variables.$text-primary;
+  text-decoration: none;
+
+  img {
+    height: 40px;
+    width: auto;
+  }
+}
+
+.header {
+  margin-bottom: variables.$spacing-2xl;
+}
+
+.title {
+  @include mixins.heading-2;
+  margin-bottom: variables.$spacing-sm;
+}
+
+.subtitle {
+  @include mixins.small-text;
+  font-size: variables.$font-base;
+}
+
+.content {
+  margin-bottom: variables.$spacing-xl;
+}
+
+.footer {
+  padding-top: variables.$spacing-xl;
+  border-top: variables.$border-width-thin solid variables.$border-light;
+  text-align: center;
+  font-size: variables.$font-sm;
+  color: variables.$text-secondary;
+
+  a {
+    color: variables.$primary-600;
+    font-weight: variables.$font-medium;
+    text-decoration: none;
+
+    &:hover {
+      color: variables.$primary-700;
+      text-decoration: underline;
+    }
+  }
+}
+
+@media (max-width: variables.$breakpoint-lg) {
+  .formSection {
+    padding: variables.$spacing-lg;
+  }
+
+  .header {
+    margin-bottom: variables.$spacing-xl;
+  }
+}

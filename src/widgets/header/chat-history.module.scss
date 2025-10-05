@@ -1,0 +1,131 @@
+.sheetContent {
+  margin-left: 57px;
+  width: calc(100vw - 57px);
+  padding: 12px;
+
+  @media (min-width: 640px) {
+    width: 360px;
+    padding: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 380px;
+  }
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.newChatButton {
+  height: 40px;
+  width: 100%;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background-color: white;
+  font-size: 15px;
+  font-weight: 500;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    background-color: var(--muted);
+  }
+}
+
+.newChatIcon {
+  margin-right: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background-color: white;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pencilIcon {
+  height: 16px;
+  width: 16px;
+}
+
+.listContainer {
+  margin-top: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.sectionLabel {
+  padding: 0 4px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.chatList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chatItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--accent);
+  }
+
+  &.active {
+    background-color: #eff6ff;
+  }
+}
+
+.chatTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+
+  &.activeTitle {
+    color: var(--text-primary);
+  }
+}
+
+.moreButton {
+  margin-left: 8px;
+  display: inline-flex;
+  height: 28px;
+  width: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background-color: white;
+  color: var(--text-secondary);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--muted);
+  }
+}
+
+.moreIcon {
+  height: 16px;
+  width: 16px;
+}

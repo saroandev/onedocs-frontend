@@ -17,7 +17,17 @@ export default defineConfig({
       },
     }),
   ],
+  css: {
+    modules: {
+      localsConvention: "camelCase",
+    },
+  },
+  build: {
+    sourcemap: false,
+    minify: "terser",
+  },
   server: {
-    port: 3000,
+    port: 8080,
+    // hmr: { overlay: false }, //TODO
   },
 });
