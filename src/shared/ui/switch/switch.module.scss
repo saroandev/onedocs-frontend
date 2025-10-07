@@ -1,0 +1,51 @@
+.switch {
+  display: inline-flex;
+  height: 18.4px;
+  width: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  outline: none;
+  transition: all 150ms;
+
+  &[data-state="checked"] {
+    background-color: #111827;
+  }
+
+  &[data-state="unchecked"] {
+    background-color: #f3f4f6;
+  }
+
+  &:focus-visible {
+    border-color: #f3f4f6;
+    box-shadow: 0 0 0 3px rgba(#111827, 0.5);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+.thumb {
+  pointer-events: none;
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background-color: #fff;
+  box-shadow: none;
+  transition: transform 150ms;
+
+  [data-state="checked"] & {
+    transform: translateX(calc(100% - 2px));
+    background-color: #fafafa;
+  }
+
+  [data-state="unchecked"] & {
+    transform: translateX(0);
+    background-color: #1f2937;
+  }
+}

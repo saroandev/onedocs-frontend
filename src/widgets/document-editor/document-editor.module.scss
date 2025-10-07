@@ -5,8 +5,8 @@
   width: 900px;
   flex-shrink: 0;
   flex-direction: column;
-  border-left: 1px solid var(--border);
-  background-color: var(--background);
+  border-left: 1px solid #e5e7eb;
+  background-color: #fff;
 }
 
 .header {
@@ -14,14 +14,14 @@
   height: 60px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #e5e7eb;
   padding: 0 16px;
 }
 
 .title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--text-primary);
+  color: #1f2937;
 }
 
 .headerActions {
@@ -33,10 +33,10 @@
 .iconButton {
   height: 32px;
   width: 32px;
-  color: var(--text-secondary);
+  color: #6b7280;
 
   &:hover {
-    color: var(--text-primary);
+    color: #1f2937;
   }
 }
 
@@ -44,8 +44,8 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  border-bottom: 1px solid var(--border);
-  background-color: var(--surface);
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f3f4f6;
   padding: 8px 12px;
 }
 
@@ -62,15 +62,15 @@
 .fontSizeSelect {
   height: 32px;
   border-radius: 4px;
-  border: 1px solid var(--border);
-  background-color: var(--background);
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
   padding: 0 8px;
   font-size: 14px;
-  color: var(--text-primary);
+  color: #1f2937;
   outline: none;
 
   &:focus {
-    box-shadow: 0 0 0 2px var(--ring);
+    box-shadow: 0 0 0 2px #f3f4f6;
   }
 }
 
@@ -99,7 +99,7 @@
   background-color: transparent;
   font-size: 14px;
   line-height: 1.625;
-  color: var(--text-primary);
+  color: #1f2937;
   font-family: system-ui, -apple-system, sans-serif;
 
   &:focus {
@@ -107,6 +107,6 @@
   }
 
   &::placeholder {
-    color: var(--text-muted);
+    color: #9ca3af;
   }
 }

@@ -1,0 +1,83 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  width: fit-content;
+  white-space: nowrap;
+  flex-shrink: 0;
+  gap: 4px;
+  overflow: hidden;
+  transition: color 150ms, box-shadow 150ms;
+
+  svg {
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+  }
+
+  &:focus-visible {
+    border-color: #f3f4f6;
+    box-shadow: 0 0 0 3px rgba(#111827, 0.5);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(#ef4444, 0.2);
+  }
+
+  &[data-variant="default"] {
+    border-color: transparent;
+    background-color: #111827;
+    color: #fafafa;
+
+    a & {
+      &:hover {
+        background-color: rgba(#111827, 0.9);
+      }
+    }
+  }
+
+  &[data-variant="secondary"] {
+    border-color: transparent;
+    background-color: #f3f4f6;
+    color: #1f2937;
+
+    a & {
+      &:hover {
+        background-color: rgba(#f3f4f6, 0.9);
+      }
+    }
+  }
+
+  &[data-variant="destructive"] {
+    border-color: transparent;
+    background-color: #ef4444;
+    color: #ffffff;
+
+    &:focus-visible {
+      box-shadow: 0 0 0 3px rgba(#ef4444, 0.2);
+    }
+
+    a & {
+      &:hover {
+        background-color: rgba(#ef4444, 0.9);
+      }
+    }
+  }
+
+  &[data-variant="outline"] {
+    color: #1f2937;
+
+    a & {
+      &:hover {
+        background-color: #f3f4f6;
+        color: #1f2937;
+      }
+    }
+  }
+}

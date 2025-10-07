@@ -1,4 +1,4 @@
-import { ErrorBoundary } from "@/shared/ui/error-boundary";
+import { ErrorBoundary } from "@/shared/ui";
 import { Outlet } from "react-router-dom";
 
 export const RootLayout = () => {

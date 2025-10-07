@@ -1,3 +1,3 @@
-import { Dashboard } from "@/features/dashboard/components/dashboard";
+import { DashboardList } from "@/features/dashboard/components/dashboard-list";
 
-export const DashboardPage = () => <Dashboard />;
+export const DashboardPage = () => <DashboardList />;

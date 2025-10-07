@@ -1,110 +1,61 @@
 .sidebarContainer {
   display: flex;
-  height: 100vh;
-  background-color: var(--sidebar-bg, #f8f9fa);
-  color: var(--foreground, #1a1a1a);
+  height: 100%;
+  background-color: #fff;
+  color: #1f2937;
+  position: relative;
 }
 
-.iconRail {
+.rail {
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  flex-shrink: 0;
-  width: 57px;
-  padding: 8px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  border-right: 1px solid var(--sidebar-border, #e5e7eb);
+  width: 48px;
+  padding: 6px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-right: 1px solid #e5e7eb;
+  z-index: 10;
+
+  @media (min-width: 640px) {
+    width: 57px;
+    padding: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
 
-.topSection {
+.railTop {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
+
+  @media (min-width: 640px) {
+    gap: 16px;
+  }
 }
 
-.logoContainer {
-  height: 48px;
+.logoLink {
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (min-width: 640px) {
+    height: 48px;
+  }
 }
 
 .logo {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   object-fit: cover;
-}
 
-.appsContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.bottomSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.iconButton {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  outline: none;
-  border: none;
-  background: transparent;
-  color: var(--sidebar-foreground, #6b7280);
-  cursor: pointer;
-  text-decoration: none;
-
-  &:hover {
-    background-color: var(--sidebar-accent, #f3f4f6);
-    color: var(--sidebar-accent-foreground, #1a1a1a);
+  @media (min-width: 640px) {
+    width: 20px;
+    height: 20px;
   }
-
-  &:focus {
-    outline: none;
-  }
-
-  &.selected {
-    background-color: #000000;
-    color: #ffffff;
-  }
-}
-
-.profileButton {
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-
-  &:focus {
-    outline: none;
-  }
-}
-
-.sheetContent {
-  width: 320px;
-}
-
-.profileActions {
-  margin-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.profileActionButton {
-  width: 100%;
-  justify-content: flex-start;
 }

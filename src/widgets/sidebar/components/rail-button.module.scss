@@ -1,0 +1,29 @@
+.button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: colors 150ms ease;
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.selected {
+  border-radius: 2px;
+  background-color: #111827;
+  color: #fff;
+}
+
+.default {
+  border-radius: 6px;
+  color: #6b7280;
+
+  &:hover {
+    background-color: #f3f4f6;
+    color: #1f2937;
+  }
+}

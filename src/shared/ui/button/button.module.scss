@@ -1,5 +1,4 @@
 .button {
-  //TODO
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -7,13 +6,13 @@
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: all 150ms ease;
   cursor: pointer;
-  outline: none;
+  border: none;
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 1px var(--ring, #000000);
+    box-shadow: 0 0 0 1px #111827;
   }
 
   &:disabled {
@@ -22,98 +21,98 @@
   }
 }
 
-.default {
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
+// Variants
+.variant-default {
+  background-color: #111827;
+  color: #fff;
+  border: 1px solid #111827;
 
   &:hover:not(:disabled) {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #fff;
+    color: #111827;
   }
 }
 
-.secondary {
-  background-color: var(--secondary, #f3f4f6);
-  color: var(--secondary-foreground, #1a1a1a);
+.variant-secondary {
+  background-color: #f3f4f6;
+  color: #1f2937;
 
   &:hover:not(:disabled) {
-    background-color: var(--accent, #e5e7eb);
-    color: var(--accent-foreground, #1a1a1a);
+    background-color: #f3f4f6;
+    color: #1f2937;
   }
 }
 
-.outline {
-  border: 1px solid var(--border, #e5e7eb);
-  background-color: var(--background, #ffffff);
+.variant-outline {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
 
   &:hover:not(:disabled) {
-    background-color: var(--accent, #f3f4f6);
-    color: var(--accent-foreground, #1a1a1a);
+    background-color: #f3f4f6;
+    color: #1f2937;
   }
 }
 
-.ghost {
-  background: transparent;
-  border: none;
+.variant-ghost {
+  background-color: transparent;
 
   &:hover:not(:disabled) {
-    background-color: var(--accent, #f3f4f6);
-    color: var(--accent-foreground, #1a1a1a);
+    background-color: #f3f4f6;
+    color: #1f2937;
   }
 }
 
-.destructive {
-  background-color: var(--destructive, #ef4444);
-  color: var(--destructive-foreground, #ffffff);
+.variant-destructive {
+  background-color: #ef4444;
+  color: #fafafa;
 
   &:hover:not(:disabled) {
     opacity: 0.9;
   }
 }
 
-.link {
-  color: var(--primary, #3b82f6);
+.variant-link {
+  color: #111827;
   text-decoration: underline;
   text-underline-offset: 4px;
-  background: transparent;
-  border: none;
+  background-color: transparent;
 
   &:hover:not(:disabled) {
-    text-decoration: underline;
+    text-decoration: none;
   }
 }
 
-.black {
-  background-color: #000000;
-  color: #ffffff;
-  border: 1px solid #000000;
+.variant-black {
+  background-color: #111827;
+  color: #fff;
+  border: 1px solid #111827;
 
   &:hover:not(:disabled) {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #fff;
+    color: #111827;
   }
 }
 
-.default {
+// Sizes
+.size-default {
   height: 36px;
   padding: 8px 16px;
 }
 
-.sm {
+.size-sm {
   height: 32px;
   padding: 0 12px;
   border-radius: 6px;
   font-size: 12px;
 }
 
-.lg {
+.size-lg {
   height: 40px;
   padding: 0 32px;
   border-radius: 6px;
 }
 
-.icon {
+.size-icon {
   height: 36px;
   width: 36px;
   padding: 0;

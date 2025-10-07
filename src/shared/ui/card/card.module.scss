@@ -1,0 +1,70 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 24px 0;
+  background-color: #fff;
+  color: #1f2937;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.header {
+  container-type: inline-size;
+  container-name: card-header;
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-rows: auto auto;
+  align-items: start;
+  gap: 6px;
+  padding: 0 24px;
+
+  &:has([data-slot="card-action"]) {
+    grid-template-columns: 1fr auto;
+  }
+
+  .card:has(.header.borderBottom) & {
+    padding-bottom: 24px;
+  }
+}
+
+.title {
+  line-height: 1;
+  font-weight: 600;
+}
+
+.description {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.action {
+  grid-column-start: 2;
+  grid-row: span 2;
+  grid-row-start: 1;
+  align-self: start;
+  justify-self: end;
+}
+
+.content {
+  padding: 0 24px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+
+  .card:has(.footer.borderTop) & {
+    padding-top: 24px;
+  }
+}
+
+.borderBottom {
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.borderTop {
+  border-top: 1px solid #e5e7eb;
+}

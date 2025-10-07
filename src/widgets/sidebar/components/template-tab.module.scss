@@ -1,0 +1,284 @@
+.container {
+  position: absolute;
+  left: 48px;
+  top: 0;
+  bottom: 0;
+  width: calc(100vw - 48px);
+  background-color: #fff;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 640px) {
+    left: 57px;
+    width: 380px;
+  }
+
+  @media (min-width: 768px) {
+    width: 420px;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.closeButton {
+  height: 32px;
+  width: 32px;
+}
+
+.closeIcon {
+  height: 16px;
+  width: 16px;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.countText {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.tabs {
+  width: auto;
+}
+
+.tabsList {
+  height: 32px;
+}
+
+.tabsTrigger {
+  font-size: 12px;
+  padding: 0 12px;
+}
+
+.templateList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.templateCard {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  padding: 12px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(#f3f4f6, 0.3);
+  }
+}
+
+.templateCardInner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.templateIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: #00c950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.iconSvg {
+  height: 20px;
+  width: 20px;
+  color: #fff;
+}
+
+.templateInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.templateHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.templateTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.templateDescription {
+  font-size: 12px;
+  color: #9ca3af;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.templateMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.metaCategory {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.metaDot {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.metaDate {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.detailView {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.detailHeader {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.backButton {
+  gap: 8px;
+  margin-left: -8px;
+  margin-bottom: 8px;
+}
+
+.detailHeaderContent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.detailTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.detailSubtitle {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.detailContent {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actionBar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttonIcon {
+  margin-right: 8px;
+  height: 16px;
+  width: 16px;
+}
+
+.infoCard {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.infoLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.infoValue {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.infoDescription {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+.templateContentCard {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background-color: rgba(#f8f9fa, 0.5);
+  padding: 16px;
+}
+
+.contentTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.contentDescription {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.6;
+}

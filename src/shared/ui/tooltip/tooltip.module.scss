@@ -1,9 +1,8 @@
 .content {
-  //TODO
   z-index: 50;
   width: fit-content;
-  background-color: var(--primary, #000000);
-  color: var(--primary-foreground, #ffffff);
+  background-color: #111827;
+  color: #fafafa;
   border-radius: 6px;
   padding: 6px 12px;
   font-size: 12px;
@@ -36,8 +35,8 @@
 }
 
 .arrow {
-  fill: var(--primary, #000000);
-  background-color: var(--primary, #000000);
+  fill: #111827;
+  background-color: #111827;
   z-index: 50;
   width: 10px;
   height: 10px;

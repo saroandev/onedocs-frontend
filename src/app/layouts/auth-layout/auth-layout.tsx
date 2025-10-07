@@ -7,15 +7,22 @@ import { Sidebar } from "@/widgets/sidebar";
 export const AuthLayout: React.FC = () => {
   return (
     <div className={styles.container}>
+      {/* <div className={styles.sidebarWrapper}>
+        <div className={styles.sidebarDesktop}>
+          <Sidebar />
+        </div>
+      </div> */}
+
       <Sidebar />
 
       <div className={styles.mainWrapper}>
         <Header />
 
         <main className={styles.main}>
-          <div className={styles.mainContent}>
+          <div className={styles.contentWrapper}>
             <Outlet />
           </div>
+          {/* DocumentEditor buraya gelecek */}
         </main>
       </div>
     </div>

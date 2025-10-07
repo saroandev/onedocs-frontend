@@ -1,4 +1,5 @@
-import { Component, type ErrorInfo, type ReactNode } from "react";
+import { Component } from "react";
+import type { ErrorInfo, ReactNode } from "react";
 import styles from "./error-boundary.module.scss";
 import { IconMaintenance } from "../icons";
 

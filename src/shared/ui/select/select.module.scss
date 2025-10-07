@@ -1,0 +1,293 @@
+.trigger {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 6px;
+  border: 1px solid #f3f4f6;
+  background-color: transparent;
+  padding: 8px 12px;
+  font-size: 14px;
+  white-space: nowrap;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  outline: none;
+  transition: color 150ms, box-shadow 150ms;
+
+  &:hover {
+    background-color: rgba(#f3f4f6, 0.5);
+  }
+
+  &:focus-visible {
+    border-color: #f3f4f6;
+    box-shadow: 0 0 0 3px rgba(#111827, 0.5);
+  }
+
+  &[aria-invalid="true"] {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(#ef4444, 0.2);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &[data-size="default"] {
+    height: 36px;
+  }
+
+  &[data-size="sm"] {
+    height: 32px;
+  }
+
+  &[data-placeholder] {
+    color: #9ca3af;
+  }
+
+  svg:not([class*="text-"]) {
+    color: #9ca3af;
+  }
+
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  [data-slot="select-value"] {
+    line-clamp: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.chevron {
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+}
+
+.content {
+  position: relative;
+  z-index: 50;
+  max-height: var(--radix-select-content-available-height);
+  min-width: 128px;
+  transform-origin: var(--radix-select-content-transform-origin);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  color: #fafafa;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  &[data-state="open"] {
+    animation: fadeIn 150ms, zoomIn 150ms;
+  }
+
+  &[data-state="closed"] {
+    animation: fadeOut 150ms, zoomOut 150ms;
+  }
+
+  &[data-side="bottom"] {
+    animation: fadeIn 150ms, zoomIn 150ms, slideInFromTop 150ms;
+  }
+
+  &[data-side="left"] {
+    animation: fadeIn 150ms, zoomIn 150ms, slideInFromRight 150ms;
+  }
+
+  &[data-side="right"] {
+    animation: fadeIn 150ms, zoomIn 150ms, slideInFromLeft 150ms;
+  }
+
+  &[data-side="top"] {
+    animation: fadeIn 150ms, zoomIn 150ms, slideInFromBottom 150ms;
+  }
+}
+
+.contentPopper {
+  &[data-side="bottom"] {
+    transform: translateY(4px);
+  }
+
+  &[data-side="left"] {
+    transform: translateX(-4px);
+  }
+
+  &[data-side="right"] {
+    transform: translateX(4px);
+  }
+
+  &[data-side="top"] {
+    transform: translateY(-4px);
+  }
+}
+
+.viewport {
+  padding: 4px;
+}
+
+.viewportPopper {
+  height: var(--radix-select-trigger-height);
+  width: 100%;
+  min-width: var(--radix-select-trigger-width);
+  scroll-margin: 4px;
+}
+
+.label {
+  padding: 6px 8px;
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.item {
+  position: relative;
+  display: flex;
+  width: 100%;
+  cursor: default;
+  align-items: center;
+  gap: 8px;
+  border-radius: 2px;
+  padding: 6px 32px 6px 8px;
+  font-size: 14px;
+  outline: none;
+  user-select: none;
+
+  &:focus {
+    background-color: #f3f4f6;
+    color: #1f2937;
+  }
+
+  &[data-disabled] {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  svg {
+    pointer-events: none;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+
+    &:not([class*="text-"]) {
+      color: #9ca3af;
+    }
+  }
+
+  span:last-child {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.itemIndicator {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.separator {
+  margin: 4px -4px;
+  height: 1px;
+  background-color: #e5e7eb;
+  pointer-events: none;
+}
+
+.scrollButton {
+  display: flex;
+  cursor: default;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.scrollIcon {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.95);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes slideInFromTop {
+  from {
+    transform: translateY(-8px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(8px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-8px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(8px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

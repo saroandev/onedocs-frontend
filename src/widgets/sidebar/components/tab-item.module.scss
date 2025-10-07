@@ -1,0 +1,9 @@
+.tabItemWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  @media (min-width: 640px) {
+    gap: 8px;
+  }
+}

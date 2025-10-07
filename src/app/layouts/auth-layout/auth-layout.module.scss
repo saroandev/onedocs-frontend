@@ -3,48 +3,42 @@
 
 .container {
   display: flex;
-  min-height: 100vh;
-  background-color: variables.$bg-secondary;
+  height: 100vh;
+  background-color: #fff;
+}
 
-  .mainWrapper {
-    flex: 1;
+.sidebarWrapper {
+  // Sidebar container styling
+}
+
+.sidebarDesktop {
+  display: none;
+
+  @media (min-width: 1024px) {
     display: flex;
-    flex-direction: column;
-    margin-left: variables.$sidebar-width;
-    transition: margin-left variables.$transition-base;
-
-    // .sidebarCollapsed & {
-    //   margin-left: variables.$sidebar-collapsed-width;
-    // }
   }
+}
 
-  .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding-top: variables.$header-height;
-    min-height: calc(100vh - #{variables.$header-height} - #{variables.$footer-height});
-  }
+.mainWrapper {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  width: 100%;
+}
 
-  .mainContent {
-    flex: 1;
-    padding: variables.$spacing-xl;
-    width: 100%;
-    max-width: variables.$container-max-width;
-    margin: 0 auto;
-  }
+.main {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+}
 
-  @include mixins.respond-to("md") {
-    .mainWrapper {
-      margin-left: 0;
-
-      // .sidebarCollapsed & {
-      //   margin-left: 0;
-      // }
-    }
-
-    .mainContent {
-      padding: variables.$spacing-lg;
-    }
-  }
+.contentWrapper {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  width: 100%;
 }

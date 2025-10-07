@@ -1,0 +1,63 @@
+.alert {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 12px 16px;
+  font-size: 14px;
+  display: grid;
+  grid-template-columns: 0 1fr;
+  gap: 0 12px;
+  row-gap: 2px;
+  align-items: start;
+
+  &:has(> svg) {
+    grid-template-columns: calc(var(--spacing) * 4) 1fr; //TODO
+  }
+
+  > svg {
+    width: 16px;
+    height: 16px;
+    transform: translateY(2px);
+    color: currentColor;
+  }
+
+  &[data-variant="default"] {
+    background-color: #fff;
+    color: #1f2937;
+  }
+
+  &[data-variant="destructive"] {
+    background-color: #fff;
+    color: #ef4444;
+
+    > svg {
+      color: currentColor;
+    }
+
+    [data-slot="alert-description"] {
+      color: rgba(#ef4444, 0.9);
+    }
+  }
+}
+
+.title {
+  grid-column-start: 2;
+  min-height: 16px;
+  font-weight: 500;
+  line-clamp: 1;
+  letter-spacing: -0.01em;
+}
+
+.description {
+  grid-column-start: 2;
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+  font-size: 14px;
+  color: #9ca3af;
+
+  p {
+    line-height: 1.6;
+  }
+}
