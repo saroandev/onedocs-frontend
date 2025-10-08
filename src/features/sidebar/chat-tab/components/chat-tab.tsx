@@ -2,7 +2,7 @@ import { Button } from "@/shared/ui";
 import { MessageSquare, X } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
-import styles from "./chat-tab.module.scss";
+import styles from "../styles/chat-tab.module.scss";
 
 export const ChatTab = (props: ChatTabProps) => {
   const { setChoosenTab } = props;

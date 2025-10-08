@@ -1,0 +1,228 @@
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.headerSection {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.headerTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.headerDescription {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.inviteButton {
+  flex-shrink: 0;
+  height: 32px;
+}
+
+.inviteIcon {
+  height: 14px;
+  width: 14px;
+  margin-right: 6px;
+}
+
+.searchSection {
+  width: 100%;
+}
+
+.searchInput {
+  height: 36px;
+  font-size: 14px;
+}
+
+.usersList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.userCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(#f8f9fa, 0.3);
+
+    .editButton {
+      opacity: 1;
+    }
+  }
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+
+  &.avatarblue {
+    background-color: #3b82f6;
+  }
+
+  &.avatargreen {
+    background-color: #22c55e;
+  }
+
+  &.avatarred {
+    background-color: #ef4444;
+  }
+
+  &.avatarpurple {
+    background-color: #a855f7;
+  }
+
+  &.avataryellow {
+    background-color: #eab308;
+  }
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.userRole {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.editButton {
+  height: 28px;
+  padding: 0 8px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.dialogContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.disabledInput {
+  background-color: rgba(#f8f9fa, 0.5);
+  cursor: not-allowed;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.mailIcon {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+}
+
+.editFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+    gap: 0;
+  }
+}
+
+.removeButton {
+  width: 100%;
+
+  @media (min-width: 640px) {
+    width: auto;
+    margin-right: auto;
+  }
+}
+
+.trashIcon {
+  height: 16px;
+  width: 16px;
+  margin-right: 8px;
+}
+
+.footerActions {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+
+  @media (min-width: 640px) {
+    width: auto;
+  }
+}
+
+.cancelButton,
+.saveButton {
+  flex: 1;
+
+  @media (min-width: 640px) {
+    flex: none;
+  }
+}

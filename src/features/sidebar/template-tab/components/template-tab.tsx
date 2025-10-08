@@ -3,7 +3,7 @@ import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { ChevronLeft, FileText, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import styles from "./template-tab.module.scss";
+import styles from "../styles/template-tab.module.scss";
 
 export const TemplateTab = (props: TemplateTabProps) => {
   const { setChoosenTab } = props;

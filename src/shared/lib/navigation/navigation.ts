@@ -1,13 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "@/app/router/routes.config";
+import type { NavigateOptions, To } from "react-router-dom";
 
 export const useAppNavigation = () => {
   const navigate = useNavigate();
 
   return {
-    goToSignIn: () => navigate(ROUTES.SIGN_IN),
-    goToDashboard: () => navigate(ROUTES.DASHBOARD),
-    goToProfile: () => navigate(ROUTES.PROFILE),
+    goTo: (url: To, options?: NavigateOptions) => navigate(url, options),
     goBack: () => navigate(-1),
   };
 };

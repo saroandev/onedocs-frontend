@@ -6,9 +6,13 @@ export const SIDEBAR_MENU_IDS = {
   COLLECTION: uuidv4(),
   TEMPLATE: uuidv4(),
   TABLE: uuidv4(),
+  CLIENT_PORTAL: uuidv4(),
+  TIME_TRACK: uuidv4(),
+  ADMIN: uuidv4(),
+  PROFILE: uuidv4(),
 };
 
-export const SIDEBAR_MENU = [
+export const SIDEBAR_MENU_TOP = [
   {
     id: SIDEBAR_MENU_IDS.CHAT,
     label: "Hukuk Asistanı",
@@ -33,5 +37,28 @@ export const SIDEBAR_MENU = [
     id: SIDEBAR_MENU_IDS.TABLE,
     label: "Tablolar",
     icon: "Table",
+  },
+];
+
+export const SIDEBAR_MENU_BOTTOM = [
+  {
+    id: SIDEBAR_MENU_IDS.CLIENT_PORTAL,
+    label: "Müvekkil Portal",
+    icon: "Users",
+  },
+  {
+    id: SIDEBAR_MENU_IDS.TIME_TRACK,
+    label: "Zaman Takibi",
+    icon: "Clock",
+  },
+  {
+    id: SIDEBAR_MENU_IDS.ADMIN,
+    label: "Yönetici Paneli",
+    icon: "Shield",
+  },
+  {
+    id: SIDEBAR_MENU_IDS.PROFILE,
+    label: "Profil",
+    icon: "User",
   },
 ];

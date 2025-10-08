@@ -14,7 +14,7 @@ export const AppRouter = () => {
   //   return <Navigate to={ROUTES.DASHBOARD} replace />;
   // }
 
-  if (!token) {
+  if (token) {
     return (
       <Routes>
         <Route element={<RootLayout />}>

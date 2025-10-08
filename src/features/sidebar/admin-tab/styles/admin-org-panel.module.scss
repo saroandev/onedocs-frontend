@@ -1,0 +1,79 @@
+.container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.headerSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.headerTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+}
+
+.headerDescription {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.input {
+  height: 40px;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin: 0;
+}
+
+.actionSection {
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.saveButton {
+  width: 100%;
+}
+
+.tipCard {
+  padding: 12px;
+  border-radius: 8px;
+  background-color: rgba(#f8f9fa, 0.3);
+  border: 1px solid #e5e7eb;
+}
+
+.tipContent {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.tipTitle {
+  color: #1f2937;
+  display: block;
+  margin-bottom: 4px;
+}

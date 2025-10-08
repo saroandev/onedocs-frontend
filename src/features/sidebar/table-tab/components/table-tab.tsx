@@ -3,7 +3,8 @@ import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { ChevronLeft, Table, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import styles from "./table-tab.module.scss";
+import styles from "../styles/table-tab.module.scss";
+import { useUIStore } from "@/shared/store/ui.store";
 
 interface TableTabProps {
   setChoosenTab: (val: string) => void;
@@ -13,6 +14,9 @@ export const TableTab = (props: TableTabProps) => {
   const { setChoosenTab } = props;
   const [selectedTable, setSelectedTable] = useState<(typeof tables)[0] | null>(null);
   const [activeTableScope, setActiveTableScope] = useState<"personal" | "org" | string>("personal");
+  const setTableName = useUIStore((state) => state.setTableName);
+  const setTableColumns = useUIStore((state) => state.setTableColumns);
+  const setDataGridOpen = useUIStore((state) => state.setDataGridOpen);
 
   const tables = [
     {
@@ -120,6 +124,20 @@ export const TableTab = (props: TableTabProps) => {
     },
   ];
 
+  const handleUseTable = () => {
+    if (!selectedTable) return;
+
+    const columnNames = selectedTable.columns.map((col) => col.name);
+
+    // Set table data in context
+    setTableName(selectedTable.title);
+    setTableColumns(columnNames);
+    setDataGridOpen(true);
+
+    setChoosenTab(uuidv4());
+    // router.push("/");//TODO
+  };
+
   const filteredTables = tables.filter((tb) => tb.scope === activeTableScope);
 
   return (
@@ -208,7 +226,7 @@ export const TableTab = (props: TableTabProps) => {
 
           <div className={styles.detailContent}>
             <div className={styles.actionBar}>
-              <Button size="sm" className={styles.useButton}>
+              <Button size="sm" className={styles.useButton} onClick={handleUseTable}>
                 <Table className={styles.buttonIcon} />
                 Tabloyu Kullan
               </Button>

@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navButton {
+  height: 32px;
+  width: 32px;
+}
+
+.icon {
+  height: 16px;
+  width: 16px;
+}
+
+.dateButton {
+  height: 32px;
+  padding: 0 12px;
+  gap: 4px;
+}
+
+.calendarIcon {
+  height: 14px;
+  width: 14px;
+  color: #9ca3af;
+}

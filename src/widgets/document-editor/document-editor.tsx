@@ -15,14 +15,16 @@ import {
   Undo,
   Redo,
 } from "lucide-react";
-import { Button } from "@/shared/ui/button";
 import { useEffect, useState } from "react";
 import styles from "./document-editor.module.scss";
-import { Separator } from "@/shared/ui/separator";
+import { useUIStore } from "@/shared/store/ui.store";
+import { Button, Separator } from "@/shared/ui";
 
 export const DocumentEditor = () => {
-  const [editorContent, setEditorContent] = useState(""); //TODO
-  const [editorOpen, setEditorOpen] = useState(false);
+  const editorOpen = useUIStore((state) => state.editorOpen);
+  const setEditorOpen = useUIStore((state) => state.setEditorOpen);
+  const editorContent = useUIStore((state) => state.editorContent);
+
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -35,7 +37,6 @@ export const DocumentEditor = () => {
 
   return (
     <aside className={styles.editorAside}>
-      {/* Header */}
       <div className={styles.header}>
         <h2 className={styles.title}>Belge Editörü</h2>
         <div className={styles.headerActions}>
@@ -60,9 +61,7 @@ export const DocumentEditor = () => {
         </div>
       </div>
 
-      {/* Toolbar - Word Style */}
       <div className={styles.toolbar}>
-        {/* Undo/Redo */}
         <Button variant="ghost" size="icon" className={styles.toolButton} title="Geri Al">
           <Undo size={16} />
         </Button>
@@ -72,7 +71,6 @@ export const DocumentEditor = () => {
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        {/* Font Size */}
         <select className={styles.fontSizeSelect}>
           <option>12</option>
           <option>14</option>
@@ -84,7 +82,6 @@ export const DocumentEditor = () => {
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        {/* Text Formatting */}
         <Button variant="ghost" size="icon" className={styles.toolButton} title="Kalın">
           <Bold size={16} />
         </Button>
@@ -97,7 +94,6 @@ export const DocumentEditor = () => {
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        {/* Text Alignment */}
         <Button variant="ghost" size="icon" className={styles.toolButton} title="Sola Hizala">
           <AlignLeft size={16} />
         </Button>
@@ -113,7 +109,6 @@ export const DocumentEditor = () => {
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        {/* Lists */}
         <Button variant="ghost" size="icon" className={styles.toolButton} title="Madde İşareti">
           <List size={16} />
         </Button>
@@ -122,7 +117,6 @@ export const DocumentEditor = () => {
         </Button>
       </div>
 
-      {/* Document Area */}
       <div className={styles.documentArea}>
         <div className={styles.documentWrapper}>
           <textarea

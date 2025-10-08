@@ -1,28 +1,10 @@
-import { CollectionDialog } from "@/features/sidebar/collection";
-import { CollectionList } from "@/features/sidebar/collection/components/collection-list";
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { SIDEBAR_MENU_IDS } from "../constants/sidebar-config";
-
-interface Document {
-  id: number;
-  collectionId: number;
-  name: string;
-  type: string;
-  size: string;
-  uploadDate: string;
-  uploadedBy: string;
-  content?: string | null;
-  userId: string;
-}
-
-interface CollectionTabProps {
-  setChoosenTab: (val: string) => void;
-  choosenTab: string;
-}
+import { CollectionDialog } from "./collection-dialog";
+import { CollectionList } from "./collection-list";
 
 export const CollectionTab = (props: CollectionTabProps) => {
-  const { setChoosenTab, choosenTab } = props;
+  const { setChoosenTab } = props;
 
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
@@ -442,24 +424,22 @@ export const CollectionTab = (props: CollectionTabProps) => {
 
   return (
     <>
-      {choosenTab == SIDEBAR_MENU_IDS.COLLECTION && (
-        <CollectionList
-          selectedCollectionId={selectedCollectionId}
-          setSelectedCollectionId={setSelectedCollectionId}
-          setChoosenTab={setChoosenTab}
-          setNewCollectionDialogOpen={setNewCollectionDialogOpen}
-          handleAskAssistant={handleAskAssistant}
-          selectedCollectionIds={selectedCollectionIds}
-          filteredCollections={filteredCollections}
-          toggleCollectionSelection={toggleCollectionSelection}
-          activeScope={activeScope}
-          setActiveScope={setActiveScope}
-          selectedCollection={selectedCollection}
-          fileInputRef={fileInputRef}
-          handleFileSelected={handleFileSelected}
-          documents={documents}
-        />
-      )}
+      <CollectionList
+        selectedCollectionId={selectedCollectionId}
+        setSelectedCollectionId={setSelectedCollectionId}
+        setChoosenTab={setChoosenTab}
+        setNewCollectionDialogOpen={setNewCollectionDialogOpen}
+        handleAskAssistant={handleAskAssistant}
+        selectedCollectionIds={selectedCollectionIds}
+        filteredCollections={filteredCollections}
+        toggleCollectionSelection={toggleCollectionSelection}
+        activeScope={activeScope}
+        setActiveScope={setActiveScope}
+        selectedCollection={selectedCollection}
+        fileInputRef={fileInputRef}
+        handleFileSelected={handleFileSelected}
+        documents={documents}
+      />
       <CollectionDialog
         open={newCollectionDialogOpen}
         setOpen={setNewCollectionDialogOpen}
@@ -472,3 +452,19 @@ export const CollectionTab = (props: CollectionTabProps) => {
     </>
   );
 };
+
+interface Document {
+  id: number;
+  collectionId: number;
+  name: string;
+  type: string;
+  size: string;
+  uploadDate: string;
+  uploadedBy: string;
+  content?: string | null;
+  userId: string;
+}
+
+interface CollectionTabProps {
+  setChoosenTab: (val: string) => void;
+}

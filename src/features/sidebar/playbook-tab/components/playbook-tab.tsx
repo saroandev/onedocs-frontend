@@ -3,7 +3,7 @@ import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { BookMarked, ChevronLeft, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import styles from "./playbook-tab.module.scss";
+import styles from "../styles/playbook-tab.module.scss";
 
 interface PlaybookTabProps {
   setChoosenTab: (val: string) => void;
