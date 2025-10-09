@@ -3,7 +3,7 @@ import { Clock, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
-import styles from "../styles/time-track-tab.module.scss";
+import styles from "../styles/timetrack-tab.module.scss";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { DateNavigator } from "./date-navigator";
 
