@@ -14,15 +14,19 @@ import {
   ChevronLeft,
   FileText,
   FolderOpen,
-  FolderPlus,
   MessageSquare,
   MoreVertical,
   Upload,
-  X,
 } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/collection-list.module.scss";
+import {
+  BUTTON_TYPE,
+  BUTTON_VARIANT,
+  HTML_TYPE,
+  ICON_TYPE,
+} from "@/shared/ui/button/button-config";
 
 export const CollectionList = (props: CollectionListProps) => {
   const {
@@ -52,26 +56,21 @@ export const CollectionList = (props: CollectionListProps) => {
               <p>Asistanınızı dökümanlarla özel olarak eğitin</p>
             </div>
             <Button
-              size="icon"
-              variant="ghost"
-              className={styles.closeButton}
+              label=""
+              buttonType={BUTTON_TYPE.JUST_ICON}
               onClick={() => setChoosenTab(uuidv4())}
-            >
-              <X size={16} />
-            </Button>
+              iconType={{ default: ICON_TYPE.CLOSE }}
+            />
           </div>
 
           <div className={styles.contentScroll}>
             <div className={styles.actionsBar}>
               <Button
-                size="sm"
-                variant="outline"
+                label="Yeni Koleksiyon"
+                buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
                 onClick={() => setNewCollectionDialogOpen(true)}
-                className={styles.newCollectionBtn}
-              >
-                <FolderPlus size={16} />
-                Yeni Koleksiyon
-              </Button>
+                iconType={{ default: ICON_TYPE.DOCUMENT }}
+              />
             </div>
 
             <div className={styles.statsBar}>
@@ -156,15 +155,15 @@ export const CollectionList = (props: CollectionListProps) => {
       {selectedCollectionId && selectedCollection && (
         <div className={styles.detailView}>
           <div className={styles.detailHeader}>
-            <Button
-              variant="ghost"
-              size="sm"
+            <div
+              // variant="ghost"
+              // size="sm"
               className={styles.backButton}
               onClick={() => setSelectedCollectionId(null)}
             >
               <ChevronLeft size={16} />
               Geri
-            </Button>
+            </div>
 
             <div className={styles.detailHeaderContent}>
               <div className={styles.headerContent}>
@@ -173,9 +172,13 @@ export const CollectionList = (props: CollectionListProps) => {
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className={styles.moreButton}>
+                  <div
+                    // variant="ghost"
+                    // size="icon"
+                    className={styles.moreButton}
+                  >
                     <MoreVertical size={16} />
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem>Düzenle</DropdownMenuItem>
@@ -241,9 +244,13 @@ export const CollectionList = (props: CollectionListProps) => {
                       </div>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon" className={styles.documentMoreBtn}>
+                          <div
+                            // variant="ghost"
+                            // size="icon"
+                            className={styles.documentMoreBtn}
+                          >
                             <MoreVertical size={16} />
-                          </Button>
+                          </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem>İndir</DropdownMenuItem>

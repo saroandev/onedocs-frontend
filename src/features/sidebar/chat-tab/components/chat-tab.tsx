@@ -3,6 +3,7 @@ import { MessageSquare, X } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/chat-tab.module.scss";
+import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const ChatTab = (props: ChatTabProps) => {
   const { setChoosenTab } = props;
@@ -39,13 +40,11 @@ export const ChatTab = (props: ChatTabProps) => {
           <p className={styles.subtitle}>Geçmiş sohbetlerinizi görüntüleyin</p>
         </div>
         <Button
-          size="icon"
-          variant="ghost"
-          className={styles.closeButton}
+          label=""
+          buttonType={BUTTON_TYPE.JUST_ICON}
           onClick={() => setChoosenTab(uuidv4())}
-        >
-          <X className={styles.closeIcon} />
-        </Button>
+          iconType={{ default: ICON_TYPE.CLOSE }}
+        />
       </div>
 
       <div className={styles.content}>

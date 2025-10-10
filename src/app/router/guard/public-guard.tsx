@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ROUTES } from "../routes.config";
 import { usePublicStore } from "@/features/public/store/public.store";
 import { useAuthCheck } from "@/features/public/hooks/use-auth-check";
+import { useAppNavigation } from "@/shared/lib/navigation";
 
 export const AuthGuard = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { isAuthenticated, token } = usePublicStore();
-  const { isLoading, isError } = useAuthCheck();
+  // const { goTo } = useAppNavigation();
+  // const location = useLocation();
+  // const isAuthenticated = usePublicStore((state) => state.isAuthenticated);
+  // const { isLoading, isError } = useAuthCheck();
 
   // console.log({ isAuthenticated });
   // console.log({ token });

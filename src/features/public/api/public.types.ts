@@ -1,11 +1,14 @@
 export interface SignInDto {
   email: string;
   password: string;
+  rememberMe: boolean;
 }
 
 export interface SignUpDto {
   email: string;
   password: string;
+  name: string;
+  confirmPassword: string;
 }
 
 export interface ForgotPasswordDto {

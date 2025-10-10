@@ -1,24 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import { authApi } from "../api/public.api";
-import type { ForgotPasswordDto } from "../api/public.types";
 import { showNotification } from "@/shared/lib/notification";
+import { useMutation } from "@tanstack/react-query";
+import { useAppNavigation } from "@/shared/lib/navigation";
+import { ROUTES } from "@/app/router/routes.config";
 
 export const useForgotPassword = () => {
-  const [loading, setLoading] = useState(false);
+  const { goTo } = useAppNavigation();
 
-  const forgotPassword = async (values: ForgotPasswordDto) => {
-    try {
-      setLoading(true);
-      const response = await authApi.forgotPassword(values);
-      showNotification("success", response.message);
-    } catch (error: any) {
-      showNotification("error", `${error?.response?.status} - ${error?.response?.data?.message}`);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { forgotPassword, loading };
+  return useMutation({
+    mutationFn: authApi.forgotPassword,
+    onSuccess: () => {
+      goTo(ROUTES.SIGN_IN, { replace: true });
+      showNotification("success", "Hesap oluşturuldu");
+    },
+    onError: (_error: any) => {
+      console.log("Bu e-posta adresi zaten kayıtlı"); //TODO
+      showNotification("error", "Bu e-posta adresi zaten kayıtlı");
+      showNotification("error", "Bir hata oluştu");
+    },
+  });
 };

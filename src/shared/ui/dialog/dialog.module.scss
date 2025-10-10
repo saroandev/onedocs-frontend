@@ -45,10 +45,10 @@
   }
 
   // Dark mode desteği (opsiyonel)
-  @media (prefers-color-scheme: dark) {
-    background-color: #0f172a;
-    border-color: #334155;
-  }
+  // @media (prefers-color-scheme: dark) {
+  //   background-color: #0f172a;
+  //   border-color: #334155;
+  // }
 }
 
 .closeButton {
@@ -92,13 +92,13 @@
   }
 
   // Dark mode
-  @media (prefers-color-scheme: dark) {
-    color: #94a3b8;
+  // @media (prefers-color-scheme: dark) {
+  //   color: #94a3b8;
 
-    &:hover {
-      background-color: #1e293b;
-    }
-  }
+  //   &:hover {
+  //     background-color: #1e293b;
+  //   }
+  // }
 }
 
 .header {
@@ -130,9 +130,9 @@
   color: #020817;
   margin: 0;
 
-  @media (prefers-color-scheme: dark) {
-    color: #f1f5f9;
-  }
+  // @media (prefers-color-scheme: dark) {
+  //   color: #f1f5f9;
+  // }
 }
 
 .description {
@@ -141,9 +141,9 @@
   color: #64748b;
   margin: 0;
 
-  @media (prefers-color-scheme: dark) {
-    color: #94a3b8;
-  }
+  // @media (prefers-color-scheme: dark) {
+  //   color: #94a3b8;
+  // }
 }
 
 // Screen reader only - erişilebilirlik için

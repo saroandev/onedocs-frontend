@@ -1,23 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from "react";
-// import { PublicHeader } from "@/common/components/publicHeader/publicHeader"; //TODO
 import styles from "./reset-password-form.module.scss";
 import { useFormik } from "formik";
 import { getInitialResetPasswordValues } from "./helpers";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { type ResetPasswordDto } from "../../api/public.types";
 import { useResetPassword } from "../../hooks";
 import { ROUTES } from "@/app/router/routes.config";
+import { useAppNavigation } from "@/shared/lib/navigation";
 
 export const ResetPasswordForm = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
   const tokenFromParams = searchParams.get("token");
-  const navigate = useNavigate();
-  const { resetPassword, loading } = useResetPassword();
+  const { goTo } = useAppNavigation();
+  const { mutate: resetPassword, isPending: loading } = useResetPassword();
 
   useEffect(() => {
     if (!tokenFromParams) {
-      navigate(ROUTES.SIGN_IN, { replace: true });
+      goTo(ROUTES.SIGN_IN, { replace: true });
     }
   }, []);
 
@@ -28,7 +28,7 @@ export const ResetPasswordForm = () => {
         ...values,
         token: tokenFromParams || "",
       };
-      await resetPassword(payload);
+      resetPassword(payload);
       resetForm();
     },
   });
@@ -41,8 +41,9 @@ export const ResetPasswordForm = () => {
 
   return (
     <div className={styles.container}>
-      {/* <PublicHeader title="Reset Your Password" description="Enter the reset your password." /> */}
-      <form onSubmit={handleSubmit} noValidate></form>
+      <form onSubmit={handleSubmit} noValidate>
+        reset password
+      </form>
     </div>
   );
 };

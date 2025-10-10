@@ -39,35 +39,35 @@ export const DateNavigator = () => {
 
   return (
     <div className={styles.container}>
-      <Button
-        size="icon"
-        variant="ghost"
+      <div
+        // size="icon"
+        // variant="ghost"
         className={styles.navButton}
         onClick={goPrev}
         aria-label="Önceki gün"
       >
         <ChevronLeft className={styles.icon} />
-      </Button>
-      <Button
-        variant="secondary"
+      </div>
+      <div
+        // variant="secondary"
         className={styles.dateButton}
-        disabled
+        // disabled
         aria-label="Tarih filtresi"
         title="Tarih filtresi"
       >
         <Calendar className={styles.calendarIcon} />
         <span>{isToday ? "Bugün" : fmtTR(current)}</span>
-      </Button>
-      <Button
-        size="icon"
-        variant="ghost"
+      </div>
+      <div
+        // size="icon"
+        // variant="ghost"
         className={styles.navButton}
         onClick={goNext}
-        disabled={isToday}
+        // disabled={isToday}
         aria-label="Sonraki gün"
       >
         <ChevronRight className={styles.icon} />
-      </Button>
+      </div>
     </div>
   );
 };

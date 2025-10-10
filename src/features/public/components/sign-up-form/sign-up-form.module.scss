@@ -1,0 +1,68 @@
+.container {
+  .top {
+    text-align: center;
+    margin-bottom: 30px;
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #000000;
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #666666;
+    }
+  }
+
+  .formContainer {
+    background-color: #ffffff;
+    padding: 32px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .options {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 4px;
+
+        a {
+          font-size: 14px;
+          font-weight: 500;
+          color: #000000;
+          text-decoration: none;
+          transition: color 0.2s ease;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .bottomText {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 14px;
+    color: #666666;
+
+    a {
+      font-weight: 500;
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

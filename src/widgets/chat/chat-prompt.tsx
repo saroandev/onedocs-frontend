@@ -530,14 +530,14 @@ ${template.description}
             {/* Oluştur Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <div
+                  // variant="ghost"
+                  // size="sm"
                   className="h-8 px-3 rounded-full text-[12px] text-text-secondary hover:text-text-primary hover:bg-accent"
                 >
                   <Plus className="mr-1 h-4 w-4" />
                   Oluştur
-                </Button>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
                 <DropdownMenuItem onClick={handleDocxEdit}>
@@ -571,14 +571,14 @@ ${template.description}
             {/* Kaynak Seç Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <div
+                  // variant="ghost"
+                  // size="sm"
                   className="h-8 px-3 rounded-full text-[12px] text-text-secondary hover:text-text-primary hover:bg-accent"
                 >
                   <Search className="mr-1 h-4 w-4" />
                   Kaynak Seç
-                </Button>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-[280px]">
                 <div className="px-2 py-1.5">
@@ -632,14 +632,14 @@ ${template.description}
             {/* Koleksiyon Seç Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <div
+                  // variant="ghost"
+                  // size="sm"
                   className="h-8 px-3 rounded-full text-[12px] text-text-secondary hover:text-text-primary hover:bg-accent"
                 >
                   <Library className="mr-1 h-4 w-4" />
                   Koleksiyon Seç
-                </Button>
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-[280px]">
                 <div className="px-2 py-1.5">
@@ -810,9 +810,13 @@ ${template.description}
             <div className="flex items-center gap-1">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-7 px-2 text-[11px]">
+                  <div
+                    // variant="ghost"
+                    //  size="sm"
+                    className="h-7 px-2 text-[11px]"
+                  >
                     <Plus className="h-3.5 w-3.5" />
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-56">
                   <DropdownMenuItem onClick={handleDocxEdit}>
@@ -845,9 +849,13 @@ ${template.description}
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-7 px-2 text-[11px]">
+                  <div
+                    // variant="ghost"
+                    //  size="sm"
+                    className="h-7 px-2 text-[11px]"
+                  >
                     <Search className="h-3.5 w-3.5" />
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-[280px]">
                   <div className="px-2 py-1.5">
@@ -902,9 +910,13 @@ ${template.description}
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-7 px-2 text-[11px]">
+                  <div
+                    // variant="ghost"
+                    //  size="sm"
+                    className="h-7 px-2 text-[11px]"
+                  >
                     <Library className="h-3.5 w-3.5" />
-                  </Button>
+                  </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start" className="w-[280px]">
                   <div className="px-2 py-1.5">
@@ -946,21 +958,21 @@ ${template.description}
             </div>
 
             <div className="flex items-center gap-1">
-              <Button
-                variant="ghost"
-                size="icon"
+              <div
+                // variant="ghost"
+                // size="icon"
                 className="h-7 w-7 text-muted-foreground hover:text-foreground"
                 aria-label="Attach file"
                 onClick={handleAttachClick}
               >
                 <Paperclip className="h-4 w-4" />
-              </Button>
+              </div>
 
-              <Button
-                variant="ghost"
+              <div
+                // variant="ghost"
                 className="h-9 w-9 p-0 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-50"
                 aria-label={isResponding ? "Yükleniyor" : "Send message"}
-                disabled={!canSend || isResponding}
+                // disabled={!canSend || isResponding}
                 onClick={handleSend}
               >
                 {isResponding ? (
@@ -968,28 +980,28 @@ ${template.description}
                 ) : (
                   <ArrowUp className="text-white w-6 h-6" />
                 )}
-              </Button>
+              </div>
             </div>
           </div>
 
           {/* Desktop send buttons */}
           <div className="hidden sm:flex items-center">
-            <Button
-              variant="ghost"
-              size="icon"
+            <div
+              // variant="ghost"
+              // size="icon"
               className="h-7 w-7 text-muted-foreground hover:text-foreground"
               aria-label="Attach file"
               onClick={handleAttachClick}
             >
               <Paperclip className="h-5 w-5" />
-            </Button>
+            </div>
             <input ref={fileInputRef} type="file" className="hidden" onChange={handleFileChange} />
 
-            <Button
-              variant="ghost"
+            <div
+              // variant="ghost"
               className="ml-1 h-12 w-12 p-0 rounded-full bg-neutral-900 text-white hover:bg-neutral-800 disabled:opacity-50 focus-visible:ring-0 focus-visible:ring-offset-0"
               aria-label={isResponding ? "Yükleniyor" : "Send message"}
-              disabled={!canSend || isResponding}
+              // disabled={!canSend || isResponding}
               onClick={handleSend}
               title={isResponding ? "Yükleniyor" : "Gönder"}
             >
@@ -998,7 +1010,7 @@ ${template.description}
               ) : (
                 <ArrowUp className="text-white w-[36px] h-[36px]" />
               )}
-            </Button>
+            </div>
           </div>
         </div>
       </div>

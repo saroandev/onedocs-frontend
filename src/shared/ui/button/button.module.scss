@@ -1,119 +1,308 @@
-.button {
-  display: inline-flex;
+.container {
+  padding: 12px 16px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  white-space: nowrap;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 150ms ease;
-  cursor: pointer;
+  border-radius: 8px;
   border: none;
+  width: 100%;
+  height: 44px;
+  position: relative;
+  z-index: 1;
+  background-color: #000;
+  // box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.25);
+  font-weight: 500;
+  border: 1px solid #000;
 
-  &:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 1px #111827;
-  }
-
-  &:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-  }
-}
-
-// Variants
-.variant-default {
-  background-color: #111827;
-  color: #fff;
-  border: 1px solid #111827;
-
-  &:hover:not(:disabled) {
+  &:hover {
     background-color: #fff;
     color: #111827;
   }
-}
 
-.variant-secondary {
-  background-color: #f3f4f6;
-  color: #1f2937;
+  &:focus {
+    outline: 0;
+  }
 
-  &:hover:not(:disabled) {
-    background-color: #f3f4f6;
-    color: #1f2937;
+  &:active {
+    transform: scale(0.99) !important;
+  }
+
+  span {
+    font-weight: 500;
+    line-height: 28px;
+    width: max-content;
+
+    ~ svg {
+      margin-left: 10px;
+    }
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    // fill: #fff;
+  }
+
+  .progress {
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+
+    svg {
+      animation: spin 1s linear infinite;
+      -webkit-animation: 1s spin linear infinite;
+      width: 100%;
+      height: 100%;
+      fill: none;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .popover {
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    color: #344054;
+    z-index: 9999;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: 0px 1px 1px 0px rgba(162, 184, 191, 0.274),
+      0px -1px 1px 1px rgba(196, 205, 222, 0.119) inset,
+      0px 0px 0px 1px rgba(197, 206, 225, 0.383) inset;
+    width: max-content;
+    top: -45px;
   }
 }
 
-.variant-outline {
+.loadingButton {
+  cursor: not-allowed;
+
+  &:active {
+    transform: unset !important;
+  }
+}
+
+.disabledButton {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none !important;
+
+  &:active {
+    transform: unset !important;
+  }
+}
+
+.secondary {
   background-color: #fff;
-  border: 1px solid #e5e7eb;
+  color: #374151;
+  border-color: #e5e7eb;
 
-  &:hover:not(:disabled) {
+  &:hover {
     background-color: #f3f4f6;
     color: #1f2937;
   }
-}
 
-.variant-ghost {
-  background-color: transparent;
+  svg {
+    // fill: #374151;
+  }
 
-  &:hover:not(:disabled) {
-    background-color: #f3f4f6;
-    color: #1f2937;
+  &.loadingButton {
+    circle {
+      stroke: #d1d5db;
+    }
+
+    path {
+      stroke: #465fff;
+    }
+  }
+
+  &.justIcon {
+    box-shadow: unset;
   }
 }
 
-.variant-destructive {
-  background-color: #ef4444;
-  color: #fafafa;
+.tertiary {
+  background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
+  box-shadow: unset;
 
-  &:hover:not(:disabled) {
-    opacity: 0.9;
+  &:hover {
+    background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
+    color: #fff;
+  }
+
+  svg {
+    fill: #fff;
   }
 }
 
-.variant-link {
-  color: #111827;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  background-color: transparent;
-
-  &:hover:not(:disabled) {
-    text-decoration: none;
-  }
-}
-
-.variant-black {
-  background-color: #111827;
-  color: #fff;
-  border: 1px solid #111827;
-
-  &:hover:not(:disabled) {
-    background-color: #fff;
-    color: #111827;
-  }
-}
-
-// Sizes
-.size-default {
-  height: 36px;
-  padding: 8px 16px;
-}
-
-.size-sm {
-  height: 32px;
-  padding: 0 12px;
-  border-radius: 6px;
-  font-size: 12px;
-}
-
-.size-lg {
-  height: 40px;
-  padding: 0 32px;
-  border-radius: 6px;
-}
-
-.size-icon {
+.justIcon {
+  border-radius: 8px;
   height: 36px;
   width: 36px;
-  padding: 0;
+  background-color: transparent;
+  padding: unset;
+  border: none;
+  color: #1f2937;
+  box-shadow: none;
+
+  &:active {
+    transform: scale(0.94) !important;
+  }
+
+  &:hover {
+    background-color: #f3f4f6;
+
+    .popover {
+      display: block;
+    }
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    // fill: #1f2937;
+  }
+
+  &.iconTextReverse {
+    svg {
+      margin-right: 0px !important;
+      margin-left: 0px !important;
+    }
+  }
 }
+
+.iconTextReverse {
+  span {
+    order: 2;
+  }
+
+  svg {
+    margin-right: 10px;
+    margin-left: 0px !important;
+    order: 1;
+  }
+}
+
+.outline {
+  background-color: #fff;
+  color: #1f2937;
+  // box-shadow: inset 0 0 0 1px #d1d5db;
+  border: 1px solid #e5e7eb;
+
+  &:hover {
+    background-color: #f3f4f6;
+  }
+
+  svg {
+    fill: #1f2937;
+  }
+
+  &.loadingButton {
+    circle {
+      stroke: #d1d5db;
+    }
+
+    path {
+      stroke: #465fff;
+    }
+  }
+
+  &.justIcon {
+    box-shadow: unset;
+  }
+}
+
+.ghost {
+  color: #1f2937;
+  // box-shadow: inset 0 0 0 1px #d1d5db;
+  border: 1px solid #e5e7eb;
+  background-color: transparent;
+  color: #1f2937;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  svg {
+    fill: #1f2937;
+  }
+
+  &.loadingButton {
+    circle {
+      stroke: #d1d5db;
+    }
+
+    path {
+      stroke: #465fff;
+    }
+  }
+
+  &.justIcon {
+    box-shadow: unset;
+  }
+}
+
+/* html[data-theme="dark"] .container {
+  &.secondary {
+    background-color: variables.$black-10;
+    color: variables.$blue-190;
+    box-shadow: inset 0 0 0 1px #374151;
+
+    &:hover {
+      background-color: variables.$black-40;
+      color: #d1d5db;
+
+      svg {
+        fill: #d1d5db;
+      }
+    }
+
+    svg {
+      fill: variables.$blue-190;
+    }
+
+    &.justIcon {
+      box-shadow: unset;
+      background-color: unset;
+    }
+  }
+
+  &.justIcon {
+    svg {
+      fill: variables.$gray-600;
+    }
+
+    &:hover {
+      background-color: variables.$gray-610;
+
+      svg {
+        fill: #fff;
+      }
+    }
+  }
+
+  &.justIcon:not(.customIcon) {
+    &:hover {
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+    }
+  }
+} */

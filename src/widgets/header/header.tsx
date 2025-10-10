@@ -35,16 +35,16 @@ export const Header = () => {
 
       {/* Right actions */}
       <div className={styles.actions}>
-        <Button
-          variant="ghost"
-          size="icon"
+        <div
+          // variant="ghost"
+          // size="icon"
           className={styles.actionButton}
           aria-label="Yeni Sohbet"
           title="Yeni Sohbet"
           onClick={() => console.log("handleNewChat")}
         >
           <CirclePlus className={styles.actionIcon} />
-        </Button>
+        </div>
       </div>
     </header>
   );

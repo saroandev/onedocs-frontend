@@ -13,6 +13,7 @@ import { Building2, Check, ChevronLeft, Lock, LogOut, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/profile-tab.module.scss";
+import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const ProfileTab = (props: ProfileTabProps) => {
   const { setChoosenTab } = props;
@@ -28,13 +29,11 @@ export const ProfileTab = (props: ProfileTabProps) => {
             <p className={styles.subtitle}>Hesabınızı yönetin</p>
           </div>
           <Button
-            size="icon"
-            variant="ghost"
-            className={styles.closeButton}
+            label=""
+            buttonType={BUTTON_TYPE.JUST_ICON}
             onClick={() => setChoosenTab(uuidv4())}
-          >
-            <X className={styles.icon} />
-          </Button>
+            iconType={{ default: ICON_TYPE.CLOSE }}
+          />
         </div>
 
         <div className={styles.content}>

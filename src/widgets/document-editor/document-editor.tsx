@@ -40,34 +40,59 @@ export const DocumentEditor = () => {
       <div className={styles.header}>
         <h2 className={styles.title}>Belge Editörü</h2>
         <div className={styles.headerActions}>
-          <Button variant="ghost" size="icon" className={styles.iconButton} title="Kaydet">
+          <div
+            // variant="ghost"
+            //  size="icon"
+            className={styles.iconButton}
+            title="Kaydet"
+          >
             <Save size={16} />
-          </Button>
-          <Button variant="ghost" size="icon" className={styles.iconButton} title="İndir">
+          </div>
+          <div
+            // variant="ghost"
+            //  size="icon"
+            className={styles.iconButton}
+            title="İndir"
+          >
             <Download size={16} />
-          </Button>
-          <Button variant="ghost" size="icon" className={styles.iconButton} title="Yazdır">
+          </div>
+          <div
+            // variant="ghost"
+            //  size="icon"
+            className={styles.iconButton}
+            title="Yazdır"
+          >
             <Printer size={16} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
+          </div>
+          <div
+            // variant="ghost"
+            // size="icon"
             className={styles.iconButton}
             onClick={() => setEditorOpen(false)}
             title="Kapat"
           >
             <X size={16} />
-          </Button>
+          </div>
         </div>
       </div>
 
       <div className={styles.toolbar}>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Geri Al">
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Geri Al"
+        >
           <Undo size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="İleri Al">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="İleri Al"
+        >
           <Redo size={16} />
-        </Button>
+        </div>
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
@@ -82,39 +107,84 @@ export const DocumentEditor = () => {
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Kalın">
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Kalın"
+        >
           <Bold size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="İtalik">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="İtalik"
+        >
           <Italic size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Altı Çizili">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Altı Çizili"
+        >
           <Underline size={16} />
-        </Button>
+        </div>
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Sola Hizala">
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Sola Hizala"
+        >
           <AlignLeft size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Ortala">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Ortala"
+        >
           <AlignCenter size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Sağa Hizala">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Sağa Hizala"
+        >
           <AlignRight size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="İki Yana Yasla">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="İki Yana Yasla"
+        >
           <AlignJustify size={16} />
-        </Button>
+        </div>
 
         <Separator orientation="vertical" className={styles.toolbarSeparator} />
 
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Madde İşareti">
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Madde İşareti"
+        >
           <List size={16} />
-        </Button>
-        <Button variant="ghost" size="icon" className={styles.toolButton} title="Numaralı Liste">
+        </div>
+        <div
+          // variant="ghost"
+          //  size="icon"
+          className={styles.toolButton}
+          title="Numaralı Liste"
+        >
           <ListOrdered size={16} />
-        </Button>
+        </div>
       </div>
 
       <div className={styles.documentArea}>

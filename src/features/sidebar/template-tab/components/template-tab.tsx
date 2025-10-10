@@ -4,6 +4,7 @@ import { ChevronLeft, FileText, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/template-tab.module.scss";
+import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const TemplateTab = (props: TemplateTabProps) => {
   const { setChoosenTab } = props;
@@ -174,13 +175,11 @@ export const TemplateTab = (props: TemplateTabProps) => {
               <p className={styles.subtitle}>Hazır belge şablonlarını kullanın</p>
             </div>
             <Button
-              size="icon"
-              variant="ghost"
-              className={styles.closeButton}
+              label=""
+              buttonType={BUTTON_TYPE.JUST_ICON}
               onClick={() => setChoosenTab(uuidv4())}
-            >
-              <X className={styles.closeIcon} />
-            </Button>
+              iconType={{ default: ICON_TYPE.CLOSE }}
+            />
           </div>
 
           <div className={styles.content}>
@@ -235,15 +234,15 @@ export const TemplateTab = (props: TemplateTabProps) => {
       {selectedTemplate && (
         <div className={styles.detailView}>
           <div className={styles.detailHeader}>
-            <Button
-              variant="ghost"
-              size="sm"
+            <div
+              // variant="ghost"
+              // size="sm"
               className={styles.backButton}
               onClick={() => setSelectedTemplate(null)}
             >
               <ChevronLeft size={16} />
               Geri
-            </Button>
+            </div>
 
             <div className={styles.detailHeaderContent}>
               <div>

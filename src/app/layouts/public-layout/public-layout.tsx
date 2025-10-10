@@ -1,11 +1,18 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
 import styles from "./public-layout.module.scss";
+import AppLogo from "@/shared/assets/icons/onedocs.png";
 
-export const PublicLayout: React.FC = () => {
+export const PublicLayout = () => {
   return (
-    <div className={styles.authLayout}>
-      <Outlet />
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <div className={styles.logoWrapper}>
+            <img src={AppLogo} alt="Onedocs Logo" />
+          </div>
+        </div>
+        <Outlet />
+      </div>
     </div>
   );
 };

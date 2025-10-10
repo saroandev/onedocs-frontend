@@ -11,8 +11,13 @@ import {
   RadioGroup,
   RadioGroupItem,
 } from "@/shared/ui";
-import { Plus } from "lucide-react";
 import styles from "../styles/collection-dialog.module.scss";
+import {
+  BUTTON_TYPE,
+  BUTTON_VARIANT,
+  HTML_TYPE,
+  ICON_TYPE,
+} from "@/shared/ui/button/button-config";
 
 export const CollectionDialog = (props: CollectionDialogProps) => {
   const {
@@ -36,9 +41,6 @@ export const CollectionDialog = (props: CollectionDialogProps) => {
         </DialogHeader>
         <div className={styles.dialogForm}>
           <div className={styles.formGroup}>
-            <Label htmlFor="collection-name" className={styles.label}>
-              Koleksiyon Adı
-            </Label>
             <Input
               id="collection-name"
               placeholder="Örn: Proje Dökümanları"
@@ -49,7 +51,6 @@ export const CollectionDialog = (props: CollectionDialogProps) => {
                   handleCreateCollection();
                 }
               }}
-              className={styles.input}
             />
           </div>
           <div className={styles.formGroup}>
@@ -75,17 +76,21 @@ export const CollectionDialog = (props: CollectionDialogProps) => {
           </div>
         </div>
         <DialogFooter className={styles.dialogFooter}>
-          <Button variant="outline" onClick={() => setOpen(false)} className={styles.cancelButton}>
-            İptal
-          </Button>
           <Button
+            label="İptal"
+            buttonType={BUTTON_TYPE.JUST_TEXT}
+            htmlType={HTML_TYPE.BUTTON}
+            variant={BUTTON_VARIANT.OUTLINE}
+            onClick={() => setOpen(false)}
+          />
+          <Button
+            label="Oluştur"
+            buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+            iconType={{ default: ICON_TYPE.ADD }}
+            htmlType={HTML_TYPE.BUTTON}
             onClick={handleCreateCollection}
             disabled={!newCollectionName.trim()}
-            className={styles.createButton}
-          >
-            <Plus className={styles.plusIcon} />
-            Oluştur
-          </Button>
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

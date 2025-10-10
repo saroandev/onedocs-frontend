@@ -1,28 +1,24 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState } from "react";
 import { authApi } from "../api/public.api";
-import type { SignUpDto } from "../api/public.types";
 import { showNotification } from "@/shared/lib/notification";
-import { useNavigate } from "react-router-dom";
 import { ROUTES } from "@/app/router/routes.config";
+import { useAppNavigation } from "@/shared/lib/navigation";
+import { useMutation } from "@tanstack/react-query";
 
 export const useSignUp = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const { goTo } = useAppNavigation();
 
-  const signUp = async (values: SignUpDto) => {
-    try {
-      setLoading(true);
-      await authApi.signUp(values);
-      showNotification("success", "Your registration has been successfully created.");
-      navigate(ROUTES.SIGN_IN, { replace: true });
-    } catch (error: any) {
-      showNotification("error", error?.response?.data?.message || error);
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return { signUp, loading };
+  return useMutation({
+    mutationFn: authApi.signUp,
+    onSuccess: () => {
+      goTo(ROUTES.SIGN_IN, { replace: true });
+      showNotification("success", "Hesap oluşturuldu");
+    },
+    onError: (_error: any) => {
+      console.log("Bu e-posta adresi zaten kayıtlı");
+      showNotification("error", "Bu e-posta adresi zaten kayıtlı");
+      showNotification("error", "Bir hata oluştu");
+    },
+  });
 };

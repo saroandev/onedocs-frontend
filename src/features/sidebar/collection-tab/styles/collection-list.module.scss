@@ -46,11 +46,6 @@
   }
 }
 
-.closeButton {
-  height: 32px;
-  width: 32px;
-}
-
 .contentScroll {
   flex: 1;
   overflow-y: auto;
@@ -63,13 +58,11 @@
 .actionsBar {
   display: flex;
   justify-content: flex-end;
-}
 
-.newCollectionBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
+  button {
+    width: fit-content;
+    height: 32px;
+  }
 }
 
 .statsBar {
@@ -104,6 +97,19 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
+  background-color: #000;
+  cursor: pointer;
+  color: #fff;
+  padding: 0px 12px;
+  padding: 0 12px;
+  border-radius: 8px;
+  height: 32px;
+  border: 1px solid #000;
+
+  &:hover:not(:disabled) {
+    background-color: #f3f4f6;
+    color: #1f2937;
+  }
 }
 
 .collectionsList {

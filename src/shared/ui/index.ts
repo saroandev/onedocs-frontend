@@ -83,5 +83,4 @@ export { Switch } from "./switch/switch";
 export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs/tabs";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip/tooltip";
 export { ErrorBoundary } from "./error-boundary/error-boundary";
-
-export type { ButtonSize, ButtonProps } from "./button/button";
+export { Checkbox } from "./checkbox/checkbox";

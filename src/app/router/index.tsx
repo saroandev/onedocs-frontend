@@ -6,15 +6,9 @@ import { AuthRoutes } from "./auth-routes";
 import { usePublicStore } from "@/features/public/store/public.store";
 
 export const AppRouter = () => {
-  const token = usePublicStore((state) => state.token);
+  const isAuthenticated = usePublicStore((state) => state.isAuthenticated);
 
-  // const isAuthenticated = usePublicStore((state) => state.isAuthenticated);
-
-  // if (!isAuthenticated) {
-  //   return <Navigate to={ROUTES.DASHBOARD} replace />;
-  // }
-
-  if (token) {
+  if (isAuthenticated) {
     return (
       <Routes>
         <Route element={<RootLayout />}>

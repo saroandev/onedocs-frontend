@@ -249,34 +249,34 @@ export const MainChatArea = () => {
                           })()}
 
                           <div className="mt-1 flex items-center gap-1 text-muted-foreground">
-                            <Button
-                              variant="ghost"
-                              size="icon"
+                            <div
+                              // variant="ghost"
+                              // size="icon"
                               className="h-6 w-6"
                               aria-label="Beğen"
                             >
                               <ThumbsUp className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
+                            </div>
+                            <div
+                              // variant="ghost"
+                              // size="icon"
                               className="h-6 w-6"
                               aria-label="Beğenme"
                             >
                               <ThumbsDown className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
+                            </div>
+                            <div
+                              // variant="ghost"
+                              // size="icon"
                               className="h-6 w-6"
                               aria-label="Kopyala"
                               onClick={() => navigator.clipboard?.writeText(m.content)}
                             >
                               <CopyIcon className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
+                            </div>
+                            <div
+                              // variant="ghost"
+                              // size="icon"
                               className="h-6 w-6"
                               aria-label="E-posta"
                               onClick={() => {
@@ -286,10 +286,10 @@ export const MainChatArea = () => {
                               }}
                             >
                               <Mail className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
+                            </div>
+                            <div
+                              // variant="ghost"
+                              // size="icon"
                               className="h-6 w-6"
                               aria-label="Editöre Ekle"
                               onClick={() => {
@@ -298,7 +298,7 @@ export const MainChatArea = () => {
                               }}
                             >
                               <Edit className="h-4 w-4" />
-                            </Button>
+                            </div>
                           </div>
                         </div>
                       )}
@@ -330,9 +330,14 @@ export const MainChatArea = () => {
         <aside className="fixed right-0 top-0 z-30 hidden h-full w-[420px] border-l border-border bg-white md:block">
           <div className="flex items-center justify-between border-b border-border p-2">
             <div className="text-sm font-medium text-text-secondary truncate">PDF Önizleme</div>
-            <Button variant="ghost" size="sm" className="h-8" onClick={() => setPdfOpen(false)}>
+            <div
+              // variant="ghost"
+              // size="sm"
+              className="h-8"
+              onClick={() => setPdfOpen(false)}
+            >
               Kapat
-            </Button>
+            </div>
           </div>
           <iframe src={pdfUrl} className="h-[calc(100%-40px)] w-full" title="PDF Preview" />
         </aside>

@@ -1,0 +1,127 @@
+.container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: fit-content;
+
+  &:hover {
+    .popover {
+      display: block !important;
+    }
+  }
+
+  .checkboxWrapper {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+
+    input {
+      width: 20px;
+      height: 20px;
+      appearance: none;
+      cursor: pointer;
+      border: 1px solid #666;
+      border-radius: 4px;
+
+      &:checked {
+        border-color: transparent;
+        background-color: #000;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+      }
+
+      &:hover {
+        border-color: #000;
+      }
+    }
+
+    .iconChecked {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .iconDisabled {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+  }
+
+  .label {
+    font-size: 14px;
+    color: #666;
+
+    span {
+      color: #f04438;
+    }
+  }
+
+  .popover {
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    color: #344054;
+    z-index: 9999;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: 0px 1px 1px 0px rgba(162, 184, 191, 0.274),
+      0px -1px 1px 1px rgba(196, 205, 222, 0.119) inset,
+      0px 0px 0px 1px rgba(197, 206, 225, 0.383) inset;
+    width: max-content;
+    top: -45px;
+  }
+
+  .viewError {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    bottom: -20px;
+    font-size: 14px;
+    width: max-content;
+
+    svg {
+      margin-right: 8px;
+      width: 12px;
+      height: 12px;
+    }
+
+    span {
+      color: #f00438;
+    }
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+
+  .checkboxWrapper {
+    input {
+      cursor: not-allowed;
+    }
+  }
+}
+
+// html[data-theme="dark"] .container {
+//   .checkboxWrapper {
+//     input {
+//       border: 1px solid variables.$gray-590;
+//     }
+//   }
+
+//   .label {
+//     color: variables.$gray-600;
+//   }
+// }

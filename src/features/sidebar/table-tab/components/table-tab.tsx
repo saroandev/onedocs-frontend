@@ -5,6 +5,7 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/table-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
+import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 interface TableTabProps {
   setChoosenTab: (val: string) => void;
@@ -150,13 +151,11 @@ export const TableTab = (props: TableTabProps) => {
               <p className={styles.subtitle}>Belge karşılaştırma tablo şablonları</p>
             </div>
             <Button
-              size="icon"
-              variant="ghost"
-              className={styles.closeButton}
+              label=""
+              buttonType={BUTTON_TYPE.JUST_ICON}
               onClick={() => setChoosenTab(uuidv4())}
-            >
-              <X className={styles.closeIcon} />
-            </Button>
+              iconType={{ default: ICON_TYPE.CLOSE }}
+            />
           </div>
 
           <div className={styles.content}>
@@ -206,15 +205,15 @@ export const TableTab = (props: TableTabProps) => {
       {selectedTable && (
         <div className={styles.detailView}>
           <div className={styles.detailHeader}>
-            <Button
-              variant="ghost"
-              size="sm"
+            <div
+              // variant="ghost"
+              // size="sm"
               className={styles.backButton}
               onClick={() => setSelectedTable(null)}
             >
               <ChevronLeft size={16} />
               Geri
-            </Button>
+            </div>
 
             <div className={styles.detailHeaderContent}>
               <div>

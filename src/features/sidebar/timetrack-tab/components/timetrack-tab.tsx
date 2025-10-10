@@ -6,6 +6,7 @@ import classNames from "classnames";
 import styles from "../styles/timetrack-tab.module.scss";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { DateNavigator } from "./date-navigator";
+import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const TimetrackTab = (props: TimetrackTabProps) => {
   const { setChoosenTab } = props;
@@ -105,13 +106,11 @@ export const TimetrackTab = (props: TimetrackTabProps) => {
           <h2 className={styles.title}>İş ve Zaman Takibi</h2>
         </div>
         <Button
-          size="icon"
-          variant="ghost"
-          className={styles.closeButton}
+          label=""
+          buttonType={BUTTON_TYPE.JUST_ICON}
           onClick={() => setChoosenTab(uuidv4())}
-        >
-          <X className={styles.icon} />
-        </Button>
+          iconType={{ default: ICON_TYPE.CLOSE }}
+        />
       </div>
 
       <div className={styles.dateSection}>

@@ -1,10 +1,11 @@
 import { Button } from "@/shared/ui";
-import { Building2, Settings, Users, X } from "lucide-react";
+import { Building2, Settings, Users } from "lucide-react";
 import { useState } from "react";
 import styles from "../styles/admin-tab.module.scss";
 import { AdminUserPanel } from "./admin-user-panel";
 import { AdminOrgPanel } from "./admin-org-panel";
 import { v4 as uuidv4 } from "uuid";
+import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const AdminTab = (props: AdminTabProps) => {
   const { setChoosenTab } = props;
@@ -18,13 +19,11 @@ export const AdminTab = (props: AdminTabProps) => {
           <h2 className={styles.title}>Yönetim</h2>
         </div>
         <Button
-          variant="ghost"
-          size="icon"
-          className={styles.closeButton}
+          label=""
+          buttonType={BUTTON_TYPE.JUST_ICON}
           onClick={() => setChoosenTab(uuidv4())}
-        >
-          <X className={styles.closeIcon} />
-        </Button>
+          iconType={{ default: ICON_TYPE.CLOSE }}
+        />
       </div>
 
       <div className={styles.tabs}>

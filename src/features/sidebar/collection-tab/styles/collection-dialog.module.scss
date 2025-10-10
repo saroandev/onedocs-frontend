@@ -19,29 +19,6 @@
   gap: 8px;
 }
 
-.label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #1f2937;
-}
-
-.input {
-  padding: 8px 12px;
-  font-size: 14px;
-  border: 1px solid #e5e7eb;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.2s ease;
-
-  &:focus {
-    border-color: #f3f4f6;
-  }
-
-  &::placeholder {
-    color: #9ca3af;
-  }
-}
-
 .radioGroup {
   display: flex;
   flex-direction: column;
@@ -65,27 +42,4 @@
   display: flex;
   gap: 8px;
   justify-content: flex-end;
-}
-
-.cancelButton {
-  padding: 8px 16px;
-  font-size: 14px;
-}
-
-.createButton {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-}
-
-.plusIcon {
-  width: 16px;
-  height: 16px;
 }

@@ -19,6 +19,7 @@ import { Mail, Trash2, UserPlus } from "lucide-react";
 import { useState } from "react";
 import classnames from "classnames";
 import styles from "../styles/admin-user-panel.module.scss";
+import { BUTTON_TYPE } from "@/shared/ui/button/button-config";
 
 export const AdminUserPanel = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
@@ -98,13 +99,11 @@ export const AdminUserPanel = () => {
               <div className={styles.userActions}>
                 <span className={styles.userRole}>{user.role}</span>
                 <Button
-                  variant="ghost"
-                  size="sm"
+                  label="Düzenle"
                   className={styles.editButton}
                   onClick={() => openEditDialog(user)}
-                >
-                  Düzenle
-                </Button>
+                  buttonType={BUTTON_TYPE.JUST_TEXT}
+                />
               </div>
             </div>
           ))}

@@ -2,23 +2,21 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import classnames from "classnames";
 import styles from "./rail-button.module.scss";
 
-export const RailButton: React.FC<RailButtonProps> = (props: RailButtonProps) => {
+export const RailButton = (props: RailButtonProps) => {
   const { icon, label, selected = false, onClick } = props;
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <button
-          type="button"
-          aria-label={label}
+        <div
           onClick={onClick}
           className={classnames(styles.button, {
             [styles.selected]: selected,
-            [styles.default]: !selected,
+            [styles.unselected]: !selected,
           })}
         >
           {icon}
-        </button>
+        </div>
       </TooltipTrigger>
       <TooltipContent side="right">{label}</TooltipContent>
     </Tooltip>
