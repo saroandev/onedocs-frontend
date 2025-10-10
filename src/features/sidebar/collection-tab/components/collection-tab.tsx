@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { CollectionDialog } from "./collection-dialog";
 import { CollectionList } from "./collection-list";
+import { documentsData, mockCollectionData } from "../constants/collection-tab-config";
 
 export const CollectionTab = (props: CollectionTabProps) => {
   const { setChoosenTab } = props;
@@ -15,321 +17,17 @@ export const CollectionTab = (props: CollectionTabProps) => {
   const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>([]);
   const [activeScope, setActiveScope] = useState<"personal" | "org" | string>("personal");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [documents, setDocuments] = useState<Document[]>([]);
-
-  const documentsData: Record<string, Document[]> = {
-    "1": [
-      {
-        id: 1,
-        collectionId: 1,
-        name: "Çalışan El Kitabı 2024",
-        type: "PDF",
-        size: "485 KB",
-        uploadDate: "2024-10-05",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 2,
-        collectionId: 1,
-        name: "İç Yönetmelik",
-        type: "DOCX",
-        size: "320 KB",
-        uploadDate: "2024-10-04",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 3,
-        collectionId: 1,
-        name: "Bilgi Güvenliği Politikası",
-        type: "PDF",
-        size: "890 KB",
-        uploadDate: "2024-10-03",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 4,
-        collectionId: 1,
-        name: "Etik Kurallar",
-        type: "PDF",
-        size: "425 KB",
-        uploadDate: "2024-10-02",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-    ],
-    "3": [
-      {
-        id: 11,
-        collectionId: 3,
-        name: "İş Kanunu",
-        type: "PDF",
-        size: "2.1 MB",
-        uploadDate: "2024-10-04",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 12,
-        collectionId: 3,
-        name: "Borçlar Kanunu",
-        type: "PDF",
-        size: "1.8 MB",
-        uploadDate: "2024-10-04",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 13,
-        collectionId: 3,
-        name: "Ticaret Kanunu",
-        type: "PDF",
-        size: "2.3 MB",
-        uploadDate: "2024-10-03",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 14,
-        collectionId: 3,
-        name: "KVKK Kanunu",
-        type: "PDF",
-        size: "680 KB",
-        uploadDate: "2024-10-03",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 15,
-        collectionId: 3,
-        name: "İcra İflas Kanunu",
-        type: "PDF",
-        size: "1.9 MB",
-        uploadDate: "2024-10-02",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 16,
-        collectionId: 3,
-        name: "Tüketici Koruma Kanunu",
-        type: "PDF",
-        size: "890 KB",
-        uploadDate: "2024-10-02",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 17,
-        collectionId: 3,
-        name: "Kira Yönetmeliği",
-        type: "PDF",
-        size: "1.2 MB",
-        uploadDate: "2024-10-01",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 18,
-        collectionId: 3,
-        name: "Vergi Usul Kanunu",
-        type: "PDF",
-        size: "1.5 MB",
-        uploadDate: "2024-10-01",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-    ],
-    "4": [
-      {
-        id: 19,
-        collectionId: 4,
-        name: "İşe Alım Politikası",
-        type: "PDF",
-        size: "445 KB",
-        uploadDate: "2024-10-03",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 20,
-        collectionId: 4,
-        name: "Performans Değerlendirme",
-        type: "DOCX",
-        size: "512 KB",
-        uploadDate: "2024-10-03",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 21,
-        collectionId: 4,
-        name: "Çalışan Hakları",
-        type: "PDF",
-        size: "678 KB",
-        uploadDate: "2024-10-02",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 22,
-        collectionId: 4,
-        name: "Ücret Politikası",
-        type: "PDF",
-        size: "890 KB",
-        uploadDate: "2024-10-02",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 23,
-        collectionId: 4,
-        name: "İş Sağlığı ve Güvenliği",
-        type: "PDF",
-        size: "720 KB",
-        uploadDate: "2024-10-01",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-    ],
-    "5": [
-      {
-        id: 24,
-        collectionId: 5,
-        name: "Distribütörlük Sözleşmesi",
-        type: "PDF",
-        size: "1.2 MB",
-        uploadDate: "2024-09-28",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 25,
-        collectionId: 5,
-        name: "Franchise Sözleşmesi",
-        type: "DOCX",
-        size: "980 KB",
-        uploadDate: "2024-09-28",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 26,
-        collectionId: 5,
-        name: "Bayilik Sözleşmesi",
-        type: "PDF",
-        size: "1.5 MB",
-        uploadDate: "2024-09-27",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 27,
-        collectionId: 5,
-        name: "Temsil Sözleşmesi",
-        type: "DOCX",
-        size: "890 KB",
-        uploadDate: "2024-09-27",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 28,
-        collectionId: 5,
-        name: "Alım Satım Sözleşmesi",
-        type: "PDF",
-        size: "1.1 MB",
-        uploadDate: "2024-09-26",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 29,
-        collectionId: 5,
-        name: "Ortaklık Sözleşmesi",
-        type: "DOCX",
-        size: "1.3 MB",
-        uploadDate: "2024-09-26",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-      {
-        id: 30,
-        collectionId: 5,
-        name: "Lisans Sözleşmesi",
-        type: "PDF",
-        size: "1.6 MB",
-        uploadDate: "2024-09-25",
-        uploadedBy: "Emrullah Saruhan",
-        userId: "user1",
-      },
-    ],
-  };
+  const [documents, setDocuments] = useState<any[]>([]);
 
   useEffect(() => {
     if (selectedCollectionId) {
-      const docs = documentsData[selectedCollectionId] || [];
-      setDocuments(docs);
+      setDocuments(documentsData[selectedCollectionId] || []);
     } else {
       setDocuments([]);
     }
   }, [selectedCollectionId]);
 
-  const [collections, setCollections] = useState<
-    Array<{
-      id: string;
-      name: string;
-      fileCount: number;
-      size: string;
-      members: number;
-      creator: string;
-      lastUpdated: string;
-      scope: "personal" | "org";
-    }>
-  >([
-    {
-      id: "1",
-      name: "İç Politika ve Prosedürler",
-      fileCount: 4,
-      size: "2.1 MB",
-      members: 1,
-      creator: "Emrullah",
-      lastUpdated: "Bugün",
-      scope: "personal",
-    },
-    {
-      id: "3",
-      name: "Mevzuat ve Yönetmelikler",
-      fileCount: 8,
-      size: "12.3 MB",
-      members: 2,
-      creator: "Emrullah",
-      lastUpdated: "Dün",
-      scope: "org",
-    },
-    {
-      id: "4",
-      name: "İnsan Kaynakları Politikaları",
-      fileCount: 5,
-      size: "3.2 MB",
-      members: 1,
-      creator: "Emrullah",
-      lastUpdated: "2 gün önce",
-      scope: "personal",
-    },
-    {
-      id: "5",
-      name: "Ticari Sözleşmeler",
-      fileCount: 7,
-      size: "8.5 MB",
-      members: 3,
-      creator: "Emrullah",
-      lastUpdated: "1 hafta önce",
-      scope: "org",
-    },
-  ]);
+  const [collections, setCollections] = useState<any[]>([...mockCollectionData]);
 
   const handleCreateCollection = () => {
     if (!newCollectionName.trim()) return;
@@ -391,11 +89,9 @@ export const CollectionTab = (props: CollectionTabProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Extract file extension
     const fileName = file.name;
     const extension = fileName.split(".").pop()?.toUpperCase() || "FILE";
 
-    // Create mock document with real file name
     const newDocument: Document = {
       id: Date.now(),
       collectionId: parseInt(selectedCollectionId),

@@ -12,12 +12,6 @@ import {
   RadioGroupItem,
 } from "@/shared/ui";
 import styles from "../styles/collection-dialog.module.scss";
-import {
-  BUTTON_TYPE,
-  BUTTON_VARIANT,
-  HTML_TYPE,
-  ICON_TYPE,
-} from "@/shared/ui/button/button-config";
 
 export const CollectionDialog = (props: CollectionDialogProps) => {
   const {
@@ -78,16 +72,16 @@ export const CollectionDialog = (props: CollectionDialogProps) => {
         <DialogFooter className={styles.dialogFooter}>
           <Button
             label="İptal"
-            buttonType={BUTTON_TYPE.JUST_TEXT}
-            htmlType={HTML_TYPE.BUTTON}
-            variant={BUTTON_VARIANT.OUTLINE}
+            buttonType="justText"
+            htmlType="button"
+            variant="outline"
             onClick={() => setOpen(false)}
           />
           <Button
             label="Oluştur"
-            buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
-            iconType={{ default: ICON_TYPE.ADD }}
-            htmlType={HTML_TYPE.BUTTON}
+            buttonType="iconWithText"
+            iconType={{ default: "add" }}
+            htmlType="button"
             onClick={handleCreateCollection}
             disabled={!newCollectionName.trim()}
           />
@@ -102,7 +96,7 @@ interface CollectionDialogProps {
   setOpen: (val: boolean) => void;
   newCollectionName: string;
   setNewCollectionName: (val: string) => void;
-  newCollectionScope: "personal" | "org";
+  newCollectionScope: "personal" | "org" | string;
   setNewCollectionScope: (val: "personal" | "org" | string) => void;
   handleCreateCollection: () => void;
 }

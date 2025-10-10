@@ -7,7 +7,6 @@ import type { SignUpDto } from "../../api/public.types";
 import { getInitialSignupValues } from "../../constants";
 import { showNotification } from "@/shared/lib/notification";
 import { Button, Input } from "@/shared/ui";
-import { BUTTON_TYPE, HTML_TYPE } from "@/shared/ui/button/button-config";
 
 export const SignUpForm = () => {
   const { mutate: signUp, isPending: loading } = useSignUp();
@@ -82,8 +81,8 @@ export const SignUpForm = () => {
           />
           <Button
             label="Hesap Oluştur"
-            buttonType={BUTTON_TYPE.JUST_TEXT}
-            htmlType={HTML_TYPE.SUBMIT}
+            buttonType="justText"
+            htmlType="submit"
             isLoading={loading}
             disabled={!Object.values(values).every((x) => x !== "")}
           />

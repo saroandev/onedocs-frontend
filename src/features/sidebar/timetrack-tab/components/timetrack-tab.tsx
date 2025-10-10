@@ -1,12 +1,11 @@
 import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { Clock, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/timetrack-tab.module.scss";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { DateNavigator } from "./date-navigator";
-import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
+import { activities, timeSlots } from "../constants/timetrack-tab-config";
 
 export const TimetrackTab = (props: TimetrackTabProps) => {
   const { setChoosenTab } = props;
@@ -19,86 +18,6 @@ export const TimetrackTab = (props: TimetrackTabProps) => {
     goTo("/");
   };
 
-  const timeSlots = [
-    { hour: "08:00", events: [] },
-    {
-      hour: "09:00",
-      events: [{ title: "Dava Dosyası Hazırlık", duration: "2.5 saat", color: "blue" }],
-    },
-    {
-      hour: "10:00",
-      events: [{ title: "Müvekkil Toplantısı", duration: "1 saat", color: "indigo" }],
-    },
-    {
-      hour: "11:00",
-      events: [{ title: "Araştırma ve E-posta", duration: "1.75 saat", color: "green" }],
-    },
-    { hour: "12:00", events: [] },
-    { hour: "13:00", events: [] },
-    {
-      hour: "14:00",
-      events: [{ title: "Duruşma", duration: "2 saat", color: "amber" }],
-    },
-    { hour: "15:00", events: [] },
-    {
-      hour: "16:00",
-      events: [{ title: "Danışmanlık Görüşmesi", duration: "1 saat", color: "teal" }],
-    },
-    {
-      hour: "17:00",
-      events: [{ title: "Ekip Toplantısı", duration: "45dk", color: "pink" }],
-    },
-    { hour: "18:00", events: [] },
-  ];
-
-  const activities = [
-    {
-      app: "Word",
-      icon: "📝",
-      activity: "Belge Hazırlık",
-      subject: "Dava Dosyası Hazırlık",
-      time: "09:00 - 11:30",
-      duration: "2.5 saat",
-      color: "blue",
-    },
-    {
-      app: "Zoom",
-      icon: "🎥",
-      activity: "Toplantı",
-      subject: "Müvekkil Toplantısı",
-      time: "10:00 - 11:00",
-      duration: "1 saat",
-      color: "indigo",
-    },
-    {
-      app: "Chrome",
-      icon: "🌐",
-      activity: "Web Tarama",
-      subject: "Araştırma ve E-posta",
-      time: "11:00 - 12:45",
-      duration: "1.75 saat",
-      color: "green",
-    },
-    {
-      app: "Outlook",
-      icon: "📧",
-      activity: "E-posta",
-      subject: "Müvekkil Yazışmaları",
-      time: "13:00 - 13:30",
-      duration: "30dk",
-      color: "purple",
-    },
-    {
-      app: "Teams",
-      icon: "💬",
-      activity: "Toplantı",
-      subject: "Ekip Toplantısı",
-      time: "17:00 - 17:45",
-      duration: "45dk",
-      color: "pink",
-    },
-  ];
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -107,9 +26,9 @@ export const TimetrackTab = (props: TimetrackTabProps) => {
         </div>
         <Button
           label=""
-          buttonType={BUTTON_TYPE.JUST_ICON}
+          buttonType={"justIcon"}
           onClick={() => setChoosenTab(uuidv4())}
-          iconType={{ default: ICON_TYPE.CLOSE }}
+          iconType={{ default: "close" }}
         />
       </div>
 
@@ -196,24 +115,27 @@ export const TimetrackTab = (props: TimetrackTabProps) => {
           <div className={styles.noEntryContainer}>
             <div className={styles.warningBox}>
               <div className={styles.pulse}>
-                <div className={styles.pulseIndicator}></div>
+                <div className={styles.pulseIndicator} />
               </div>
               <p className={styles.warningText}>Bugün için henüz zaman girişi yapmadınız</p>
             </div>
-            <Button className={styles.addButton} onClick={handleTimeEntry}>
-              <Plus className={styles.buttonIcon} />
-              Zaman Girişi Yap
-            </Button>
+            <Button
+              label="Zaman Girişi Yap"
+              onClick={handleTimeEntry}
+              buttonType="iconWithText"
+              iconType={{ default: "plus" }}
+              iconTextReverse
+            />
           </div>
         ) : (
           <Button
-            className={styles.viewButton}
-            variant="outline"
+            label="Zaman Girişi Raporunu Görüntüle"
             onClick={() => setHasTimeEntry(false)}
-          >
-            <Clock className={styles.buttonIcon} />
-            Zaman Girişi Raporunu Görüntüle
-          </Button>
+            buttonType="iconWithText"
+            iconType={{ default: "plus" }}
+            iconTextReverse
+            variant="secondary"
+          />
         )}
       </div>
     </div>

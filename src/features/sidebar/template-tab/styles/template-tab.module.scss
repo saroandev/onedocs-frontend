@@ -184,12 +184,11 @@
 .detailHeader {
   padding: 12px 16px;
   border-bottom: 1px solid #e5e7eb;
-}
 
-.backButton {
-  gap: 8px;
-  margin-left: -8px;
-  margin-bottom: 8px;
+  .back {
+    width: fit-content;
+    margin-bottom: 10px;
+  }
 }
 
 .detailHeaderContent {

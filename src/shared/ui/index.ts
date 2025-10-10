@@ -10,6 +10,7 @@ export {
   BreadcrumbSeparator,
 } from "./breadcrumb/breadcrumb";
 export { Button } from "./button/button";
+export { BUTTON_TYPE, BUTTON_VARIANT, HTML_TYPE, ICON_TYPE } from "./button/button-config";
 export {
   Card,
   CardAction,

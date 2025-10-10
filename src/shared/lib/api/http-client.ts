@@ -30,7 +30,6 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
       const currentToken = getAccessToken();
       if (accessToken && accessToken !== currentToken) {
         usePublicStore.getState().logout();
-        window.location.href = "/";
       }
 
       return config;

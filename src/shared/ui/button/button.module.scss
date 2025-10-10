@@ -13,11 +13,11 @@
   position: relative;
   z-index: 1;
   background-color: #000;
-  // box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.25);
+  box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.25);
   font-weight: 500;
   border: 1px solid #000;
 
-  &:hover {
+  &:not(.loadingButton):hover {
     background-color: #fff;
     color: #111827;
   }
@@ -43,7 +43,6 @@
   svg {
     width: 18px;
     height: 18px;
-    // fill: #fff;
   }
 
   .progress {
@@ -107,49 +106,6 @@
   }
 }
 
-.secondary {
-  background-color: #fff;
-  color: #374151;
-  border-color: #e5e7eb;
-
-  &:hover {
-    background-color: #f3f4f6;
-    color: #1f2937;
-  }
-
-  svg {
-    // fill: #374151;
-  }
-
-  &.loadingButton {
-    circle {
-      stroke: #d1d5db;
-    }
-
-    path {
-      stroke: #465fff;
-    }
-  }
-
-  &.justIcon {
-    box-shadow: unset;
-  }
-}
-
-.tertiary {
-  background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
-  box-shadow: unset;
-
-  &:hover {
-    background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
-    color: #fff;
-  }
-
-  svg {
-    fill: #fff;
-  }
-}
-
 .justIcon {
   border-radius: 8px;
   height: 36px;
@@ -165,7 +121,7 @@
   }
 
   &:hover {
-    background-color: #f3f4f6;
+    background-color: #f3f4f6 !important;
 
     .popover {
       display: block;
@@ -175,7 +131,6 @@
   svg {
     width: 16px;
     height: 16px;
-    // fill: #1f2937;
   }
 
   &.iconTextReverse {
@@ -198,18 +153,14 @@
   }
 }
 
-.outline {
+.secondary {
   background-color: #fff;
-  color: #1f2937;
-  // box-shadow: inset 0 0 0 1px #d1d5db;
-  border: 1px solid #e5e7eb;
+  color: #374151;
+  border-color: #e5e7eb;
 
-  &:hover {
+  &:not(.loadingButton):hover {
     background-color: #f3f4f6;
-  }
-
-  svg {
-    fill: #1f2937;
+    color: #1f2937;
   }
 
   &.loadingButton {
@@ -218,42 +169,40 @@
     }
 
     path {
-      stroke: #465fff;
+      stroke: #000;
     }
-  }
-
-  &.justIcon {
-    box-shadow: unset;
   }
 }
 
-.ghost {
-  color: #1f2937;
-  // box-shadow: inset 0 0 0 1px #d1d5db;
-  border: 1px solid #e5e7eb;
-  background-color: transparent;
-  color: #1f2937;
+.tertiary {
+  background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
+  box-shadow: unset;
 
-  &:hover {
-    background-color: transparent;
+  &:not(.loadingButton):hover {
+    background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
+    color: #fff;
   }
+}
 
-  svg {
-    fill: #1f2937;
+.destructive {
+  background-color: #ef4444;
+  color: #fafafa;
+  border: none;
+
+  &:not(.loadingButton):hover {
+    background-color: #ef4444;
+    color: #fafafa;
+    opacity: 0.9;
   }
 
   &.loadingButton {
     circle {
-      stroke: #d1d5db;
+      stroke: #fafafa;
     }
 
     path {
-      stroke: #465fff;
+      stroke: #000;
     }
-  }
-
-  &.justIcon {
-    box-shadow: unset;
   }
 }
 

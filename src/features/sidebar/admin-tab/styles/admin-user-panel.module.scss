@@ -10,6 +10,10 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+
+  button {
+    width: fit-content;
+  }
 }
 
 .headerInfo {
@@ -29,24 +33,8 @@
   margin: 0;
 }
 
-.inviteButton {
-  flex-shrink: 0;
-  height: 32px;
-}
-
-.inviteIcon {
-  height: 14px;
-  width: 14px;
-  margin-right: 6px;
-}
-
 .searchSection {
   width: 100%;
-}
-
-.searchInput {
-  height: 36px;
-  font-size: 14px;
 }
 
 .usersList {
@@ -176,12 +164,6 @@
   margin: 0;
 }
 
-.mailIcon {
-  height: 16px;
-  width: 16px;
-  margin-right: 8px;
-}
-
 .editFooter {
   display: flex;
   flex-direction: column;
@@ -191,21 +173,6 @@
     flex-direction: row;
     gap: 0;
   }
-}
-
-.removeButton {
-  width: 100%;
-
-  @media (min-width: 640px) {
-    width: auto;
-    margin-right: auto;
-  }
-}
-
-.trashIcon {
-  height: 16px;
-  width: 16px;
-  margin-right: 8px;
 }
 
 .footerActions {
@@ -218,11 +185,7 @@
   }
 }
 
-.cancelButton,
-.saveButton {
-  flex: 1;
-
-  @media (min-width: 640px) {
-    flex: none;
-  }
+.destructive {
+  width: fit-content;
+  margin-right: auto;
 }

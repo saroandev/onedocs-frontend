@@ -6,7 +6,6 @@ import type { SignInDto } from "../../api/public.types";
 import { ROUTES } from "@/app/router/routes.config";
 import { Button, Checkbox, Input } from "@/shared/ui";
 import { getInitialSignInValues } from "../../constants";
-import { BUTTON_TYPE, HTML_TYPE } from "@/shared/ui/button/button-config";
 
 export const SignInForm = () => {
   const { mutate: signIn, isPending: loading } = useSignIn();
@@ -68,8 +67,8 @@ export const SignInForm = () => {
           </div>
           <Button
             label="Giriş Yap"
-            buttonType={BUTTON_TYPE.JUST_TEXT}
-            htmlType={HTML_TYPE.SUBMIT}
+            buttonType="justText"
+            htmlType="submit"
             isLoading={loading}
             disabled={!Object.values(values).every((x) => x !== "")}
           />

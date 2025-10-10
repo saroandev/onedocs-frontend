@@ -1,5 +1,13 @@
 import classnames from "classnames";
-import { BUTTON_TYPE, BUTTON_VARIANT, HTML_TYPE, ICON_TYPE } from "./button-config";
+import {
+  BUTTON_TYPE,
+  HTML_TYPE,
+  ICON_TYPE,
+  type ButtonType,
+  type ButtonVariant,
+  type HtmlType,
+  type IconType,
+} from "./button-config";
 import {
   Plus,
   MoveRight,
@@ -18,6 +26,12 @@ import {
   Check,
   Copy,
   Upload,
+  MessageSquare,
+  ChevronLeft,
+  Table,
+  UserPlus,
+  Mail,
+  LogOut,
 } from "lucide-react";
 import styles from "./button.module.scss";
 import { IconLoadingSpin } from "../icons";
@@ -51,10 +65,16 @@ export const Button = (props: Props) => {
     [ICON_TYPE.PLUS]: <Plus />,
     [ICON_TYPE.FILTER]: <SlidersHorizontal />,
     [ICON_TYPE.DOTS]: <EllipsisVertical />,
-    [ICON_TYPE.ARROW_RIGHT]: <ChevronRight />,
+    [ICON_TYPE.CHEV_RIGHT]: <ChevronRight />,
+    [ICON_TYPE.CHEV_LEFT]: <ChevronLeft />,
     [ICON_TYPE.TICK]: <Check />,
     [ICON_TYPE.COPY]: <Copy />,
     [ICON_TYPE.UPLOAD]: <Upload />,
+    [ICON_TYPE.MESSAGE]: <MessageSquare />,
+    [ICON_TYPE.TABLE]: <Table />,
+    [ICON_TYPE.USER]: <UserPlus />,
+    [ICON_TYPE.MAIL]: <Mail />,
+    [ICON_TYPE.OUT]: <LogOut />,
     [ICON_TYPE.NONE]: <></>,
   };
 
@@ -114,36 +134,13 @@ export interface Props {
   isLoading?: boolean;
   className?: string;
   iconType?: {
-    default:
-      | ICON_TYPE.NONE
-      | ICON_TYPE.DELETE
-      | ICON_TYPE.ARROW
-      | ICON_TYPE.EXPORT
-      | ICON_TYPE.ADD
-      | ICON_TYPE.DOCUMENT
-      | ICON_TYPE.UPDATE
-      | ICON_TYPE.SEARCH
-      | ICON_TYPE.CLOSE
-      | ICON_TYPE.NOTIFY
-      | ICON_TYPE.ARROW_DOWN
-      | ICON_TYPE.MINUS
-      | ICON_TYPE.PLUS
-      | ICON_TYPE.FILTER
-      | ICON_TYPE.DOTS
-      | ICON_TYPE.ARROW_RIGHT
-      | ICON_TYPE.TICK
-      | ICON_TYPE.COPY;
+    default: IconType;
     custom?: null | React.ReactElement;
   };
-  buttonType: BUTTON_TYPE.ICON_WITH_TEXT | BUTTON_TYPE.JUST_ICON | BUTTON_TYPE.JUST_TEXT;
+  buttonType: ButtonType;
   disabled?: boolean;
-  htmlType?: HTML_TYPE.BUTTON | HTML_TYPE.SUBMIT;
+  htmlType?: HtmlType;
   onClick?: (_val: React.MouseEvent<HTMLButtonElement>) => void;
   iconTextReverse?: boolean;
-  variant?:
-    | BUTTON_VARIANT.PRIMARY
-    | BUTTON_VARIANT.SECONDARY
-    | BUTTON_VARIANT.TERTIARY
-    | BUTTON_VARIANT.OUTLINE
-    | BUTTON_VARIANT.GHOST;
+  variant?: ButtonVariant;
 }

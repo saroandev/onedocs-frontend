@@ -1,36 +1,11 @@
 import { Button } from "@/shared/ui";
-import { MessageSquare, X } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/chat-tab.module.scss";
-import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
+import { todayChats, yesterdayChats } from "../constants/chat-tab-config";
 
 export const ChatTab = (props: ChatTabProps) => {
   const { setChoosenTab } = props;
-
-  const todayChats = [
-    {
-      id: "1",
-      title: "Sözleşme İncelemesi",
-      preview: "SaaS sözleşmesindeki önemli maddeleri analiz ettik...",
-      time: "15 dakika önce",
-    },
-  ];
-
-  const yesterdayChats = [
-    {
-      id: "2",
-      title: "İş Hukuku Danışma",
-      preview: "İş sözleşmesi fesih koşulları hakkında...",
-      time: "Dün, 14:30",
-    },
-    {
-      id: "3",
-      title: "Ticari Sözleşme",
-      preview: "Tedarik sözleşmesindeki teslimat koşulları...",
-      time: "Dün, 10:15",
-    },
-  ];
 
   return (
     <div className={styles.container}>
@@ -41,25 +16,23 @@ export const ChatTab = (props: ChatTabProps) => {
         </div>
         <Button
           label=""
-          buttonType={BUTTON_TYPE.JUST_ICON}
+          buttonType="justIcon"
           onClick={() => setChoosenTab(uuidv4())}
-          iconType={{ default: ICON_TYPE.CLOSE }}
+          iconType={{ default: "close" }}
         />
       </div>
 
       <div className={styles.content}>
         <div className={styles.actionBar}>
           <Button
-            size="sm"
-            className={styles.newChatButton}
+            label="Yeni Sohbet"
             onClick={() => {
               setChoosenTab(uuidv4());
-              window.location.href = "/";
             }}
-          >
-            <MessageSquare className={styles.buttonIcon} />
-            Yeni Sohbet
-          </Button>
+            buttonType={"iconWithText"}
+            iconType={{ default: "message" }}
+            iconTextReverse
+          />
         </div>
 
         <div className={styles.sectionHeader}>

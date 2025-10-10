@@ -15,17 +15,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/shared/ui";
-import { Mail, Trash2, UserPlus } from "lucide-react";
 import { useState } from "react";
 import classnames from "classnames";
 import styles from "../styles/admin-user-panel.module.scss";
-import { BUTTON_TYPE } from "@/shared/ui/button/button-config";
+import { mockUsers } from "../constants/admin-user-panel-config";
 
 export const AdminUserPanel = () => {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [inviteForm, setInviteForm] = useState({ name: "", email: "", role: "Kullanıcı" });
+  const [value, setValue] = useState("");
 
   const handleInvite = () => {
     console.log("Inviting:", inviteForm);
@@ -44,27 +44,6 @@ export const AdminUserPanel = () => {
     setEditOpen(true);
   };
 
-  const mockUsers = [
-    {
-      name: "Ahmet Yılmaz",
-      email: "ahmet@example.com",
-      role: "Admin",
-      color: "blue",
-    },
-    {
-      name: "Ayşe Demir",
-      email: "ayse@example.com",
-      role: "Kullanıcı",
-      color: "green",
-    },
-    {
-      name: "Mehmet Kaya",
-      email: "mehmet@example.com",
-      role: "Kullanıcı",
-      color: "green",
-    },
-  ];
-
   return (
     <>
       <div className={styles.container}>
@@ -73,14 +52,22 @@ export const AdminUserPanel = () => {
             <h3 className={styles.headerTitle}>Takım Üyeleri</h3>
             <p className={styles.headerDescription}>Ekip üyelerinizi yönetin ve roller atayın</p>
           </div>
-          <Button size="sm" className={styles.inviteButton} onClick={() => setInviteOpen(true)}>
-            <UserPlus className={styles.inviteIcon} />
-            Davet Et
-          </Button>
+          <Button
+            label="Davet Et"
+            onClick={() => setInviteOpen(true)}
+            buttonType="iconWithText"
+            iconType={{ default: "user" }}
+            iconTextReverse
+          />
         </div>
 
         <div className={styles.searchSection}>
-          <Input placeholder="İsim veya e-posta ile ara..." className={styles.searchInput} />
+          <Input
+            placeholder="İsim veya e-posta ile ara..."
+            className={styles.searchInput}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
         </div>
 
         <div className={styles.usersList}>
@@ -102,7 +89,7 @@ export const AdminUserPanel = () => {
                   label="Düzenle"
                   className={styles.editButton}
                   onClick={() => openEditDialog(user)}
-                  buttonType={BUTTON_TYPE.JUST_TEXT}
+                  buttonType="justText"
                 />
               </div>
             </div>
@@ -110,7 +97,6 @@ export const AdminUserPanel = () => {
         </div>
       </div>
 
-      {/* Invite Dialog */}
       <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
         <DialogContent>
           <DialogHeader>
@@ -121,18 +107,18 @@ export const AdminUserPanel = () => {
           </DialogHeader>
           <div className={styles.dialogContent}>
             <div className={styles.formField}>
-              <Label htmlFor="invite-name">İsim</Label>
               <Input
-                id="invite-name"
+                label="İsim"
+                name="invite-name"
                 placeholder="Kullanıcı adı"
                 value={inviteForm.name}
                 onChange={(e) => setInviteForm({ ...inviteForm, name: e.target.value })}
               />
             </div>
             <div className={styles.formField}>
-              <Label htmlFor="invite-email">E-posta</Label>
               <Input
-                id="invite-email"
+                label="E-posta"
+                name="invite-email"
                 type="email"
                 placeholder="ornek@sirket.com"
                 value={inviteForm.email}
@@ -156,13 +142,19 @@ export const AdminUserPanel = () => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setInviteOpen(false)}>
-              İptal
-            </Button>
-            <Button onClick={handleInvite}>
-              <Mail className={styles.mailIcon} />
-              Davet Gönder
-            </Button>
+            <Button
+              label="İptal"
+              onClick={() => setInviteOpen(false)}
+              buttonType="justText"
+              variant="secondary"
+            />
+            <Button
+              label="Davet Gönder"
+              onClick={handleInvite}
+              buttonType="iconWithText"
+              iconType={{ default: "mail" }}
+              iconTextReverse
+            />
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -179,23 +171,25 @@ export const AdminUserPanel = () => {
           {selectedUser && (
             <div className={styles.dialogContent}>
               <div className={styles.formField}>
-                <Label htmlFor="edit-name">İsim</Label>
                 <Input
-                  id="edit-name"
+                  label="İsim"
+                  name="edit-name"
                   placeholder="Kullanıcı adı"
-                  value={selectedUser.name}
+                  // value={selectedUser.name}
+                  onChange={(e) => console.log(e.target.value)}
                   disabled
                   className={styles.disabledInput}
                 />
                 <p className={styles.fieldHint}>İsim değiştirilemez</p>
               </div>
               <div className={styles.formField}>
-                <Label htmlFor="edit-email">E-posta</Label>
                 <Input
-                  id="edit-email"
+                  name="edit-email"
+                  label="E-posta"
                   type="email"
+                  onChange={(e) => console.log(e.target.value)}
                   placeholder="ornek@sirket.com"
-                  value={selectedUser.email}
+                  // value={selectedUser.email}
                   disabled
                   className={styles.disabledInput}
                 />
@@ -222,27 +216,25 @@ export const AdminUserPanel = () => {
           )}
           <DialogFooter className={styles.editFooter}>
             <Button
-              variant="destructive"
-              className={styles.removeButton}
+              label="Kullanıcıyı Kaldır"
               onClick={() => {
                 console.log("Removing user:", selectedUser);
                 setEditOpen(false);
               }}
-            >
-              <Trash2 className={styles.trashIcon} />
-              Kullanıcıyı Kaldır
-            </Button>
+              buttonType="iconWithText"
+              iconType={{ default: "delete" }}
+              iconTextReverse
+              variant="destructive"
+              className={styles.destructive}
+            />
             <div className={styles.footerActions}>
               <Button
-                variant="outline"
+                label="İptal"
                 onClick={() => setEditOpen(false)}
-                className={styles.cancelButton}
-              >
-                İptal
-              </Button>
-              <Button onClick={handleEdit} className={styles.saveButton}>
-                Kaydet
-              </Button>
+                buttonType="justText"
+                variant="secondary"
+              />
+              <Button label="Kaydet" onClick={handleEdit} buttonType="justText" />
             </div>
           </DialogFooter>
         </DialogContent>

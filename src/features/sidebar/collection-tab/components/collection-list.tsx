@@ -1,4 +1,3 @@
-// CollectionList.jsx
 import {
   Button,
   DropdownMenu,
@@ -9,24 +8,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/shared/ui";
-import {
-  Check,
-  ChevronLeft,
-  FileText,
-  FolderOpen,
-  MessageSquare,
-  MoreVertical,
-  Upload,
-} from "lucide-react";
+import { Check, FileText, FolderOpen } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/collection-list.module.scss";
-import {
-  BUTTON_TYPE,
-  BUTTON_VARIANT,
-  HTML_TYPE,
-  ICON_TYPE,
-} from "@/shared/ui/button/button-config";
 
 export const CollectionList = (props: CollectionListProps) => {
   const {
@@ -57,9 +42,9 @@ export const CollectionList = (props: CollectionListProps) => {
             </div>
             <Button
               label=""
-              buttonType={BUTTON_TYPE.JUST_ICON}
+              buttonType="justIcon"
               onClick={() => setChoosenTab(uuidv4())}
-              iconType={{ default: ICON_TYPE.CLOSE }}
+              iconType={{ default: "close" }}
             />
           </div>
 
@@ -67,9 +52,10 @@ export const CollectionList = (props: CollectionListProps) => {
             <div className={styles.actionsBar}>
               <Button
                 label="Yeni Koleksiyon"
-                buttonType={BUTTON_TYPE.ICON_WITH_TEXT}
+                buttonType={"iconWithText"}
                 onClick={() => setNewCollectionDialogOpen(true)}
-                iconType={{ default: ICON_TYPE.DOCUMENT }}
+                iconType={{ default: "document" }}
+                iconTextReverse
               />
             </div>
 
@@ -100,10 +86,13 @@ export const CollectionList = (props: CollectionListProps) => {
 
             {selectedCollectionIds.length > 0 && (
               <div className={styles.actionsBar}>
-                <Button size="sm" onClick={handleAskAssistant} className={styles.askButton}>
-                  <MessageSquare size={16} />
-                  Asistana Sor ({selectedCollectionIds.length})
-                </Button>
+                <Button
+                  label={`Asistana Sor ${selectedCollectionIds.length}`}
+                  onClick={handleAskAssistant}
+                  buttonType={"iconWithText"}
+                  iconType={{ default: "message" }}
+                  iconTextReverse
+                />
               </div>
             )}
 
@@ -155,15 +144,15 @@ export const CollectionList = (props: CollectionListProps) => {
       {selectedCollectionId && selectedCollection && (
         <div className={styles.detailView}>
           <div className={styles.detailHeader}>
-            <div
-              // variant="ghost"
-              // size="sm"
-              className={styles.backButton}
+            <Button
+              label="Geri"
               onClick={() => setSelectedCollectionId(null)}
-            >
-              <ChevronLeft size={16} />
-              Geri
-            </div>
+              buttonType="iconWithText"
+              iconType={{ default: "chevron-left" }}
+              iconTextReverse
+              variant="secondary"
+              className={styles.back}
+            />
 
             <div className={styles.detailHeaderContent}>
               <div className={styles.headerContent}>
@@ -172,17 +161,13 @@ export const CollectionList = (props: CollectionListProps) => {
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <div
-                    // variant="ghost"
-                    // size="icon"
-                    className={styles.moreButton}
-                  >
-                    <MoreVertical size={16} />
+                  <div>
+                    <Button label="" buttonType="justIcon" iconType={{ default: "dots" }} />
                   </div>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem>Düzenle</DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive">Sil</DropdownMenuItem>
+                  <DropdownMenuItem className={styles.dropdownRemove}>Sil</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -196,26 +181,22 @@ export const CollectionList = (props: CollectionListProps) => {
               onChange={handleFileSelected}
               accept=".pdf,.doc,.docx,.txt,.xlsx,.xls,.ppt,.pptx"
             />
-
             <div className={styles.uploadActions}>
               <Button
-                size="sm"
+                label="Dosya Yükle"
                 onClick={() => fileInputRef.current?.click()}
-                className={styles.uploadButton}
-              >
-                <Upload size={16} />
-                Dosya Yükle
-              </Button>
-
+                buttonType={"iconWithText"}
+                iconType={{ default: "upload" }}
+                iconTextReverse
+              />
               <Button
-                size="sm"
-                variant="outline"
-                onClick={handleAskAssistant}
-                className={styles.uploadButton}
-              >
-                <MessageSquare size={16} />
-                Asistana Sor
-              </Button>
+                label="Asistana Sor"
+                onClick={() => fileInputRef.current?.click()}
+                buttonType={"iconWithText"}
+                iconType={{ default: "message" }}
+                iconTextReverse
+                variant="secondary"
+              />
             </div>
 
             <div className={styles.statsBar}>
@@ -244,24 +225,18 @@ export const CollectionList = (props: CollectionListProps) => {
                       </div>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <div
-                            // variant="ghost"
-                            // size="icon"
-                            className={styles.documentMoreBtn}
-                          >
-                            <MoreVertical size={16} />
+                          <div>
+                            <Button label="" buttonType="justIcon" iconType={{ default: "dots" }} />
                           </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem>İndir</DropdownMenuItem>
                           <DropdownMenuItem>Yeniden adlandır</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">Sil</DropdownMenuItem>
+                          <DropdownMenuItem className={styles.dropdownRemove}>Sil</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
-
-                    <div className={styles.documentDivider}></div>
-
+                    <div className={styles.documentDivider} />
                     <div className={styles.documentMeta}>
                       <div className={styles.metaRow}>
                         <span className={styles.metaLabel}>Ekleme tarihi</span>
@@ -319,7 +294,7 @@ interface CollectionListProps {
     scope: "personal" | "org";
   }[];
   toggleCollectionSelection: (val: string) => void;
-  activeScope: "personal" | "org";
+  activeScope: "personal" | "org" | string;
   setActiveScope: (val: "personal" | "org" | string) => void;
   selectedCollection:
     | {

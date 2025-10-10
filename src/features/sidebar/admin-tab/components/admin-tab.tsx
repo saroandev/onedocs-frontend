@@ -5,7 +5,6 @@ import styles from "../styles/admin-tab.module.scss";
 import { AdminUserPanel } from "./admin-user-panel";
 import { AdminOrgPanel } from "./admin-org-panel";
 import { v4 as uuidv4 } from "uuid";
-import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const AdminTab = (props: AdminTabProps) => {
   const { setChoosenTab } = props;
@@ -20,9 +19,9 @@ export const AdminTab = (props: AdminTabProps) => {
         </div>
         <Button
           label=""
-          buttonType={BUTTON_TYPE.JUST_ICON}
+          buttonType="justIcon"
           onClick={() => setChoosenTab(uuidv4())}
-          iconType={{ default: ICON_TYPE.CLOSE }}
+          iconType={{ default: "close" }}
         />
       </div>
 

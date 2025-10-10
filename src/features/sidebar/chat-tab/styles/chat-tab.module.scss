@@ -61,12 +61,8 @@
 }
 
 .actionBar {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.newChatButton {
-  justify-content: flex-start;
+  width: fit-content;
+  margin-left: auto;
 }
 
 .buttonIcon {

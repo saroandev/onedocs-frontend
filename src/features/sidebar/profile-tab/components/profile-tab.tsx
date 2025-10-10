@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   Dialog,
@@ -9,16 +10,18 @@ import {
   Input,
   Label,
 } from "@/shared/ui";
-import { Building2, Check, ChevronLeft, Lock, LogOut, X } from "lucide-react";
+import { Building2, Check, ChevronLeft, Lock } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/profile-tab.module.scss";
-import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 export const ProfileTab = (props: ProfileTabProps) => {
   const { setChoosenTab } = props;
   const [orgSwitchModalOpen, setOrgSwitchModalOpen] = useState(false);
-  const [selectedOrg, setSelectedOrg] = useState("onedocs");
+  const [_selectedOrg, setSelectedOrg] = useState("onedocs");
+  const [value1, setValue1] = useState("");
+  const [value2, setValue2] = useState("");
+  const [value3, setValue3] = useState("");
 
   return (
     <>
@@ -30,9 +33,9 @@ export const ProfileTab = (props: ProfileTabProps) => {
           </div>
           <Button
             label=""
-            buttonType={BUTTON_TYPE.JUST_ICON}
+            buttonType={"justIcon"}
             onClick={() => setChoosenTab(uuidv4())}
-            iconType={{ default: ICON_TYPE.CLOSE }}
+            iconType={{ default: "close" }}
           />
         </div>
 
@@ -57,49 +60,46 @@ export const ProfileTab = (props: ProfileTabProps) => {
             </div>
             <div className={styles.formFields}>
               <div className={styles.field}>
-                <Label htmlFor="current-password" className={styles.label}>
-                  Mevcut Şifre
-                </Label>
                 <Input
-                  id="current-password"
+                  value={value1}
+                  onChange={(e) => setValue1(e.target.value)}
+                  label="Mevcut Şifre"
+                  name="current-password"
                   type="password"
                   placeholder="••••••••"
-                  className={styles.input}
                 />
               </div>
               <div className={styles.field}>
-                <Label htmlFor="new-password" className={styles.label}>
-                  Yeni Şifre
-                </Label>
                 <Input
-                  id="new-password"
+                  value={value2}
+                  onChange={(e) => setValue2(e.target.value)}
+                  label="Yeni Şifre"
+                  name="new-password"
                   type="password"
                   placeholder="••••••••"
-                  className={styles.input}
                 />
               </div>
               <div className={styles.field}>
-                <Label htmlFor="confirm-password" className={styles.label}>
-                  Yeni Şifre (Tekrar)
-                </Label>
                 <Input
-                  id="confirm-password"
+                  value={value3}
+                  onChange={(e) => setValue3(e.target.value)}
+                  label="Yeni Şifre (Tekrar)"
+                  name="confirm-password"
                   type="password"
                   placeholder="••••••••"
-                  className={styles.input}
                 />
               </div>
-              <Button size="sm" className={styles.updateButton}>
-                Şifreyi Güncelle
-              </Button>
+              <Button label="Şifreyi Güncelle" buttonType="justText" />
             </div>
           </div>
 
           <div className={styles.logoutSection}>
-            <Button variant="destructive" className={styles.logoutButton} size="sm">
-              <LogOut className={styles.logoutIcon} />
-              Çıkış Yap
-            </Button>
+            <Button
+              label="Çıkış Yap"
+              buttonType="iconWithText"
+              variant="destructive"
+              iconTextReverse
+            />
           </div>
         </div>
       </div>
@@ -151,9 +151,12 @@ export const ProfileTab = (props: ProfileTabProps) => {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOrgSwitchModalOpen(false)}>
-              Kapat
-            </Button>
+            <Button
+              label="Kapat"
+              buttonType="justText"
+              variant="secondary"
+              onClick={() => setOrgSwitchModalOpen(false)}
+            />
           </DialogFooter>
         </DialogContent>
       </Dialog>

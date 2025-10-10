@@ -292,7 +292,7 @@
   gap: 8px;
   padding: 8px 12px;
   border-radius: 6px;
-  background-color: #fef3c7;
+  background-color: #fffbeb;
   border: 1px solid #fcd34d;
 }
 
@@ -323,26 +323,4 @@
   color: #92400e;
   font-weight: 500;
   margin: 0;
-}
-
-.addButton {
-  width: 100%;
-  background-color: #f59e0b;
-  color: white;
-  border: none;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-  &:hover {
-    background-color: #d97706;
-  }
-}
-
-.viewButton {
-  width: 100%;
-}
-
-.buttonIcon {
-  height: 16px;
-  width: 16px;
-  margin-right: 8px;
 }

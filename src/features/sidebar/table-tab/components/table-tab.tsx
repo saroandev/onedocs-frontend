@@ -5,7 +5,6 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/table-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
-import { BUTTON_TYPE, ICON_TYPE } from "@/shared/ui/button/button-config";
 
 interface TableTabProps {
   setChoosenTab: (val: string) => void;
@@ -152,9 +151,9 @@ export const TableTab = (props: TableTabProps) => {
             </div>
             <Button
               label=""
-              buttonType={BUTTON_TYPE.JUST_ICON}
+              buttonType="justIcon"
               onClick={() => setChoosenTab(uuidv4())}
-              iconType={{ default: ICON_TYPE.CLOSE }}
+              iconType={{ default: "close" }}
             />
           </div>
 
@@ -205,15 +204,15 @@ export const TableTab = (props: TableTabProps) => {
       {selectedTable && (
         <div className={styles.detailView}>
           <div className={styles.detailHeader}>
-            <div
-              // variant="ghost"
-              // size="sm"
-              className={styles.backButton}
+            <Button
+              label="Geri"
               onClick={() => setSelectedTable(null)}
-            >
-              <ChevronLeft size={16} />
-              Geri
-            </div>
+              buttonType="iconWithText"
+              iconType={{ default: "chevron-left" }}
+              iconTextReverse
+              variant="secondary"
+              className={styles.back}
+            />
 
             <div className={styles.detailHeaderContent}>
               <div>
@@ -225,10 +224,13 @@ export const TableTab = (props: TableTabProps) => {
 
           <div className={styles.detailContent}>
             <div className={styles.actionBar}>
-              <Button size="sm" className={styles.useButton} onClick={handleUseTable}>
-                <Table className={styles.buttonIcon} />
-                Tabloyu Kullan
-              </Button>
+              <Button
+                onClick={handleUseTable}
+                label="Tabloyu Kullan"
+                buttonType={"iconWithText"}
+                iconType={{ default: "table" }}
+                iconTextReverse
+              />
             </div>
 
             <div className={styles.infoCard}>

@@ -1,4 +1,4 @@
-import { Button, Input, Label } from "@/shared/ui";
+import { Button, Input } from "@/shared/ui";
 import { useState } from "react";
 import styles from "../styles/admin-org-panel.module.scss";
 
@@ -19,38 +19,30 @@ export const AdminOrgPanel = () => {
 
       <div className={styles.formSection}>
         <div className={styles.formField}>
-          <Label htmlFor="org-name" className={styles.fieldLabel}>
-            Organizasyon İsmi
-          </Label>
           <Input
-            id="org-name"
+            label="Organizasyon İsmi"
+            name="org-name"
             value={orgName}
             onChange={(e) => setOrgName(e.target.value)}
             placeholder="Organizasyon ismini girin"
-            className={styles.input}
           />
           <p className={styles.fieldHint}>Bu isim sistem genelinde görünecektir</p>
         </div>
 
         <div className={styles.formField}>
-          <Label htmlFor="assistant-name" className={styles.fieldLabel}>
-            Hukuk Asistanı İsmi
-          </Label>
           <Input
-            id="assistant-name"
+            label="Hukuk Asistanı İsmi"
+            name="assistant-name"
             value={assistantName}
             onChange={(e) => setAssistantName(e.target.value)}
             placeholder="Asistan ismini girin"
-            className={styles.input}
           />
           <p className={styles.fieldHint}>Bu isim sohbetlerde ve bildirimlerde kullanılacaktır</p>
         </div>
       </div>
 
       <div className={styles.actionSection}>
-        <Button onClick={handleSave} className={styles.saveButton}>
-          Değişiklikleri Kaydet
-        </Button>
+        <Button label="Değişiklikleri Kaydet" onClick={handleSave} buttonType="justText" />
       </div>
 
       <div className={styles.tipCard}>
