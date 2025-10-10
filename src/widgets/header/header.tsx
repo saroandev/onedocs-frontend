@@ -3,7 +3,7 @@ import { CirclePlus, Menu } from "lucide-react";
 import { useState } from "react";
 import classNames from "classnames";
 import { Sidebar } from "../sidebar";
-import styles from "./Header.module.scss";
+import styles from "./header.module.scss";
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
