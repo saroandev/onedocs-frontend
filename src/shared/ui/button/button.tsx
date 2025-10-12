@@ -32,6 +32,11 @@ import {
   UserPlus,
   Mail,
   LogOut,
+  Paperclip,
+  ArrowUp,
+  Library,
+  ThumbsUp,
+  ThumbsDown,
 } from "lucide-react";
 import styles from "./button.module.scss";
 import { IconLoadingSpin } from "../icons";
@@ -61,6 +66,7 @@ export const Button = (props: Props) => {
     [ICON_TYPE.CLOSE]: <X />,
     [ICON_TYPE.NOTIFY]: <Bell />,
     [ICON_TYPE.ARROW_DOWN]: <ChevronDown />,
+    [ICON_TYPE.ARROW_UP]: <ArrowUp />,
     [ICON_TYPE.MINUS]: <Minus />,
     [ICON_TYPE.PLUS]: <Plus />,
     [ICON_TYPE.FILTER]: <SlidersHorizontal />,
@@ -75,6 +81,10 @@ export const Button = (props: Props) => {
     [ICON_TYPE.USER]: <UserPlus />,
     [ICON_TYPE.MAIL]: <Mail />,
     [ICON_TYPE.OUT]: <LogOut />,
+    [ICON_TYPE.PAPERCLIP]: <Paperclip />,
+    [ICON_TYPE.LIBRARY]: <Library />,
+    [ICON_TYPE.LIKE]: <ThumbsUp />,
+    [ICON_TYPE.DISLIKE]: <ThumbsDown />,
     [ICON_TYPE.NONE]: <></>,
   };
 

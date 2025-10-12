@@ -12,12 +12,12 @@ import { Check, FileText, FolderOpen } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/collection-list.module.scss";
+import { useUIStore } from "@/shared/store/ui.store";
 
 export const CollectionList = (props: CollectionListProps) => {
   const {
     selectedCollectionId,
     setSelectedCollectionId,
-    setChoosenTab,
     setNewCollectionDialogOpen,
     handleAskAssistant,
     selectedCollectionIds,
@@ -30,6 +30,7 @@ export const CollectionList = (props: CollectionListProps) => {
     handleFileSelected,
     documents,
   } = props;
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
 
   return (
     <div className={styles.collectionContainer}>
@@ -279,7 +280,6 @@ interface Document {
 interface CollectionListProps {
   selectedCollectionId: string | null;
   setSelectedCollectionId: (val: string | null) => void;
-  setChoosenTab: (val: string) => void;
   setNewCollectionDialogOpen: (val: boolean) => void;
   handleAskAssistant: () => void;
   selectedCollectionIds: string[];

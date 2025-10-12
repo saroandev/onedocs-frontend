@@ -1,15 +1,13 @@
-import { v4 as uuidv4 } from "uuid";
-
 export const SIDEBAR_MENU_IDS = {
-  CHAT: uuidv4(),
-  PLAYBOOK: uuidv4(),
-  COLLECTION: uuidv4(),
-  TEMPLATE: uuidv4(),
-  TABLE: uuidv4(),
-  CLIENT_PORTAL: uuidv4(),
-  TIME_TRACK: uuidv4(),
-  ADMIN: uuidv4(),
-  PROFILE: uuidv4(),
+  CHAT: "hukuk-asistani",
+  PLAYBOOK: "playbook",
+  COLLECTION: "koleksiyonlar",
+  TEMPLATE: "template",
+  TABLE: "table",
+  CLIENT_PORTAL: "client-portal",
+  TIME_TRACK: "time-track",
+  ADMIN: "admin",
+  PROFILE: "profile",
 };
 
 export const SIDEBAR_MENU_TOP = [

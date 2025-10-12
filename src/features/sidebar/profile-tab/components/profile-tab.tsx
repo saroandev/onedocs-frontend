@@ -12,11 +12,11 @@ import {
 } from "@/shared/ui";
 import { Building2, Check, ChevronLeft, Lock } from "lucide-react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/profile-tab.module.scss";
+import { useUIStore } from "@/shared/store/ui.store";
 
-export const ProfileTab = (props: ProfileTabProps) => {
-  const { setChoosenTab } = props;
+export const ProfileTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [orgSwitchModalOpen, setOrgSwitchModalOpen] = useState(false);
   const [_selectedOrg, setSelectedOrg] = useState("onedocs");
   const [value1, setValue1] = useState("");
@@ -34,7 +34,7 @@ export const ProfileTab = (props: ProfileTabProps) => {
           <Button
             label=""
             buttonType={"justIcon"}
-            onClick={() => setChoosenTab(uuidv4())}
+            onClick={() => setChoosenTab("")}
             iconType={{ default: "close" }}
           />
         </div>
@@ -163,7 +163,3 @@ export const ProfileTab = (props: ProfileTabProps) => {
     </>
   );
 };
-
-interface ProfileTabProps {
-  setChoosenTab: (val: string) => void;
-}

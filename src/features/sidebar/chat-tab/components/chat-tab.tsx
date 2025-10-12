@@ -1,11 +1,11 @@
 import { Button } from "@/shared/ui";
-import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/chat-tab.module.scss";
 import { todayChats, yesterdayChats } from "../constants/chat-tab-config";
+import { useUIStore } from "@/shared/store/ui.store";
 
-export const ChatTab = (props: ChatTabProps) => {
-  const { setChoosenTab } = props;
+export const ChatTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
 
   return (
     <div className={styles.container}>
@@ -17,7 +17,7 @@ export const ChatTab = (props: ChatTabProps) => {
         <Button
           label=""
           buttonType="justIcon"
-          onClick={() => setChoosenTab(uuidv4())}
+          onClick={() => setChoosenTab("")}
           iconType={{ default: "close" }}
         />
       </div>
@@ -27,7 +27,7 @@ export const ChatTab = (props: ChatTabProps) => {
           <Button
             label="Yeni Sohbet"
             onClick={() => {
-              setChoosenTab(uuidv4());
+              setChoosenTab("");
             }}
             buttonType={"iconWithText"}
             iconType={{ default: "message" }}
@@ -66,7 +66,3 @@ export const ChatTab = (props: ChatTabProps) => {
     </div>
   );
 };
-
-interface ChatTabProps {
-  setChoosenTab: (val: string) => void;
-}

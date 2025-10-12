@@ -2,16 +2,12 @@
 import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { BookMarked } from "lucide-react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/playbook-tab.module.scss";
 import { playbooks } from "../constants/playbook-tab-config";
+import { useUIStore } from "@/shared/store/ui.store";
 
-interface PlaybookTabProps {
-  setChoosenTab: (val: string) => void;
-}
-
-export const PlaybookTab = (props: PlaybookTabProps) => {
-  const { setChoosenTab } = props;
+export const PlaybookTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
 
   const [selectedPlaybook, setSelectedPlaybook] = useState<(typeof playbooks)[0] | null>(null);
   const [activePlaybookScope, setActivePlaybookScope] = useState<"personal" | "org" | string>(
@@ -32,7 +28,7 @@ export const PlaybookTab = (props: PlaybookTabProps) => {
             <Button
               label=""
               buttonType="justIcon"
-              onClick={() => setChoosenTab(uuidv4())}
+              onClick={() => setChoosenTab("")}
               iconType={{ default: "close" }}
             />
           </div>

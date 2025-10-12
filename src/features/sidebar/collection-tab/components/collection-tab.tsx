@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { CollectionDialog } from "./collection-dialog";
 import { CollectionList } from "./collection-list";
 import { documentsData, mockCollectionData } from "../constants/collection-tab-config";
+import { useUIStore } from "@/shared/store/ui.store";
 
-export const CollectionTab = (props: CollectionTabProps) => {
-  const { setChoosenTab } = props;
-
+export const CollectionTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
   const [newCollectionName, setNewCollectionName] = useState("");
   const [newCollectionScope, setNewCollectionScope] = useState<"personal" | "org" | string>(
@@ -61,7 +60,7 @@ export const CollectionTab = (props: CollectionTabProps) => {
     window.dispatchEvent(event);
 
     // Close the knowledge base panel
-    setChoosenTab(uuidv4());
+    setChoosenTab("");
 
     // Navigate to chat
     // router.push("/");
@@ -123,7 +122,6 @@ export const CollectionTab = (props: CollectionTabProps) => {
       <CollectionList
         selectedCollectionId={selectedCollectionId}
         setSelectedCollectionId={setSelectedCollectionId}
-        setChoosenTab={setChoosenTab}
         setNewCollectionDialogOpen={setNewCollectionDialogOpen}
         handleAskAssistant={handleAskAssistant}
         selectedCollectionIds={selectedCollectionIds}
@@ -159,8 +157,4 @@ interface Document {
   uploadedBy: string;
   content?: string | null;
   userId: string;
-}
-
-interface CollectionTabProps {
-  setChoosenTab: (val: string) => void;
 }

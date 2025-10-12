@@ -1,20 +1,20 @@
 import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/timetrack-tab.module.scss";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { DateNavigator } from "./date-navigator";
 import { activities, timeSlots } from "../constants/timetrack-tab-config";
+import { useUIStore } from "@/shared/store/ui.store";
 
-export const TimetrackTab = (props: TimetrackTabProps) => {
-  const { setChoosenTab } = props;
+export const TimetrackTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [timeTrackingTab, setTimeTrackingTab] = useState("calendar");
   const [hasTimeEntry, setHasTimeEntry] = useState(false);
   const { goTo } = useAppNavigation();
 
   const handleTimeEntry = () => {
-    setChoosenTab(uuidv4());
+    setChoosenTab("");
     goTo("/");
   };
 
@@ -27,7 +27,7 @@ export const TimetrackTab = (props: TimetrackTabProps) => {
         <Button
           label=""
           buttonType={"justIcon"}
-          onClick={() => setChoosenTab(uuidv4())}
+          onClick={() => setChoosenTab("")}
           iconType={{ default: "close" }}
         />
       </div>
@@ -141,7 +141,3 @@ export const TimetrackTab = (props: TimetrackTabProps) => {
     </div>
   );
 };
-
-interface TimetrackTabProps {
-  setChoosenTab: (val: string) => void;
-}

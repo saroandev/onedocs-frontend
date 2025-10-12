@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { ChevronLeft, FileText, X } from "lucide-react";
+import { FileText } from "lucide-react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/template-tab.module.scss";
 import { templates } from "../constants/template-tab-config";
+import { useUIStore } from "@/shared/store/ui.store";
 
-export const TemplateTab = (props: TemplateTabProps) => {
-  const { setChoosenTab } = props;
+export const TemplateTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [selectedTemplate, setSelectedTemplate] = useState<(typeof templates)[0] | null>(null);
   const [activeTemplateScope, setActiveTemplateScope] = useState<"personal" | "org" | string>(
     "personal"
@@ -27,7 +27,7 @@ export const TemplateTab = (props: TemplateTabProps) => {
             <Button
               label=""
               buttonType={"justIcon"}
-              onClick={() => setChoosenTab(uuidv4())}
+              onClick={() => setChoosenTab("")}
               iconType={{ default: "close" }}
             />
           </div>
@@ -140,7 +140,3 @@ export const TemplateTab = (props: TemplateTabProps) => {
     </div>
   );
 };
-
-interface TemplateTabProps {
-  setChoosenTab: (val: string) => void;
-}

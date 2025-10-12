@@ -74,20 +74,12 @@ a {
   text-decoration: none;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f8f9fa;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
-  border-radius: 4px;
-
-  &:hover {
-    background: #9ca3af;
+@media (max-width: 480px) {
+  .Toastify__toast-container {
+    width: 320px !important;
+    padding: 4px !important;
+    left: unset !important;
+    margin: unset !important;
+    top: 30px !important;
   }
 }

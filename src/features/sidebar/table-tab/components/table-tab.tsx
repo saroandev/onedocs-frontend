@@ -1,128 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
-import { ChevronLeft, Table, X } from "lucide-react";
+import { Table } from "lucide-react";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/table-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
+import { tables } from "../constants/table-tab-config";
 
-interface TableTabProps {
-  setChoosenTab: (val: string) => void;
-}
-
-export const TableTab = (props: TableTabProps) => {
-  const { setChoosenTab } = props;
+export const TableTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [selectedTable, setSelectedTable] = useState<(typeof tables)[0] | null>(null);
   const [activeTableScope, setActiveTableScope] = useState<"personal" | "org" | string>("personal");
   const setTableName = useUIStore((state) => state.setTableName);
   const setTableColumns = useUIStore((state) => state.setTableColumns);
   const setDataGridOpen = useUIStore((state) => state.setDataGridOpen);
-
-  const tables = [
-    {
-      id: "tb1",
-      title: "Rekabet Kurumu Kararlarını Karşılaştır",
-      description:
-        "Rekabet Kurumu kararlarını karar no, tarih, konu, taraflar, ihlal türü ve yaptırım bakımından karşılaştırarak analiz edin.",
-      category: "Karşılaştırmalı Analiz",
-      lastUpdated: "Bugün",
-      scope: "personal" as "personal" | "org",
-      columns: [
-        { name: "Karar No", prompt: "Kararın referans numarasını girin (örn: 21-45/678-M)" },
-        { name: "Karar Tarihi", prompt: "Kararın verildiği tarihi yazın (GG.AA.YYYY)" },
-        { name: "Konu", prompt: "Kararın konusunu özetleyin" },
-        { name: "Taraflar", prompt: "Karara konu olan tarafları listeleyin" },
-        { name: "İhlal Türü", prompt: "Tespit edilen ihlal türünü belirtin" },
-      ],
-      useCase: "Rekabet Kurumu kararlarını sistematik olarak karşılaştırma ve analiz etme",
-    },
-    {
-      id: "tb2",
-      title: 'Kira Sözleşmelerinde "Change of Control" Maddesi Analizi',
-      description:
-        "Kira sözleşmelerinde şirket kontrol değişikliği hâllerine ilişkin maddeyi tespit edip kapsam ve yaptırımları kıyaslayın.",
-      category: "Madde Analizi",
-      lastUpdated: "Bugün",
-      scope: "personal" as "personal" | "org",
-      columns: [
-        { name: "Sözleşme Adı", prompt: "Kira sözleşmesinin adını yazın" },
-        { name: "Taraflar", prompt: "Kiraya veren ve kiracı bilgilerini girin" },
-        { name: "Tarih", prompt: "Sözleşme tarihini belirtin" },
-        {
-          name: "Change of Control Var mı?",
-          prompt: "Kontrol değişikliği maddesi var mı? (Evet/Hayır)",
-        },
-        { name: "Bildirim Süresi", prompt: "Bildirim yapılması gereken süreyi yazın" },
-      ],
-      useCase: "Kira sözleşmelerinde kontrol değişikliği maddelerinin detaylı incelemesi",
-    },
-    {
-      id: "tb3",
-      title: "Gizlilik (NDA) Sözleşmelerinden Yapılandırılmış Veri Çıkarma",
-      description:
-        "NDA'lardaki taraflar, kapsam, süre ve istisnalar yapılandırılmış tabloya aktarın.",
-      category: "Veri Çıkarma",
-      lastUpdated: "Dün",
-      scope: "personal" as "personal" | "org",
-      columns: [
-        { name: "Sözleşme Adı", prompt: "NDA sözleşmesinin adını girin" },
-        { name: "Taraf(lar)", prompt: "Gizlilik yükümlülüğü altındaki tarafları listeleyin" },
-        { name: "Gizli Bilgi Tanımı", prompt: "Gizli bilginin kapsamını özetleyin" },
-        { name: "Amaç", prompt: "NDA'nın amaçlarını belirtin" },
-        { name: "Süre", prompt: "Gizlilik yükümlülüğünün süresini yazın" },
-      ],
-      useCase: "NDA'lardaki önemli bilgileri yapılandırılmış formatta toplama",
-    },
-    {
-      id: "tb4",
-      title: "Avukat/Stajyer Özgeçmişlerini Kriter Bazlı Karşılaştırma",
-      description:
-        "Adayların deneyim, uzmanlık, dil ve teknik becerilerini kıyaslayarak hızlı değerlendirme yapın.",
-      category: "İnsan Kaynakları",
-      lastUpdated: "2 gün önce",
-      scope: "org" as "personal" | "org",
-      columns: [
-        { name: "Ad Soyad", prompt: "Adayın tam adını yazın" },
-        { name: "Deneyim (Yıl)", prompt: "Toplam çalışma yılını girin" },
-        { name: "Uzmanlık Alanı", prompt: "Hukuk dallarındaki uzmanlıklarını listeleyin" },
-        { name: "Dil", prompt: "Bildiği yabancı dilleri belirtin" },
-        { name: "Teknik Beceriler", prompt: "Yazılım ve araç kullanım becerilerini yazın" },
-      ],
-      useCase: "Aday değerlendirme sürecinde sistematik karşılaştırma",
-    },
-    {
-      id: "tb5",
-      title: "Sözleşmelerdeki Önemli Tarihler (Yürürlük, Yenileme, Fesih) Tablosu",
-      description: "Yürürlük, fesih bildirimi, yenileme ve ödeme tarihlerini tek tabloda görün.",
-      category: "Tarih Takibi",
-      lastUpdated: "3 gün önce",
-      scope: "personal" as "personal" | "org",
-      columns: [
-        { name: "Sözleşme", prompt: "Sözleşmenin adını yazın" },
-        { name: "Yürürlük", prompt: "Yürürlük başlangıç tarihini girin" },
-        { name: "Bitiş", prompt: "Sözleşme bitiş tarihini belirtin" },
-        { name: "Yenileme", prompt: "Otomatik yenileme tarihini yazın" },
-        { name: "Fesih Bildirim Süresi", prompt: "Fesih için gerekli bildirim süresini girin" },
-      ],
-      useCase: "Sözleşmelerdeki kritik tarihleri takip etme ve hatırlatma",
-    },
-    {
-      id: "tb6",
-      title: "Dava Dosyalarında Masraf ve Süre Takibi",
-      description: "Dava bazında masraf kalemleri, duruşma tarihleri ve toplam süreyi izleyin.",
-      category: "Dava Yönetimi",
-      lastUpdated: "1 hafta önce",
-      scope: "org" as "personal" | "org",
-      columns: [
-        { name: "Dosya No", prompt: "Dava dosyasının numarasını girin" },
-        { name: "Mahkeme", prompt: "Mahkeme adını ve türünü belirtin" },
-        { name: "Açılış Tarihi", prompt: "Davanın açılış tarihini yazın" },
-        { name: "Son İşlem", prompt: "Son yapılan işlemi açıklayın" },
-        { name: "Masraf Toplamı", prompt: "Toplam masraf tutarını girin (TL)" },
-      ],
-      useCase: "Dava süreçlerindeki maliyet ve zaman takibi",
-    },
-  ];
 
   const handleUseTable = () => {
     if (!selectedTable) return;

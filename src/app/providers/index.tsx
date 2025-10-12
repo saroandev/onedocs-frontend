@@ -23,7 +23,7 @@ export const Providers = ({ children }: ProvidersProps) => {
       <BrowserRouter>
         {children}
         <ToastContainer theme="colored" />
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </BrowserRouter>
     </QueryClientProvider>
   );

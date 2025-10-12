@@ -5,7 +5,6 @@ import {
 } from "../constants/sidebar-config";
 import { TabItem } from "@/widgets/sidebar/components/tab-item";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import styles from "./sidebar-list.module.scss";
 import { CollectionTab } from "@/features/sidebar/collection-tab";
 import { PlaybookTab } from "@/features/sidebar/playbook-tab";
@@ -15,9 +14,10 @@ import { ChatTab } from "@/features/sidebar/chat-tab";
 import { TimetrackTab } from "@/features/sidebar/timetrack-tab";
 import { AdminTab } from "@/features/sidebar/admin-tab";
 import { ProfileTab } from "@/features/sidebar/profile-tab";
+import { useUIStore } from "@/shared/store/ui.store";
 
 export const SidebarList = () => {
-  const [choosenTab, setChoosenTab] = useState("");
+  const choosenTab = useUIStore((state) => state.choosenTab);
 
   return (
     <aside className={styles.container}>
@@ -51,22 +51,21 @@ export const SidebarList = () => {
           ))}
         </div>
       </div>
+      {choosenTab == SIDEBAR_MENU_IDS.COLLECTION && <CollectionTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.COLLECTION && <CollectionTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.PLAYBOOK && <PlaybookTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.PLAYBOOK && <PlaybookTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.TEMPLATE && <TemplateTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.TEMPLATE && <TemplateTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.TABLE && <TableTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.TABLE && <TableTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.CHAT && <ChatTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.CHAT && <ChatTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.TIME_TRACK && <TimetrackTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.TIME_TRACK && <TimetrackTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.ADMIN && <AdminTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.ADMIN && <AdminTab setChoosenTab={setChoosenTab} />}
-
-      {choosenTab == SIDEBAR_MENU_IDS.PROFILE && <ProfileTab setChoosenTab={setChoosenTab} />}
+      {choosenTab == SIDEBAR_MENU_IDS.PROFILE && <ProfileTab />}
     </aside>
   );
 };

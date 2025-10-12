@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+.mainPanel {
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease-in-out;
+}
+
+.resizer {
+  position: relative;
+  flex-shrink: 0;
+  width: 4px;
+  background-color: #e5e7eb;
+  cursor: col-resize;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(#1f2937, 0.2);
+  }
+}
+
+.resizerHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -4px;
+  right: -4px;
+}

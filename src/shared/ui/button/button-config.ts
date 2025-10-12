@@ -16,7 +16,8 @@ export const ICON_TYPE = {
   SEARCH: "search",
   CLOSE: "close",
   NOTIFY: "notify",
-  ARROW_DOWN: "arrowDown",
+  ARROW_DOWN: "arrow-down",
+  ARROW_UP: "arrow-up",
   MINUS: "minus",
   PLUS: "plus",
   FILTER: "filter",
@@ -31,6 +32,10 @@ export const ICON_TYPE = {
   USER: "user",
   MAIL: "mail",
   OUT: "out",
+  PAPERCLIP: "paperclip",
+  LIBRARY: "library",
+  LIKE: "like",
+  DISLIKE: "dislike",
   NONE: "none",
 } as const;
 

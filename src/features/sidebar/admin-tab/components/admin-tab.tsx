@@ -4,10 +4,10 @@ import { useState } from "react";
 import styles from "../styles/admin-tab.module.scss";
 import { AdminUserPanel } from "./admin-user-panel";
 import { AdminOrgPanel } from "./admin-org-panel";
-import { v4 as uuidv4 } from "uuid";
+import { useUIStore } from "@/shared/store/ui.store";
 
-export const AdminTab = (props: AdminTabProps) => {
-  const { setChoosenTab } = props;
+export const AdminTab = () => {
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [activeTab, setActiveTab] = useState("users");
 
   return (
@@ -20,7 +20,7 @@ export const AdminTab = (props: AdminTabProps) => {
         <Button
           label=""
           buttonType="justIcon"
-          onClick={() => setChoosenTab(uuidv4())}
+          onClick={() => setChoosenTab("")}
           iconType={{ default: "close" }}
         />
       </div>
@@ -50,7 +50,3 @@ export const AdminTab = (props: AdminTabProps) => {
     </div>
   );
 };
-
-interface AdminTabProps {
-  setChoosenTab: (open: string) => void;
-}
