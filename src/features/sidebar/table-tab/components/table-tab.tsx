@@ -2,7 +2,6 @@
 import { Button, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { Table } from "lucide-react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import styles from "../styles/table-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
 import { tables } from "../constants/table-tab-config";
@@ -20,12 +19,10 @@ export const TableTab = () => {
 
     const columnNames = selectedTable.columns.map((col) => col.name);
 
-    // Set table data in context
     setTableName(selectedTable.title);
     setTableColumns(columnNames);
     setDataGridOpen(true);
-
-    setChoosenTab(uuidv4());
+    setChoosenTab("");
     // router.push("/");//TODO
   };
 
@@ -43,7 +40,7 @@ export const TableTab = () => {
             <Button
               label=""
               buttonType="justIcon"
-              onClick={() => setChoosenTab(uuidv4())}
+              onClick={() => setChoosenTab("")}
               iconType={{ default: "close" }}
             />
           </div>

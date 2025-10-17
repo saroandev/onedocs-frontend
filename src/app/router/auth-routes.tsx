@@ -1,26 +1,23 @@
-import { Route, Routes } from "react-router-dom";
-import { AuthLayout } from "../layouts";
-import { Suspense } from "react";
-import { routes } from "./routes";
-import { Page404 } from "@/pages/errors/404.page";
+import { Error404Page } from "@/pages/errors/404.page";
+import { ROUTES } from "./config/routes.config";
+import { PageLoader } from "./page-loader";
+import type { AppRoute } from "./types/router.types";
 
-export const AuthRoutes = () => {
-  return (
-    <Routes>
-      <Route element={<AuthLayout />}>
-        {routes.protected.map(({ path, component: Component }) => (
-          <Route
-            key={path}
-            path={path}
-            element={
-              <Suspense fallback={<>loaidng</>}>
-                <Component />
-              </Suspense>
-            }
-          />
-        ))}
-        <Route path="*" element={<Page404 />} />
-      </Route>
-    </Routes>
-  );
-};
+export const authRoutes: AppRoute[] = [
+  {
+    path: ROUTES.DASHBOARD,
+    index: true,
+    element: (
+      <PageLoader
+        key="DashboardPage"
+        moduleName="DashboardPage"
+        modulePath="dashboard/dashboard.page.tsx"
+      />
+    ),
+  },
+
+  {
+    path: "*",
+    element: <Error404Page />,
+  },
+];

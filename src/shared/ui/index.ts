@@ -85,3 +85,5 @@ export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs/tabs";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip/tooltip";
 export { ErrorBoundary } from "./error-boundary/error-boundary";
 export { Checkbox } from "./checkbox/checkbox";
+export { Loading } from "./loading/loading";
+export { Banner } from "./banner/banner";

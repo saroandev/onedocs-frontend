@@ -2,34 +2,20 @@
 import { create } from "zustand";
 
 export const useChatStore = create<UIState>((set) => ({
-  messages: [],
-  isResponding: false,
   playbookAnalysisOpen: false,
   selectedPlaybookForAnalysis: null,
+  conversationId: "",
 
-  setMessages: (val) =>
-    set((state) => ({
-      messages: [...state.messages, val],
-    })),
-  setIsResponding: (val) => set({ isResponding: val }),
   setPlaybookAnalysisOpen: (val) => set({ playbookAnalysisOpen: val }),
   setSelectedPlaybookForAnalysis: (val) => set({ selectedPlaybookForAnalysis: val }),
+  setConversationId: (val) => set({ conversationId: val }),
 }));
 
 interface UIState {
-  messages: ChatMessage[];
-  isResponding: boolean;
   playbookAnalysisOpen: boolean;
   selectedPlaybookForAnalysis: any | null;
-  setMessages: (val: ChatMessage) => void;
-  setIsResponding: (val: boolean) => void;
+  conversationId: string;
   setPlaybookAnalysisOpen: (val: boolean) => void;
   setSelectedPlaybookForAnalysis: (val: any | null) => void;
+  setConversationId: (val: string) => void;
 }
-
-type ChatMessage = {
-  id: string;
-  role: "user" | "assistant";
-  content: string;
-  createdAt: number;
-};

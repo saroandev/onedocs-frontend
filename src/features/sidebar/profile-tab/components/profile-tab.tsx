@@ -14,6 +14,7 @@ import { Building2, Check, ChevronLeft, Lock } from "lucide-react";
 import { useState } from "react";
 import styles from "../styles/profile-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
+import { useSignOut } from "@/features/auth/hooks";
 
 export const ProfileTab = () => {
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
@@ -22,6 +23,7 @@ export const ProfileTab = () => {
   const [value1, setValue1] = useState("");
   const [value2, setValue2] = useState("");
   const [value3, setValue3] = useState("");
+  const { mutate: signOut, isPending: loading } = useSignOut();
 
   return (
     <>
@@ -99,6 +101,8 @@ export const ProfileTab = () => {
               buttonType="iconWithText"
               variant="destructive"
               iconTextReverse
+              onClick={() => signOut()}
+              disabled={loading}
             />
           </div>
         </div>

@@ -3,9 +3,13 @@ import classNames from "classnames";
 import styles from "../styles/chat-tab.module.scss";
 import { todayChats, yesterdayChats } from "../constants/chat-tab-config";
 import { useUIStore } from "@/shared/store/ui.store";
+import { useGetAllChats } from "@/features/chat/hooks/use-get-allChats";
 
 export const ChatTab = () => {
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
+  // const { data, isLoading, isError, error } = useGetAllChats();
+
+  // if (isError) return <div>Hata oluştu</div>;
 
   return (
     <div className={styles.container}>
@@ -21,7 +25,6 @@ export const ChatTab = () => {
           iconType={{ default: "close" }}
         />
       </div>
-
       <div className={styles.content}>
         <div className={styles.actionBar}>
           <Button
@@ -35,9 +38,9 @@ export const ChatTab = () => {
           />
         </div>
 
-        <div className={styles.sectionHeader}>
+        {/* <div className={styles.sectionHeader}>
           <span className={styles.sectionTitle}>Bugün</span>
-        </div>
+        </div> */}
 
         <div className={styles.chatList}>
           {todayChats.map((chat) => (
@@ -49,7 +52,7 @@ export const ChatTab = () => {
           ))}
         </div>
 
-        <div className={classNames(styles.sectionHeader, styles.sectionHeaderSpaced)}>
+        {/* <div className={classNames(styles.sectionHeader, styles.sectionHeaderSpaced)}>
           <span className={styles.sectionTitle}>Dün</span>
         </div>
 
@@ -61,7 +64,7 @@ export const ChatTab = () => {
               <p className={styles.chatTime}>{chat.time}</p>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );

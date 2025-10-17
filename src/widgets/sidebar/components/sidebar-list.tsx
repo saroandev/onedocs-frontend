@@ -5,7 +5,7 @@ import {
 } from "../constants/sidebar-config";
 import { TabItem } from "@/widgets/sidebar/components/tab-item";
 import { Link } from "react-router-dom";
-import styles from "./sidebar-list.module.scss";
+import styles from "../styles/sidebar-list.module.scss";
 import { CollectionTab } from "@/features/sidebar/collection-tab";
 import { PlaybookTab } from "@/features/sidebar/playbook-tab";
 import { TemplateTab } from "@/features/sidebar/template-tab";
@@ -18,6 +18,7 @@ import { useUIStore } from "@/shared/store/ui.store";
 
 export const SidebarList = () => {
   const choosenTab = useUIStore((state) => state.choosenTab);
+  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
 
   return (
     <aside className={styles.container}>
@@ -59,7 +60,7 @@ export const SidebarList = () => {
 
       {choosenTab == SIDEBAR_MENU_IDS.TABLE && <TableTab />}
 
-      {choosenTab == SIDEBAR_MENU_IDS.CHAT && <ChatTab />}
+      {choosenTab == SIDEBAR_MENU_IDS.CHATS && <ChatTab />}
 
       {choosenTab == SIDEBAR_MENU_IDS.TIME_TRACK && <TimetrackTab />}
 

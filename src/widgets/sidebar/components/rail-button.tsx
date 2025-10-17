@@ -1,6 +1,6 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/shared/ui";
 import classnames from "classnames";
-import styles from "./rail-button.module.scss";
+import styles from "../styles/rail-button.module.scss";
 
 export const RailButton = (props: RailButtonProps) => {
   const { icon, label, selected = false, onClick } = props;

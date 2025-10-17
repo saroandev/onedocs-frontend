@@ -1,0 +1,25 @@
+.container {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+  .loading {
+    height: 24px;
+    width: 24px;
+    overflow: hidden;
+    position: relative;
+    z-index: 10003;
+    animation: spin 1s linear infinite;
+    -webkit-animation: 1s spin linear infinite;
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}

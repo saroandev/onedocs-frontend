@@ -1,14 +1,13 @@
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
-import { showNotification } from "../notification";
 import { ENV } from "@/app/config/env";
-import { usePublicStore } from "@/features/public/store/public.store";
+import { useAuthStore } from "@/features/auth/store/auth.store";
 
 const createApiClient = (options?: { contentType?: string; baseUrl: string }): AxiosInstance => {
   if (!options?.baseUrl) {
     console.warn("cannot find appConfig baseUrl");
   }
 
-  const getAccessToken = () => usePublicStore.getState().token || undefined;
+  const getAccessToken = () => useAuthStore.getState().token || undefined;
 
   const requestHeaders: Record<string, string> = {
     "Content-Type": options?.contentType || "application/json",
@@ -27,10 +26,10 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
 
-      const currentToken = getAccessToken();
-      if (accessToken && accessToken !== currentToken) {
-        usePublicStore.getState().logout();
-      }
+      // const currentToken = getAccessToken();
+      // if (accessToken && accessToken !== currentToken) {
+      //   useAuthStore.getState().logout();
+      // }
 
       return config;
     },
@@ -46,14 +45,11 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
         case 400:
           return Promise.reject(error);
         case 401:
-          usePublicStore.getState().logout();
-          window.location.href = "/sign-in";
+          // TODO
           return Promise.reject(error);
         case 404:
-          showNotification("error", error);
           return Promise.reject(error);
         case 500:
-          showNotification("error", error);
           return Promise.reject(error);
         default:
           return Promise.reject(error);
@@ -64,22 +60,26 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
   return apiClient;
 };
 
-const onedocsApiClient = createApiClient({
-  baseUrl: ENV.API_URL!,
+const onedocsAuthApiClient = createApiClient({
+  baseUrl: ENV.AUTH_API!,
+});
+
+const onedocsKnowledgeBaseApiClient = createApiClient({
+  baseUrl: ENV.KNOWLEDGE_BASE_API!,
 });
 
 export const httpClient = {
   get: <T>(url: string, config?: AxiosRequestConfig) =>
-    onedocsApiClient.get<T>(url, config).then((res) => res.data),
+    onedocsAuthApiClient.get<T>(url, config).then((res) => res.data),
 
   post: <T>(url: string, data?: unknown, config?: AxiosRequestConfig) =>
-    onedocsApiClient.post<T>(url, data, config).then((res) => res.data),
+    onedocsAuthApiClient.post<T>(url, data, config).then((res) => res.data),
 
   patch: <T>(url: string, data?: unknown, config?: AxiosRequestConfig) =>
-    onedocsApiClient.patch<T>(url, data, config).then((res) => res.data),
+    onedocsAuthApiClient.patch<T>(url, data, config).then((res) => res.data),
 
   delete: <T>(url: string, config?: AxiosRequestConfig) =>
-    onedocsApiClient.delete<T>(url, config).then((res) => res.data),
+    onedocsAuthApiClient.delete<T>(url, config).then((res) => res.data),
 };
 
-export { onedocsApiClient };
+export { onedocsAuthApiClient, onedocsKnowledgeBaseApiClient };

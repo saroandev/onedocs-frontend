@@ -1,0 +1,27 @@
+.container {
+  & > div {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    max-width: 250px;
+  }
+
+  .rightCorner {
+    top: 0;
+    right: 0;
+  }
+
+  .leftCorner {
+    bottom: 0;
+    left: 0;
+    transform: rotate(180deg);
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    & > div {
+      max-width: 450px;
+    }
+  }
+}

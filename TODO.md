@@ -9,3 +9,4 @@
 8 - component tasima da bazi fonskiyonlar veya node bloklari ucmus olabilir. (onclick vs...) kontrol edilmesi lazim
 9 - public layout duzenlenecek (margin, padding vs.. fazla olan yerler var)
 10 - butonlara bakilacak (variant="ghost" && size="sm") (hatalari es gecmek icin div'e cevrildi)
+11 - (css) metin secme disabled durumu?!

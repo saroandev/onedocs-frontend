@@ -1,26 +1,16 @@
-import { Outlet } from "react-router-dom";
 import styles from "./auth-layout.module.scss";
 import { Header } from "@/widgets/header";
 import { Sidebar } from "@/widgets/sidebar";
 
-export const AuthLayout = () => {
+export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={styles.container}>
-      {/* <div className={styles.sidebarWrapper}>
-        <div className={styles.sidebarDesktop}>
-          <Sidebar />
-        </div>
-      </div> */}
-
       <Sidebar />
 
       <div className={styles.mainWrapper}>
         <Header />
-
         <main className={styles.main}>
-          <div className={styles.contentWrapper}>
-            <Outlet />
-          </div>
+          <div className={styles.contentWrapper}>{children}</div>
           {/* DocumentEditor buraya gelecek */}
         </main>
       </div>

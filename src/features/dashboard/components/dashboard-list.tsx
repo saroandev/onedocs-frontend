@@ -1,4 +1,3 @@
-import { ChatShell } from "@/widgets/chat/chat-shell";
-// import styles from "./dashboard-list.module.scss";
+import { Chat } from "@/widgets/chat/chat";
 
-export const DashboardList = () => <ChatShell />;
+export const DashboardList = () => <Chat />;

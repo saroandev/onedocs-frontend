@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
-import { usePublicStore } from "@/features/public/store/public.store";
+import { useAuthStore } from "@/features/auth/store/auth.store";
 import { Navigate } from "react-router-dom";
-import { ROUTES } from "../routes.config";
+import { ROUTES } from "../config/routes.config";
 
 interface PermissionGuardProps {
   children: ReactNode;
@@ -14,7 +14,7 @@ export const PermissionGuard = ({
   permission,
   fallback = <Navigate to={ROUTES.DASHBOARD} replace />,
 }: PermissionGuardProps) => {
-  const user = usePublicStore((state) => state.user);
+  const user = useAuthStore((state) => state.user);
 
   if (!user) {
     return <>{fallback}</>;

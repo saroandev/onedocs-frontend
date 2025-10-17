@@ -1,5 +1,5 @@
 export const SIDEBAR_MENU_IDS = {
-  CHAT: "hukuk-asistani",
+  CHATS: "hukuk-asistani",
   PLAYBOOK: "playbook",
   COLLECTION: "koleksiyonlar",
   TEMPLATE: "template",
@@ -12,8 +12,8 @@ export const SIDEBAR_MENU_IDS = {
 
 export const SIDEBAR_MENU_TOP = [
   {
-    id: SIDEBAR_MENU_IDS.CHAT,
-    label: "Hukuk Asistanı",
+    id: SIDEBAR_MENU_IDS.CHATS,
+    label: "Sohbetler",
     icon: "MessageSquare",
   },
   {

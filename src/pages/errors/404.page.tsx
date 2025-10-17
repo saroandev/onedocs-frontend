@@ -1,3 +1,3 @@
-import { Errors404 } from "@/features/errors/components/errors-404/errors-404";
+import { Banner } from "@/shared/ui";
 
-export const Page404 = () => <Errors404 />;
+export const Error404Page = () => <Banner type="404" />;

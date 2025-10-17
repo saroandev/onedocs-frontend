@@ -1,46 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { ROUTES } from "../routes.config";
-import { usePublicStore } from "@/features/public/store/public.store";
-import { useAuthCheck } from "@/features/public/hooks/use-auth-check";
-import { useAppNavigation } from "@/shared/lib/navigation";
+import { Navigate, Outlet } from "react-router-dom";
+import { PublicLayout } from "@/app/layouts";
+import { useAuthStore } from "@/features/auth/store/auth.store";
+import { ROUTES } from "../config/routes.config";
 
-export const AuthGuard = () => {
-  // const { goTo } = useAppNavigation();
-  // const location = useLocation();
-  // const isAuthenticated = usePublicStore((state) => state.isAuthenticated);
-  // const { isLoading, isError } = useAuthCheck();
+export const PublicGuard = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const token = useAuthStore((state) => state.token);
 
-  // console.log({ isAuthenticated });
-  // console.log({ token });
-  // console.log({ isLoading });
-  // console.log({ isError });
-
-  // useEffect(() => {
-  //   if (!token && !isLoading) {
-  //     navigate(ROUTES.SIGN_IN, {
-  //       state: { from: location.pathname },
-  //       replace: true,
-  //     });
-  //   }
-  // }, [token, isLoading]);
-
-  // useEffect(() => {
-  //   if (isError) {
-  //     usePublicStore.getState().logout();
-  //     navigate(ROUTES.SIGN_IN, { replace: true });
-  //   }
-  // }, [isError, navigate]);
-
-  // if (!isLoading) {
-  //   // return <Loading />; //TODO
-  //   return <>loading</>; //TODO
-  // }
-
-  // if (!isAuthenticated) {
-  //   return null;
-  // }
-
-  return <Outlet />;
+  return !token || !isAuthenticated ? (
+    <PublicLayout>
+      <Outlet />
+    </PublicLayout>
+  ) : (
+    <Navigate to={ROUTES.DASHBOARD} replace />
+  );
 };

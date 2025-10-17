@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import type { LucideProps } from "lucide-react";
 import { RailButton } from "./rail-button";
-import styles from "./tab-item.module.scss";
+import styles from "../styles/tab-item.module.scss";
 
 const ICON_MAP: Record<string, React.FC<LucideProps>> = {
   MessageSquare,

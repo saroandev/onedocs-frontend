@@ -1,8 +1,7 @@
-import { Outlet } from "react-router-dom";
 import styles from "./public-layout.module.scss";
 import AppLogo from "@/shared/assets/icons/onedocs.png";
 
-export const PublicLayout = () => {
+export const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -11,7 +10,7 @@ export const PublicLayout = () => {
             <img src={AppLogo} alt="Onedocs Logo" />
           </div>
         </div>
-        <Outlet />
+        {children}
       </div>
     </div>
   );

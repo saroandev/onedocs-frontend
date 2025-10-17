@@ -7,7 +7,7 @@ export const showNotification = (
 ) => {
   const defaultOptions: ToastOptions = {
     position: "top-right",
-    autoClose: 4000,
+    autoClose: 6000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,

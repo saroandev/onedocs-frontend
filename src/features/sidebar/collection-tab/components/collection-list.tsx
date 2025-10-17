@@ -9,7 +9,6 @@ import {
   TabsTrigger,
 } from "@/shared/ui";
 import { Check, FileText, FolderOpen } from "lucide-react";
-import { v4 as uuidv4 } from "uuid";
 import classNames from "classnames";
 import styles from "../styles/collection-list.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
@@ -44,7 +43,7 @@ export const CollectionList = (props: CollectionListProps) => {
             <Button
               label=""
               buttonType="justIcon"
-              onClick={() => setChoosenTab(uuidv4())}
+              onClick={() => setChoosenTab("")}
               iconType={{ default: "close" }}
             />
           </div>
