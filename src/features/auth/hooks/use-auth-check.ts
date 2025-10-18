@@ -15,6 +15,8 @@ export const useAuthCheck = () => {
     },
     enabled: !!token,
     staleTime: Infinity,
+    gcTime: Infinity,
     retry: false,
+    refetchOnWindowFocus: false,
   });
 };

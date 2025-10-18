@@ -1,15 +1,16 @@
 .container {
-  display: flex;
-  flex: 1;
-  height: 100%;
-  overflow: hidden;
+  height: 100vh;
+  position: relative;
 }
 
 .mainPanel {
   display: flex;
   flex-direction: column;
-  transition: width 0.3s ease-in-out;
-  width: 100%;
+  transform: translate(-50%, -50%);
+  top: 30%;
+  left: 50%;
+  position: absolute;
+  min-width: 800px;
 }
 
 .resizer {

@@ -1,15 +1,33 @@
 import { Button } from "@/shared/ui";
-import classNames from "classnames";
 import styles from "../styles/chat-tab.module.scss";
-import { todayChats, yesterdayChats } from "../constants/chat-tab-config";
 import { useUIStore } from "@/shared/store/ui.store";
 import { useGetAllChats } from "@/features/chat/hooks/use-get-allChats";
+import { Skeleton } from "@/shared/ui/skeleton/skeleton";
+import { formatDate } from "@/shared/lib/dateFormatter";
+import { useAppNavigation } from "@/shared/lib/navigation";
 
 export const ChatTab = () => {
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
-  // const { data, isLoading, isError, error } = useGetAllChats();
+  const { data, isLoading, isError } = useGetAllChats();
+  const { goTo } = useAppNavigation();
 
-  // if (isError) return <div>Hata oluştu</div>;
+  const renderContent = () => {
+    if (isError) return <div>Hata oluştu</div>;
+
+    if (data?.total_count == 0) return <div>herhangi bi sohbet yoktur</div>;
+
+    return data?.conversations.map((chat, index) => (
+      <div
+        key={chat.conversation_id}
+        className={styles.chatCard}
+        onClick={() => goTo(`/chat/${chat.conversation_id}`, { replace: true })}
+      >
+        <h3 className={styles.chatTitle}>{`Sohbet - ${index + 1}`}</h3>
+        <p className={styles.chatPreview}>{chat.first_message_preview}</p>
+        <p className={styles.chatTime}>{formatDate(chat.started_at, "withText")}</p>
+      </div>
+    ));
+  };
 
   return (
     <div className={styles.container}>
@@ -25,47 +43,22 @@ export const ChatTab = () => {
           iconType={{ default: "close" }}
         />
       </div>
-      <div className={styles.content}>
-        <div className={styles.actionBar}>
-          <Button
-            label="Yeni Sohbet"
-            onClick={() => {
-              setChoosenTab("");
-            }}
-            buttonType={"iconWithText"}
-            iconType={{ default: "message" }}
-            iconTextReverse
-          />
+      {isLoading ? ( //TODO
+        <Skeleton variant="list" />
+      ) : (
+        <div className={styles.content}>
+          <div className={styles.actionBar}>
+            <Button
+              label="Yeni Sohbet"
+              onClick={() => setChoosenTab("")}
+              buttonType={"iconWithText"}
+              iconType={{ default: "message" }}
+              iconTextReverse
+            />
+          </div>
+          <div className={styles.chatList}>{renderContent()}</div>
         </div>
-
-        {/* <div className={styles.sectionHeader}>
-          <span className={styles.sectionTitle}>Bugün</span>
-        </div> */}
-
-        <div className={styles.chatList}>
-          {todayChats.map((chat) => (
-            <div key={chat.id} className={styles.chatCard}>
-              <h3 className={styles.chatTitle}>{chat.title}</h3>
-              <p className={styles.chatPreview}>{chat.preview}</p>
-              <p className={styles.chatTime}>{chat.time}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* <div className={classNames(styles.sectionHeader, styles.sectionHeaderSpaced)}>
-          <span className={styles.sectionTitle}>Dün</span>
-        </div>
-
-        <div className={styles.chatList}>
-          {yesterdayChats.map((chat) => (
-            <div key={chat.id} className={styles.chatCard}>
-              <h3 className={styles.chatTitle}>{chat.title}</h3>
-              <p className={styles.chatPreview}>{chat.preview}</p>
-              <p className={styles.chatTime}>{chat.time}</p>
-            </div>
-          ))}
-        </div> */}
-      </div>
+      )}
     </div>
   );
 };

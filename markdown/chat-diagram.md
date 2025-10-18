@@ -1,4 +1,4 @@
-sequenceDiagram
+<!-- sequenceDiagram
 participant U as User
 participant CP as ChatPrompt
 participant SM as useCreateChat
@@ -10,6 +10,7 @@ participant CA as ChatArea
     CA->>QC: useGetChatById() çalışır
     QC->>API: GET /messages/:conversationId
     API-->>QC: Eski mesajları döner
+
     QC-->>CA: Mesajları göster
 
     Note over U,CA: 2. Yeni Mesaj Gönderme
@@ -38,4 +39,4 @@ participant CA as ChatArea
     CA->>QC: useGetChatById() tekrar çalışır
     QC->>API: Cache varsa oradan, yoksa GET /messages
     API-->>QC: Güncel mesajlar
-    QC-->>CA: Tüm konuşma gösterilir
+    QC-->>CA: Tüm konuşma gösterilir -->

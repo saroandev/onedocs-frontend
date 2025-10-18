@@ -1,5 +1,4 @@
 import { onedocsKnowledgeBaseApiClient } from "@/shared/lib/api/http-client";
-
 import type {
   AllConversationsDto,
   AllConversationsResponse,
@@ -18,8 +17,8 @@ export const chatApi = {
     return response.data;
   },
 
-  getAllChats: async (query?: AllConversationsDto): Promise<AllConversationsResponse[]> => {
-    const response = await onedocsKnowledgeBaseApiClient.get<AllConversationsResponse[]>(
+  getAllChats: async (query?: AllConversationsDto): Promise<AllConversationsResponse> => {
+    const response = await onedocsKnowledgeBaseApiClient.get<AllConversationsResponse>(
       "conversations",
       {
         params: query,

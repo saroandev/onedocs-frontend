@@ -1,4 +1,5 @@
 export interface CreateChatDto {
+  conversation_id?: string;
   collections?: [
     {
       name: string;
@@ -35,6 +36,10 @@ export interface CreateChatResponse {
     score: number;
   }[];
   tokens_used: number;
+  total_sources_retrieved?: number;
+  sources_after_filtering?: number;
+  min_score_applied?: number;
+  low_confidence_sources?: number | null;
 }
 
 export interface ConversationByIdDto {

@@ -1,15 +1,10 @@
 .container {
   position: relative;
   width: 100%;
-  flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: #fff;
-}
-
-.contentWrapper {
   margin: 0 auto;
-  max-width: 800px;
   padding: 0 24px;
 }
 

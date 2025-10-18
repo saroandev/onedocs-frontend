@@ -3,7 +3,7 @@ import { chatApi } from "../api/chat.api";
 import type { AllConversationsResponse } from "../api/chat.types";
 
 export const useGetAllChats = () => {
-  return useQuery<AllConversationsResponse[], Error>({
+  return useQuery<AllConversationsResponse, Error>({
     queryKey: ["allChats"],
     queryFn: () => chatApi.getAllChats({ limit: 20 }),
     staleTime: 1000 * 60 * 5, // 5 dakika boyunca fresh say

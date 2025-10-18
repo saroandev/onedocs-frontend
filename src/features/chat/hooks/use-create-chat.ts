@@ -5,51 +5,151 @@ import { useChatStore } from "../store/chat.store";
 import { chatApi } from "../api/chat.api";
 import { showNotification } from "@/shared/lib/notification";
 import type { CreateChatDto, CreateChatResponse } from "../api/chat.types";
+import { useAppNavigation } from "@/shared/lib/navigation";
+import { useEffect } from "react";
 
 export const useCreateChat = () => {
   const queryClient = useQueryClient();
   const conversationId = useChatStore((state) => state.conversationId);
+  const setConversationId = useChatStore((state) => state.setConversationId);
+  const setIsCreatingMessage = useChatStore((state) => state.setIsCreatingMessage);
+  const { goTo } = useAppNavigation();
 
-  return useMutation<CreateChatResponse, Error, CreateChatDto>({
-    mutationFn: chatApi.createChat,
+  const mutation = useMutation<CreateChatResponse, Error, CreateChatDto>({
+    mutationFn: (data) => {
+      // Eğer mevcut bir conversation'dayız, conversationId'yi ekle
+      const requestData = conversationId ? { ...data, conversation_id: conversationId } : data;
+
+      return chatApi.createChat(requestData);
+    },
     onMutate: async (newMessage) => {
-      console.log({ newMessage });
+      // Loading state'i set et
+      setIsCreatingMessage(true);
 
-      const queryKey = ["chat", conversationId];
+      // Eğer conversationId varsa, mevcut conversation'a mesaj ekliyoruz
+      const queryKey = conversationId ? ["chat", conversationId] : ["chat", "new"]; // Yeni conversation için temporary key
 
       await queryClient.cancelQueries({ queryKey });
 
-      const previousMessages = queryClient.getQueryData<CreateChatDto[]>(queryKey);
+      const previousData = queryClient.getQueryData<CreateChatDto[]>(queryKey);
 
-      queryClient.setQueryData<CreateChatDto[]>(queryKey, (old = []) => [...old, newMessage]);
+      // Optimistic update: Kullanıcı mesajını hemen göster
+      if (conversationId) {
+        queryClient.setQueryData<CreateChatDto[]>(queryKey, (old: any = []) => {
+          if (!old) return old;
+          return {
+            ...old,
+            messages: [
+              ...old.messages,
+              {
+                content: newMessage.question, //TODO
+                role: "user",
+                message_id: `temp-${Date.now()}`,
+                created_at: new Date().toISOString(),
+                sources: [],
+                tokens_used: 0,
+                processing_time: 0,
+              },
+            ],
+          };
+        });
+      }
 
-      return { previousMessages };
+      return { previousData, queryKey };
     },
 
-    //TODO
-    onSuccess: (aiResponse: any, variables, context) => {
-      const queryKey = ["chat", conversationId];
+    onSuccess: (aiResponse: CreateChatResponse, variables, _context) => {
+      const responseConversationId = aiResponse.conversation_id;
 
-      console.log({ queryKey });
+      // Eğer yeni bir conversation ise (ilk mesaj), navigate et
+      if (!conversationId && responseConversationId) {
+        setConversationId(responseConversationId);
+        goTo(`/chat/${responseConversationId}`, { replace: true });
 
-      queryClient.setQueryData<CreateChatDto[]>(queryKey, (old = []) => [...old, aiResponse]);
+        // Yeni conversation için cache'i set et
+        const queryKey = ["chat", responseConversationId];
+        //TODO
+        queryClient.setQueryData<any>(queryKey, {
+          conversation_id: responseConversationId,
+          messages: [
+            {
+              content: variables.question,
+              role: "user",
+              message_id: `user-${Date.now()}`,
+              created_at: new Date().toISOString(),
+              sources: [],
+              tokens_used: 0,
+              processing_time: 0,
+            },
+            {
+              content: aiResponse.answer,
+              role: "assistant",
+              message_id: `assistant-${Date.now()}`,
+              created_at: new Date().toISOString(),
+              sources: aiResponse.sources,
+              tokens_used: aiResponse.tokens_used,
+              processing_time: aiResponse.processing_time,
+            },
+          ],
+          message_count: 2,
+          started_at: new Date().toISOString(),
+          last_message_at: new Date().toISOString(),
+        });
+      } else {
+        // Mevcut conversation'a AI cevabını ekle
+        const queryKey = ["chat", conversationId];
+        queryClient.setQueryData<any>(queryKey, (old: any) => {
+          if (!old) return old;
+          return {
+            ...old,
+            messages: [
+              ...old.messages,
+              {
+                content: aiResponse.answer,
+                role: "assistant",
+                message_id: `assistant-${Date.now()}`,
+                created_at: new Date().toISOString(),
+                sources: aiResponse.sources,
+                tokens_used: aiResponse.tokens_used,
+                processing_time: aiResponse.processing_time,
+              },
+            ],
+            last_message_at: new Date().toISOString(),
+          };
+        });
+      }
+
+      // Loading state'i false yap
+      setIsCreatingMessage(false);
     },
 
     onError: (error, variables, context: any) => {
-      const queryKey = ["chat", conversationId];
+      console.error("Error sending message:", error);
 
-      // TODO
-      if (context?.previousMessages) {
-        queryClient.setQueryData(queryKey, context.previousMessages);
+      // Rollback optimistic update
+      if (context?.previousData && context?.queryKey) {
+        queryClient.setQueryData(context.queryKey, context.previousData);
       }
-
+      // Loading state'i false yap
+      setIsCreatingMessage(false);
       showNotification("error", "Mesaj gönderilemedi");
     },
 
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["chat", conversationId],
-      });
-    },
+    // onSettled: (data) => {
+    //   // Refresh the conversation data
+    //   const targetId = data?.conversation_id || conversationId;
+    //   if (targetId) {
+    //     queryClient.invalidateQueries({
+    //       queryKey: ["chat", targetId],
+    //     });
+    //   }
+    // },
   });
+
+  // isPending değiştiğinde store'u güncelle (fallback)
+  useEffect(() => {
+    setIsCreatingMessage(mutation.isPending);
+  }, [mutation.isPending, setIsCreatingMessage]);
+
+  return mutation;
 };

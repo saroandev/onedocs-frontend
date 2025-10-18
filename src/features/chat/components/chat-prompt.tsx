@@ -12,41 +12,51 @@ import {
 import { ChatDropdownMenus } from "./chat-dropdown-menus";
 import { ChatPromptOptions } from "./chat-prompt-options";
 import { useCreateChat } from "../hooks/use-create-chat";
+import { useParams } from "react-router-dom";
+import { useChatStore } from "../store/chat.store";
 
 export const ChatPrompt = () => {
+  const { conversationId } = useParams<{ conversationId: string }>();
+  const { mutate: createChat, isPending: isLoading } = useCreateChat();
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [value, setValue] = useState("");
   const [selectedPromptOptions, setSelectedPromptOptions] = useState<SelectedPromptOption[]>([]);
-  const { mutate: createChat, isPending: isLoading } = useCreateChat();
   const [showDocumentModal, setShowDocumentModal] = useState(false);
   const [showPlaybookModal, setShowPlaybookModal] = useState(false);
+  const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
 
   const handleSend = async () => {
     const userText = value.trim();
-    if (!userText || isLoading) return;
+    if (!userText || isLoading || isCreatingMessage) return;
 
-    // const userMessage: ChatMessage = {
-    //   id: crypto.randomUUID(),
-    //   content: userText,
-    //   role: "user",
-    //   createdAt: Date.now(),
-    // };
-    // const mockUserMessage = {
-    //   include_low_confidence_sources: false,
-    //   max_sources_in_context: 5,
-    //   min_relevance_score: 0.7,
-    //   options: {
-    //     citations: true,
-    //     lang: "tr",
-    //     stream: false,
-    //     tone: "resmi",
-    //   },
-    //   top_k: 5,
-    //   use_reranker: true,
-    //   question: userText,
-    // };
+    const userMessage = {
+      question: userText,
+      // collections: [
+      //   {
+      //     name: "sozlesmeler";
+      //     scopes: ["private", "shared"];
+      //   },
+      //   {
+      //     name: "kanunlar";
+      //     scopes: ["private"];
+      //   }
+      // ];
+      // include_low_confidence_sources: false;
+      // max_sources_in_context: 5;
+      // min_relevance_score: 0.7;
+      // options: {
+      //   citations: true;
+      //   lang: "tr";
+      //   stream: false;
+      //   tone: "resmi";
+      // };
+      // sources: ["mevzuat"];
+      // top_k: 5;
+      // use_reranker: true;
+    };
 
-    createChat({ question: userText });
+    // Mesajı gönder (yeni chat veya mevcut conversation)
+    createChat(userMessage);
     setValue("");
   };
 
@@ -125,11 +135,11 @@ export const ChatPrompt = () => {
       <div className={styles.textareaContainer}>
         <textarea
           className={styles.textarea}
-          placeholder="Mesajınızı yazın..."
+          placeholder={conversationId ? "Mesajınızı yazın..." : "Nasıl yardımcı olabilirim?"}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={onKeyDown}
-          aria-label="Mesajınızı yazın"
+          disabled={isCreatingMessage || isLoading}
         />
       </div>
       <div className={styles.controlsSection}>
@@ -151,13 +161,14 @@ export const ChatPrompt = () => {
             onClick={handleAttachClick}
             buttonType="justIcon"
             iconType={{ default: "paperclip" }}
-            disabled={isLoading}
+            disabled={isLoading || isCreatingMessage}
           />
           <input
             ref={fileInputRef}
             type="file"
             className={styles.hiddenInput}
             // onChange={handleFileChange}
+            disabled={isLoading || isCreatingMessage}
           />
           <Button
             label=""
@@ -165,7 +176,7 @@ export const ChatPrompt = () => {
             buttonType="justIcon"
             iconType={{ default: "arrow-up" }}
             className={styles.sendButton}
-            isLoading={isLoading}
+            isLoading={isLoading || isCreatingMessage}
             disabled={value.trim() == ""}
           />
         </div>
@@ -185,6 +196,7 @@ export const ChatPrompt = () => {
               buttonType="iconWithText"
               iconType={{ default: "paperclip" }}
               iconTextReverse
+              disabled={isLoading || isCreatingMessage}
             />
             <Button
               label="Gönder"
@@ -193,6 +205,7 @@ export const ChatPrompt = () => {
               iconType={{ default: "arrow-up" }}
               iconTextReverse
               variant="secondary"
+              disabled={isLoading || isCreatingMessage}
             />
           </div>
         </div>
