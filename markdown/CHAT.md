@@ -23,7 +23,7 @@
 
 4. URL değişir: "/chat/abc123"
    └─ ChatPage render edilir
-   └─ useGetChatById enabled=true olur
+   └─ useGetChat enabled=true olur
    └─ URL'den conversationId alınır
    └─ Cache'den mesajlar gösterilir
 ```
@@ -33,7 +33,7 @@
 ```
 1. Kullanıcı "/chat/abc123" adresindedir
    └─ conversationId: "abc123"
-   └─ useGetChatById conversation history'yi yükler
+   └─ useGetChat conversation history'yi yükler
    └─ Mesajlar ChatArea'da gösterilir
 
 2. Kullanıcı yeni mesaj yazar
@@ -55,7 +55,7 @@
    └─ ChatPage render edilir
    └─ useParams ile conversationId="abc123" alınır
 
-2. useGetChatById çalışır
+2. useGetChat çalışır
    └─ enabled: true (conversationId var)
    └─ refetchOnMount: "always"
    └─ Backend'den conversation history çekilir
@@ -116,7 +116,7 @@
 ```typescript
 // Kontrol listesi:
 1. URL'de conversationId var mı? → useParams ile kontrol et
-2. useGetChatById enabled mi? → conversationId varsa enabled=true
+2. useGetChat enabled mi? → conversationId varsa enabled=true
 3. Backend'den data geliyor mu? → Network tab'ı kontrol et
 4. Cache'de data var mı? → React Query DevTools kullan
 ```

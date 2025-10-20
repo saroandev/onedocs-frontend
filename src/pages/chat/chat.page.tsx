@@ -5,7 +5,7 @@ import { Chat } from "@/widgets/chat/chat";
  *
  * Bu sayfa:
  * 1. URL'den conversationId'yi alır
- * 2. useGetChatById ile conversation history'sini yükler
+ * 2. useGetChat ile conversation history'sini yükler
  * 3. Kullanıcı refresh attığında conversation'ı tekrar yükler
  * 4. Yeni mesajlar eklendiğinde conversation'ı günceller
  */

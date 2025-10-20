@@ -10,3 +10,4 @@
 9 - public layout duzenlenecek (margin, padding vs.. fazla olan yerler var)
 10 - butonlara bakilacak (variant="ghost" && size="sm") (hatalari es gecmek icin div'e cevrildi)
 11 - (css) metin secme disabled durumu?!
+12 - skeleton'a yeni variantlar eklenebilir. bakilabilir

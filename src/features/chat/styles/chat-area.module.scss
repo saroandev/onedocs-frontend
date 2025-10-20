@@ -1,275 +1,195 @@
 .container {
+  overflow-x: hidden;
   position: relative;
   width: 100%;
+  padding: 50px;
   overflow-y: auto;
-  overflow-x: hidden;
-  background-color: #fff;
-  margin: 0 auto;
-  padding: 0 24px;
-}
 
-.contentPadding {
-  padding: 48px 0;
-}
-
-.pdfButtonContainer {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 12px;
-}
-
-.pdfButton {
-  height: 32px;
-}
-
-.emptyStateContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.emptyStateContent {
-  display: flex;
-  width: 100%;
-  max-width: 100%;
-  flex-direction: column;
-  align-items: center;
-  gap: 48px;
-}
-
-.emptyStateHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.titleWrapper {
-  display: flex;
-  align-items: center;
-}
-
-.mainTitle {
-  font-size: 32px;
-  font-weight: 700;
-  color: #1f2937;
-}
-
-.subtitle {
-  margin-top: 24px;
-  text-align: center;
-  font-size: 16px;
-  line-height: 1.5;
-  color: #6b7280;
-}
-
-.messagesContainer {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.messageWrapper {
-  display: flex;
-  width: 100%;
-  min-width: 0;
-
-  &.userMessage {
-    justify-content: flex-end;
+  .wrapper {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 800px;
   }
 
-  &.assistantMessage {
+  .contentPadding {
+    padding: 48px 0;
+  }
+
+  .emptyStateContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .emptyStateContent {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .emptyStateHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .titleWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .mainTitle {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1f2937;
+  }
+
+  .subtitle {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #6b7280;
+  }
+
+  .messagesContainer {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .messageWrapper {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+
+    &.userMessage {
+      justify-content: flex-end;
+    }
+
+    &.assistantMessage {
+      justify-content: flex-start;
+    }
+  }
+
+  .messageContent {
+    max-width: 80%;
+    min-width: 0;
+    width: 100%;
+
+    &.userContent {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .userBubble {
+    display: inline-block;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 16px;
+    background-color: #000;
+    color: #fff;
+    padding: 8px 16px;
+
+    @media (min-width: 768px) {
+      max-width: 80%;
+    }
+  }
+
+  .userText {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .assistantBubble {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .textContent {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #1f2937;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .actionButtons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    color: #9ca3af;
+  }
+
+  .loadingMessageWrapper {
+    display: flex;
+    width: 100%;
     justify-content: flex-start;
   }
-}
 
-.messageContent {
-  max-width: 80%;
-  min-width: 0;
-  width: 100%;
-
-  &.userContent {
-    display: flex;
-    justify-content: flex-end;
-  }
-}
-
-.userBubble {
-  display: inline-block;
-  width: fit-content;
-  max-width: 100%;
-  border-radius: 16px;
-  background-color: #000000;
-  color: #ffffff;
-  padding: 8px 16px;
-
-  @media (min-width: 768px) {
+  .loadingBubble {
     max-width: 80%;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    background-color: #fff;
+    color: #1f2937;
+    padding: 8px 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   }
-}
 
-.userText {
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  font-size: 14px;
-  line-height: 1.5;
-}
+  .loadingDots {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: #9ca3af;
+  }
 
-.assistantBubble {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+  .dot1,
+  .dot2,
+  .dot3 {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #9ca3af;
+    animation: bounce 1.4s infinite;
 
-.htmlContent {
-  font-size: 14px;
-  line-height: 1.5;
-  color: #1f2937;
-  overflow: hidden;
-  max-width: 100%;
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 8px 0;
-
-    td,
-    th {
-      border: 1px solid #e5e7eb;
-      padding: 8px;
-      text-align: left;
+    &:first-child {
+      animation-delay: -0.2s;
     }
 
-    th {
-      background-color: #f8f9fa;
-      font-weight: 600;
+    &:last-child {
+      animation-delay: 0.2s;
     }
   }
-}
 
-.textContent {
-  white-space: pre-wrap;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  font-size: 14px;
-  line-height: 1.5;
-  color: #1f2937;
-  overflow: hidden;
-  max-width: 100%;
-}
+  @keyframes bounce {
+    0%,
+    80%,
+    100% {
+      opacity: 0.5;
+      transform: translateY(0);
+    }
 
-.pdfLinkContainer {
-  display: flex;
-  justify-content: flex-start;
-  margin-top: 8px;
-}
-
-.pdfPreviewButton {
-  height: 32px;
-}
-
-.actionButtons {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 4px;
-  color: #9ca3af;
-}
-
-.loadingMessageWrapper {
-  display: flex;
-  width: 100%;
-  justify-content: flex-start;
-}
-
-.loadingBubble {
-  max-width: 80%;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  background-color: #fff;
-  color: #1f2937;
-  padding: 8px 16px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-
-.loadingDots {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 14px;
-  color: #9ca3af;
-}
-
-.dot1,
-.dot2,
-.dot3 {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #9ca3af;
-  animation: bounce 1.4s infinite;
-
-  &:first-child {
-    animation-delay: -0.2s;
+    40% {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
   }
-
-  &:last-child {
-    animation-delay: 0.2s;
-  }
-}
-
-@keyframes bounce {
-  0%,
-  80%,
-  100% {
-    opacity: 0.5;
-    transform: translateY(0);
-  }
-
-  40% {
-    opacity: 1;
-    transform: translateY(-4px);
-  }
-}
-
-.pdfPanel {
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 30;
-  display: none;
-  height: 100%;
-  width: 420px;
-  border-left: 1px solid #e5e7eb;
-  background-color: #ffffff;
-
-  @media (min-width: 768px) {
-    display: block;
-  }
-}
-
-.pdfPanelHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 8px;
-}
-
-.pdfPanelTitle {
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.pdfIframe {
-  height: calc(100% - 40px);
-  width: 100%;
 }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authApi } from "../api/auth.api";
 import { showNotification } from "@/shared/lib/notification";
 import { ROUTES } from "@/app/router/config/routes.config";
@@ -14,9 +12,6 @@ export const useSignUp = () => {
     onSuccess: () => {
       goTo(ROUTES.SIGN_IN, { replace: true });
       showNotification("success", "Hesap oluşturuldu");
-    },
-    onError: (error: any) => {
-      showNotification("error", error?.response?.data?.detail[0]?.msg);
     },
   });
 };

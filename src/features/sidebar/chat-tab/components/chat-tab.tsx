@@ -1,15 +1,21 @@
 import { Button } from "@/shared/ui";
 import styles from "../styles/chat-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
-import { useGetAllChats } from "@/features/chat/hooks/use-get-allChats";
+import { useGetChats } from "@/features/chat/hooks/use-get-chats";
 import { Skeleton } from "@/shared/ui/skeleton/skeleton";
 import { formatDate } from "@/shared/lib/dateFormatter";
 import { useAppNavigation } from "@/shared/lib/navigation";
+import { ROUTES } from "@/app/router/config/routes.config";
 
 export const ChatTab = () => {
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
-  const { data, isLoading, isError } = useGetAllChats();
+  const { data, isLoading, isError } = useGetChats();
   const { goTo } = useAppNavigation();
+
+  const handleNewChat = () => {
+    setChoosenTab("");
+    goTo(ROUTES.DASHBOARD);
+  };
 
   const renderContent = () => {
     if (isError) return <div>Hata oluştu</div>;
@@ -24,7 +30,9 @@ export const ChatTab = () => {
       >
         <h3 className={styles.chatTitle}>{`Sohbet - ${index + 1}`}</h3>
         <p className={styles.chatPreview}>{chat.first_message_preview}</p>
-        <p className={styles.chatTime}>{formatDate(chat.started_at, "withText")}</p>
+        <p className={styles.chatTime}>
+          Son Mesaj Tarihi: {formatDate(chat.last_message_at, "withText")}
+        </p>
       </div>
     ));
   };
@@ -43,14 +51,14 @@ export const ChatTab = () => {
           iconType={{ default: "close" }}
         />
       </div>
-      {isLoading ? ( //TODO
-        <Skeleton variant="list" />
+      {isLoading ? (
+        <Skeleton />
       ) : (
         <div className={styles.content}>
           <div className={styles.actionBar}>
             <Button
               label="Yeni Sohbet"
-              onClick={() => setChoosenTab("")}
+              onClick={handleNewChat}
               buttonType={"iconWithText"}
               iconType={{ default: "message" }}
               iconTextReverse

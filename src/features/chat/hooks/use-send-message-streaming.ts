@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useChatStore } from "../store/chat.store";
-import { showNotification } from "@/shared/lib/notification";
 import type { CreateChatDto } from "../api/chat.types";
 
 export const useSendMessageStreaming = () => {
@@ -30,7 +29,7 @@ export const useSendMessageStreaming = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: userMessage.content,
+          message: userMessage?.content,
           conversationId,
         }),
       });
@@ -57,11 +56,6 @@ export const useSendMessageStreaming = () => {
       }
 
       return { aiMessageId, fullContent };
-    },
-
-    onError: (error) => {
-      showNotification("error", "Mesaj gönderilemedi");
-      console.error("Streaming error:", error);
     },
   });
 };

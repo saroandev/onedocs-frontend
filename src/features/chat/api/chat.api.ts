@@ -1,9 +1,9 @@
 import { onedocsKnowledgeBaseApiClient } from "@/shared/lib/api/http-client";
 import type {
-  AllConversationsDto,
-  AllConversationsResponse,
-  ConversationByIdDto,
-  ConversationByIdResponse,
+  ConversationsDto,
+  ConversationsResponse,
+  ConversationDto,
+  ConversationResponse,
   CreateChatDto,
   CreateChatResponse,
 } from "./chat.types";
@@ -17,27 +17,25 @@ export const chatApi = {
     return response.data;
   },
 
-  getAllChats: async (query?: AllConversationsDto): Promise<AllConversationsResponse> => {
-    const response = await onedocsKnowledgeBaseApiClient.get<AllConversationsResponse>(
+  getChats: async (query?: ConversationsDto): Promise<ConversationsResponse> => {
+    const response = await onedocsKnowledgeBaseApiClient.get<ConversationsResponse>(
       "conversations",
       {
         params: query,
       }
     );
-
     return response.data;
   },
 
-  getChatById: async (query: ConversationByIdDto): Promise<ConversationByIdResponse> => {
+  getChat: async (query: ConversationDto): Promise<ConversationResponse> => {
     const { conversation_id, limit } = query;
 
-    const response = await onedocsKnowledgeBaseApiClient.get<ConversationByIdResponse>(
+    const response = await onedocsKnowledgeBaseApiClient.get<ConversationResponse>(
       `conversations/${conversation_id}`,
       {
         params: { limit },
       }
     );
-
     return response.data;
   },
 };

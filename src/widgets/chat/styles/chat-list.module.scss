@@ -1,35 +1,13 @@
 .container {
-  height: 100vh;
-  position: relative;
-}
-
-.mainPanel {
   display: flex;
   flex-direction: column;
-  transform: translate(-50%, -50%);
-  top: 30%;
-  left: 50%;
-  position: absolute;
-  min-width: 800px;
-}
+  height: 100%;
 
-.resizer {
-  position: relative;
-  flex-shrink: 0;
-  width: 4px;
-  background-color: #e5e7eb;
-  cursor: col-resize;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: rgba(#1f2937, 0.2);
+  &.hasConversation {
+    justify-content: space-between;
   }
-}
 
-.resizerHandle {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: -4px;
-  right: -4px;
+  &.noConversation {
+    justify-content: center;
+  }
 }

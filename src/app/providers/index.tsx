@@ -1,16 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { showNotification } from "@/shared/lib/notification";
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ToastContainer } from "react-toastify";
 
+const queryCache = new QueryCache({
+  onError: (error: any) => {
+    const errorMessage =
+      error?.response?.data?.detail || error?.response?.data?.detail[0]?.msg || "Bir hata oluştu";
+    showNotification("error", errorMessage);
+  },
+});
+
 const queryClient = new QueryClient({
+  queryCache,
   defaultOptions: {
     // Global ayarlar
     queries: {
-      staleTime: 1000 * 60 * 5, // 5 minutes
+      staleTime: 1000 * 60 * 5, // 5 dakika cache
       gcTime: 1000 * 60 * 30, // 30 dakika (eski adı cacheTime)
-      refetchOnWindowFocus: false,
-      retry: 1,
+      refetchOnWindowFocus: false, // Pencere focus'ta yenileme
+      retry: 1, // Hata durumunda 1 kez retry
     },
     mutations: {
       retry: 0,

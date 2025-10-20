@@ -3,7 +3,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useChatStore } from "../store/chat.store";
 import { chatApi } from "../api/chat.api";
-import { showNotification } from "@/shared/lib/notification";
 import type { CreateChatDto, CreateChatResponse } from "../api/chat.types";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { useEffect } from "react";
@@ -23,7 +22,6 @@ export const useCreateChat = () => {
       return chatApi.createChat(requestData);
     },
     onMutate: async (newMessage) => {
-      // Loading state'i set et
       setIsCreatingMessage(true);
 
       // Eğer conversationId varsa, mevcut conversation'a mesaj ekliyoruz
@@ -119,31 +117,17 @@ export const useCreateChat = () => {
         });
       }
 
-      // Loading state'i false yap
       setIsCreatingMessage(false);
     },
 
-    onError: (error, variables, context: any) => {
-      console.error("Error sending message:", error);
-
+    onError: (_error, _variables, context: any) => {
       // Rollback optimistic update
       if (context?.previousData && context?.queryKey) {
         queryClient.setQueryData(context.queryKey, context.previousData);
       }
       // Loading state'i false yap
       setIsCreatingMessage(false);
-      showNotification("error", "Mesaj gönderilemedi");
     },
-
-    // onSettled: (data) => {
-    //   // Refresh the conversation data
-    //   const targetId = data?.conversation_id || conversationId;
-    //   if (targetId) {
-    //     queryClient.invalidateQueries({
-    //       queryKey: ["chat", targetId],
-    //     });
-    //   }
-    // },
   });
 
   // isPending değiştiğinde store'u güncelle (fallback)

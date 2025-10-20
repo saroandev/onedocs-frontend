@@ -7,7 +7,7 @@ participant API as Backend API
 participant CA as ChatArea
 
     Note over U,CA: 1. İlk Yükleme (Sayfa Açılışı)
-    CA->>QC: useGetChatById() çalışır
+    CA->>QC: useGetChat() çalışır
     QC->>API: GET /messages/:conversationId
     API-->>QC: Eski mesajları döner
 
@@ -36,7 +36,7 @@ participant CA as ChatArea
 
     Note over U,CA: 3. Sayfa Refresh
     U->>CA: F5 / Refresh
-    CA->>QC: useGetChatById() tekrar çalışır
+    CA->>QC: useGetChat() tekrar çalışır
     QC->>API: Cache varsa oradan, yoksa GET /messages
     API-->>QC: Güncel mesajlar
     QC-->>CA: Tüm konuşma gösterilir -->

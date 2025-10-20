@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
 import { useUIStore } from "@/shared/store/ui.store";
 import { showNotification } from "@/shared/lib/notification";
 import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui";
@@ -11,7 +11,7 @@ import {
 } from "../constants/chat-prompt-config";
 import { ChatDropdownMenus } from "./chat-dropdown-menus";
 import { ChatPromptOptions } from "./chat-prompt-options";
-import { useCreateChat } from "../hooks/use-create-chat";
+import { useCreateChat } from "../hooks";
 import { useParams } from "react-router-dom";
 import { useChatStore } from "../store/chat.store";
 
@@ -69,21 +69,21 @@ export const ChatPrompt = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleAttachClick = () => fileInputRef.current?.click();
 
-  // const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
-  //   const f = e.target.files?.[0];
-  //   if (!f || isLoading) return;
-  //   const sizeKB = Math.max(1, Math.round(f.size / 1024));
-  //   const msg = `📎 Belge yüklendi: ${f.name} (${sizeKB} KB)`;
+  const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f || isLoading) return;
+    const sizeKB = Math.max(1, Math.round(f.size / 1024));
+    const msg = `📎 Belge yüklendi: ${f.name} (${sizeKB} KB)`;
 
-  //   const userMessage: ChatMessage = {
-  //     id: crypto.randomUUID(),
-  //     content: msg,
-  //     role: "user",
-  //     createdAt: Date.now(),
-  //   };
-  //   createChat(userMessage);
-  //   e.target.value = "";
-  // };
+    // const userMessage: ChatMessage = {
+    //   id: crypto.randomUUID(),
+    //   content: msg,
+    //   role: "user",
+    //   createdAt: Date.now(),
+    // };
+    // createChat(userMessage);
+    e.target.value = "";
+  };
 
   const handleDocumentEdit = () => {
     showNotification("success", "Belge Düzenle secildi");
@@ -167,7 +167,7 @@ export const ChatPrompt = () => {
             ref={fileInputRef}
             type="file"
             className={styles.hiddenInput}
-            // onChange={handleFileChange}
+            onChange={handleFileChange}
             disabled={isLoading || isCreatingMessage}
           />
           <Button

@@ -26,7 +26,7 @@ const createApiClient = (options?: { contentType?: string; baseUrl: string }): A
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
 
-      // const currentToken = getAccessToken();
+      // const currentToken = getAccessToken();  // TODO
       // if (accessToken && accessToken !== currentToken) {
       //   useAuthStore.getState().logout();
       // }

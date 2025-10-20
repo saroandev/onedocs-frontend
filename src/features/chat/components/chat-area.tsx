@@ -1,57 +1,35 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from "react";
 import styles from "../styles/chat-area.module.scss";
 import { ChatMessage } from "./chat-message";
-import { useGetChatById } from "../hooks/use-get-chatById";
+import { useGetChat } from "../hooks";
 import { useParams } from "react-router-dom";
 import { useChatStore } from "../store/chat.store";
+import { useAppNavigation } from "@/shared/lib/navigation";
+import { ROUTES } from "@/app/router/config/routes.config";
+import { Skeleton } from "@/shared/ui";
 
 export const ChatArea = () => {
   const { conversationId } = useParams<{ conversationId: string }>();
-  const { data, isLoading, isError, error } = useGetChatById();
+  const { data, isLoading, isError, error } = useGetChat();
   const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const { goTo } = useAppNavigation();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [data?.messages, isCreatingMessage]);
 
-  // console.log({ conversationId, data });
-  // console.log(isLoading);
-
-  //TODO
-  if (isError) {
-    return (
-      <div className={styles.container}>
-        <div className={styles.contentPadding}>
-          <div className={styles.errorContainer}>
-            <div className={styles.errorContent}>
-              <h2>Bir hata oluştu</h2>
-              <p>Sohbet yüklenirken bir sorun oluştu. Lütfen tekrar deneyin.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (isError && error) {
+      goTo(ROUTES.DASHBOARD, { replace: true });
+    }
+  }, [isError, error]);
 
   const renderContent = () => {
     // Loading: Sadece conversation history fetch edilirken
     // (sayfa yenileme veya başka sekmeden açma)
     if (isLoading && conversationId) {
-      return (
-        <div className={styles.messagesContainer}>
-          <div className={styles.loadingMessageWrapper}>
-            <div className={styles.loadingBubble}>
-              <div className={styles.loadingDots}>
-                <span className={styles.dot1}></span>
-                <span className={styles.dot2}></span>
-                <span className={styles.dot3}></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+      return <Skeleton />;
     }
 
     // Empty state (yeni chat başlangıcı - conversationId yok)
@@ -93,7 +71,6 @@ export const ChatArea = () => {
             </div>
           </div>
         )}
-
         <div ref={bottomRef} />
       </div>
     );
@@ -101,7 +78,7 @@ export const ChatArea = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentPadding}>{renderContent()}</div>
+      <div className={styles.wrapper}>{renderContent()}</div>
     </div>
   );
 };

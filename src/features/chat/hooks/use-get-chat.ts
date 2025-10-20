@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from "@tanstack/react-query";
 import { chatApi } from "../api/chat.api";
 import { useChatStore } from "../store/chat.store";
-import type { ConversationByIdResponse } from "../api/chat.types";
+import type { ConversationResponse } from "../api/chat.types";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { showNotification } from "@/shared/lib/notification";
 
-export const useGetChatById = () => {
+export const useGetChat = () => {
   const { conversationId: urlConversationId } = useParams<{ conversationId: string }>();
   const setConversationId = useChatStore((state) => state.setConversationId);
 
@@ -16,15 +16,14 @@ export const useGetChatById = () => {
     }
   }, [urlConversationId, setConversationId]);
 
-  return useQuery<ConversationByIdResponse, Error>({
+  return useQuery<ConversationResponse, any>({
     queryKey: ["chat", urlConversationId],
     queryFn: () => {
       //TODO
       if (!urlConversationId) {
-        showNotification("error", "Conversation ID is required");
         throw new Error("Conversation ID is required");
       }
-      return chatApi.getChatById({
+      return chatApi.getChat({
         conversation_id: urlConversationId,
         limit: 100,
       });

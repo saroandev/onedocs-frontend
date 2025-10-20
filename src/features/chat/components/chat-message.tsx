@@ -1,7 +1,7 @@
 import { Button } from "@/shared/ui";
 import styles from "../styles/chat-area.module.scss";
 import classnames from "classnames";
-import type { ConversationByIdMessage } from "../api/chat.types";
+import type { ConversationMessage } from "../api/chat.types";
 
 export const ChatMessage = (props: ChatMessageProps) => {
   const { data } = props;
@@ -69,5 +69,5 @@ export const ChatMessage = (props: ChatMessageProps) => {
 };
 
 interface ChatMessageProps {
-  data: ConversationByIdMessage;
+  data: ConversationMessage;
 }

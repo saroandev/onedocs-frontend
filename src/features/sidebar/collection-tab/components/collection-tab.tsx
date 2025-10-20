@@ -1,72 +1,33 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useRef, useState } from "react";
-import { CollectionDialog } from "./collection-dialog";
+import { useState } from "react";
+import { CreateCollectionModal } from "./create-collection-modal";
 import { CollectionList } from "./collection-list";
-import { documentsData, mockCollectionData } from "../constants/collection-tab-config";
+import styles from "../styles/collection-list.module.scss";
+import { Button, Skeleton, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { useUIStore } from "@/shared/store/ui.store";
+import classnames from "classnames";
+import { Check } from "lucide-react";
+import { useGetCollections } from "../hooks";
+import { scopeMapping } from "../constants/collection-tab-config";
+import { formatDate } from "@/shared/lib/dateFormatter";
 
 export const CollectionTab = () => {
+  const [activeScope, setActiveScope] = useState<"personal" | "org">("personal");
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
-  const [newCollectionDialogOpen, setNewCollectionDialogOpen] = useState(false);
-  const [newCollectionName, setNewCollectionName] = useState("");
-  const [newCollectionScope, setNewCollectionScope] = useState<"personal" | "org" | string>(
-    "personal"
-  );
+  const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
   const [selectedCollectionId, setSelectedCollectionId] = useState<string | null>(null);
   const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>([]);
-  const [activeScope, setActiveScope] = useState<"personal" | "org" | string>("personal");
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [documents, setDocuments] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (selectedCollectionId) {
-      setDocuments(documentsData[selectedCollectionId] || []);
-    } else {
-      setDocuments([]);
-    }
-  }, [selectedCollectionId]);
+  // Collections listesini çek
+  const { data: collectionsData, isLoading } = useGetCollections({
+    query: activeScope === "personal" ? "private" : "shared",
+  });
 
-  const [collections, setCollections] = useState<any[]>([...mockCollectionData]);
-
-  const handleCreateCollection = () => {
-    if (!newCollectionName.trim()) return;
-
-    const newCollection = {
-      id: `${Date.now()}`,
-      name: newCollectionName,
-      fileCount: 0,
-      size: "0 MB",
-      members: 1,
-      creator: "Emrullah",
-      lastUpdated: "Az önce",
-      scope: newCollectionScope,
-    };
-
-    setCollections([...collections, newCollection]);
-    setNewCollectionName("");
-    setNewCollectionScope("personal");
-    setNewCollectionDialogOpen(false);
-  };
-
-  const selectedCollections = collections.filter((c) => selectedCollectionIds.includes(c.id));
+  const collections = collectionsData?.collections || [];
 
   const handleAskAssistant = () => {
-    if (selectedCollectionIds.length === 0 || selectedCollections.length === 0) return;
-
-    // Dispatch custom event with selected collections
-    const event = new CustomEvent("selectCollections", {
-      detail: selectedCollections,
-    });
-    window.dispatchEvent(event);
-
-    // Close the knowledge base panel
-    setChoosenTab("");
-
-    // Navigate to chat
-    // router.push("/");
+    // Seçili koleksiyonlarla asistana sor işlemi
+    console.log("Selected collections:", selectedCollectionIds);
   };
-
-  const filteredCollections = collections.filter((col) => col.scope === activeScope);
 
   const toggleCollectionSelection = (collectionId: string) => {
     setSelectedCollectionIds((prev) => {
@@ -80,81 +41,155 @@ export const CollectionTab = () => {
 
   const selectedCollection = !selectedCollectionId
     ? null
-    : collections.find((col) => col.id === selectedCollectionId);
+    : collections.find((col) => col.name === selectedCollectionId);
 
-  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!selectedCollectionId) return;
+  const renderFilteredCollections = () => {
+    if (isLoading) {
+      return <Skeleton />;
+    }
 
-    const file = e.target.files?.[0];
-    if (!file) return;
+    return (
+      !selectedCollectionId && (
+        <div className={styles.contentScroll}>
+          <div className={styles.actionsBar}>
+            <Button
+              label="Yeni Koleksiyon"
+              buttonType={"iconWithText"}
+              onClick={() => setShowCreateCollectionModal(true)}
+              iconType={{ default: "document" }}
+              iconTextReverse
+            />
+          </div>
 
-    const fileName = file.name;
-    const extension = fileName.split(".").pop()?.toUpperCase() || "FILE";
+          <div className={styles.statsBar}>
+            <span className={styles.statsText}>
+              {collections.length} koleksiyon
+              {selectedCollectionIds.length > 0 && (
+                <span className={styles.selectedCount}>
+                  • {selectedCollectionIds.length} seçili
+                </span>
+              )}
+            </span>
+            <Tabs
+              value={activeScope}
+              onValueChange={(v) => {
+                setActiveScope(v as "personal" | "org");
+                setSelectedCollectionIds([]);
+              }}
+              className={styles.tabsList}
+            >
+              <TabsList className={styles.tabsList}>
+                <TabsTrigger value="personal" className={styles.tabTrigger}>
+                  Kişisel
+                </TabsTrigger>
+                <TabsTrigger value="org" className={styles.tabTrigger}>
+                  Organizasyon
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          </div>
 
-    const newDocument: Document = {
-      id: Date.now(),
-      collectionId: parseInt(selectedCollectionId),
-      name: fileName,
-      type: extension,
-      size: `${Math.floor(Math.random() * 900) + 100} KB`,
-      uploadDate: new Date().toISOString().split("T")[0],
-      uploadedBy: "Emrullah Saruhan",
-      userId: "user1",
-    };
+          {selectedCollectionIds.length > 0 && (
+            <div className={styles.actionsBar}>
+              <Button
+                label={`Asistana Sor ${selectedCollectionIds.length}`}
+                onClick={handleAskAssistant}
+                buttonType={"iconWithText"}
+                iconType={{ default: "message" }}
+                iconTextReverse
+              />
+            </div>
+          )}
 
-    setDocuments([newDocument, ...documents]);
+          {collections.length === 0 && (
+            <div className={styles.collectionsList}>
+              <div className={styles.emptyState}>
+                <p className={styles.emptyTitle}>Henüz koleksiyon yok</p>
+                <p className={styles.emptyDesc}>Yeni bir koleksiyon oluşturarak başlayın</p>
+              </div>
+            </div>
+          )}
 
-    // Update collection file count
-    setCollections(
-      collections.map((col) =>
-        col.id === selectedCollectionId ? { ...col, fileCount: col.fileCount + 1 } : col
+          {collections.map((col) => {
+            const isSelected = selectedCollectionIds.includes(col.name);
+
+            return (
+              <div className={styles.collectionsList}>
+                <div
+                  key={col.name}
+                  className={classnames(styles.collectionItem, {
+                    [styles.selected]: isSelected,
+                  })}
+                >
+                  <div className={styles.collectionContent}>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleCollectionSelection(col.name);
+                      }}
+                      className={classnames(styles.checkbox, {
+                        [styles.checked]: isSelected,
+                      })}
+                    >
+                      {isSelected && <Check className={styles.checkIcon} />}
+                    </button>
+                    <div
+                      className={styles.collectionInfo}
+                      onClick={() => setSelectedCollectionId(col.name)}
+                    >
+                      <h3>{col.name}</h3>
+                      <p className={styles.lastUpdated}>
+                        Son güncelleme:
+                        {formatDate(col.updated_at, "withText")}
+                      </p>
+                      <div className={styles.collectionStats}>
+                        <span>
+                          {col.document_count === 0 ? "Dosya yok" : `${col.document_count} dosya`}
+                        </span>
+                        <span>{col.size_mb.toFixed(2)} MB</span>
+                      </div>
+                      <p className={styles.collectionMembers}>
+                        {col.chunk_count} chunk • {col.created_by_email}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )
     );
-
-    // Reset input
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
   };
 
   return (
-    <>
-      <CollectionList
-        selectedCollectionId={selectedCollectionId}
-        setSelectedCollectionId={setSelectedCollectionId}
-        setNewCollectionDialogOpen={setNewCollectionDialogOpen}
-        handleAskAssistant={handleAskAssistant}
-        selectedCollectionIds={selectedCollectionIds}
-        filteredCollections={filteredCollections}
-        toggleCollectionSelection={toggleCollectionSelection}
-        activeScope={activeScope}
-        setActiveScope={setActiveScope}
-        selectedCollection={selectedCollection}
-        fileInputRef={fileInputRef}
-        handleFileSelected={handleFileSelected}
-        documents={documents}
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.headerContent}>
+          <h2>Koleksiyonlar</h2>
+          <p>Asistanınızı dökümanlarla özel olarak eğitin</p>
+        </div>
+        <Button
+          label=""
+          buttonType="justIcon"
+          onClick={() => setChoosenTab("")}
+          iconType={{ default: "close" }}
+        />
+      </div>
+
+      {renderFilteredCollections()}
+
+      {selectedCollectionId && selectedCollection && (
+        <CollectionList
+          setSelectedCollectionId={setSelectedCollectionId}
+          selectedCollection={selectedCollection}
+          collectionScope={scopeMapping[activeScope]}
+        />
+      )}
+      <CreateCollectionModal
+        open={showCreateCollectionModal}
+        setOpen={setShowCreateCollectionModal}
       />
-      <CollectionDialog
-        open={newCollectionDialogOpen}
-        setOpen={setNewCollectionDialogOpen}
-        newCollectionName={newCollectionName}
-        setNewCollectionName={setNewCollectionName}
-        newCollectionScope={newCollectionScope}
-        setNewCollectionScope={setNewCollectionScope}
-        handleCreateCollection={handleCreateCollection}
-      />
-    </>
+    </div>
   );
 };
-
-interface Document {
-  id: number;
-  collectionId: number;
-  name: string;
-  type: string;
-  size: string;
-  uploadDate: string;
-  uploadedBy: string;
-  content?: string | null;
-  userId: string;
-}

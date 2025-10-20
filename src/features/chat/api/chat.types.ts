@@ -42,12 +42,12 @@ export interface CreateChatResponse {
   low_confidence_sources?: number | null;
 }
 
-export interface ConversationByIdDto {
+export interface ConversationDto {
   conversation_id: string;
   limit?: number;
 }
 
-export interface ConversationByIdMessage {
+export interface ConversationMessage {
   content: string;
   created_at: string;
   message_id: string;
@@ -57,21 +57,21 @@ export interface ConversationByIdMessage {
   tokens_used: number;
 }
 
-export interface ConversationByIdResponse {
+export interface ConversationResponse {
   conversation_id: string;
   last_message_at: string;
   message_count: number;
-  messages: ConversationByIdMessage[];
+  messages: ConversationMessage[];
   organization_id: string;
   started_at: string;
   user_id: string;
 }
 
-export interface AllConversationsDto {
+export interface ConversationsDto {
   limit: number;
 }
 
-export interface AllConversationsResponse {
+export interface ConversationsResponse {
   conversations: {
     conversation_id: string;
     first_message_preview: string;

@@ -15,8 +15,5 @@ export const useForgotPassword = () => {
       goTo(ROUTES.SIGN_IN, { replace: true });
       showNotification("success", "Şifre sıfırlama bağlantısı e-posta adresinize gönderildi");
     },
-    onError: (_error: any) => {
-      showNotification("error", "Bir hata oluştu");
-    },
   });
 };

@@ -5,40 +5,18 @@
   display: flex;
   height: 100vh;
   background-color: #fff;
-}
 
-.sidebarWrapper {
-  // Sidebar container styling
-}
-
-.sidebarDesktop {
-  display: none;
-
-  @media (min-width: 1024px) {
-    display: flex;
+  .mainWrapper {
+    width: 100%;
+    height: 100%;
   }
-}
 
-.mainWrapper {
-  display: flex;
-  flex: 1;
-  min-height: 0;
-  flex-direction: column;
-  width: 100%;
-}
+  .main {
+    height: calc(100vh - 56px);
+  }
 
-.main {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-}
-
-.contentWrapper {
-  display: flex;
-  flex: 1;
-  min-width: 0;
-  flex-direction: column;
-  width: 100%;
+  .contentWrapper {
+    width: 100%;
+    height: 100%;
+  }
 }

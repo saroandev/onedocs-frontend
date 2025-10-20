@@ -1,0 +1,154 @@
+.container {
+  position: relative;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+
+  &:hover {
+    .popover {
+      display: block;
+    }
+  }
+
+  .label {
+    color: #344054;
+    font-size: 13px;
+    min-width: fit-content;
+
+    span {
+      color: #f04438;
+    }
+  }
+
+  .radioWrapper {
+    input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .checkedWrapper {
+      display: flex;
+      width: 18px;
+      height: 18px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      border: 1.25px solid;
+
+      .innerDot {
+        width: 8px;
+        height: 8px;
+        border-radius: 9999px;
+        background-color: #fff;
+      }
+
+      .visible {
+        display: block;
+      }
+
+      .hidden {
+        display: none;
+      }
+    }
+
+    .checked {
+      border-color: #465fff;
+      background-color: #465fff;
+    }
+
+    .unchecked {
+      background-color: transparent;
+      border-color: #d1d5db;
+    }
+
+    .checkedDisabled {
+      background-color: #f3f4f6;
+      border-color: #e5e7eb;
+    }
+  }
+
+  .popover {
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 12px;
+    color: #344054;
+    z-index: 9999;
+    font-weight: 500;
+    font-size: 13px;
+    box-shadow: 0px 1px 1px 0px rgba(162, 184, 191, 0.274),
+      0px -1px 1px 1px rgba(196, 205, 222, 0.119) inset,
+      0px 0px 0px 1px rgba(197, 206, 225, 0.383) inset;
+    width: max-content;
+    top: -45px;
+  }
+
+  .viewError {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    bottom: -20px;
+    font-size: 14px;
+    width: max-content;
+
+    svg {
+      margin-right: 8px;
+      width: 12px;
+      height: 12px;
+    }
+
+    span {
+      color: #f00438;
+    }
+  }
+}
+
+.radioGroup {
+  display: flex;
+  gap: 10px;
+
+  &.vertical {
+    flex-direction: column;
+  }
+}
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .container {
+  .label {
+    color: #98a2b3;
+  }
+
+  ~ .disabled {
+    color: #4b5563;
+  }
+
+  .radioWrapper {
+    .unchecked {
+      border-color: #374151;
+    }
+
+    .checkedDisabled {
+      background-color: #374151;
+      border-color: #374151;
+    }
+  }
+}

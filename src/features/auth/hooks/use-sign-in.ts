@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { authApi } from "../api/auth.api";
-import { showNotification } from "@/shared/lib/notification";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "../store/auth.store";
@@ -17,9 +15,6 @@ export const useSignIn = () => {
       setUser(response);
       setTokens(response.access_token, response.refresh_token);
       goTo(ROUTES.DASHBOARD, { replace: true });
-    },
-    onError: (error: any) => {
-      showNotification("error", error?.response?.data?.detail);
     },
   });
 };
