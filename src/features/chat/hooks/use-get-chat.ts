@@ -17,9 +17,8 @@ export const useGetChat = () => {
   }, [urlConversationId, setConversationId]);
 
   return useQuery<ConversationResponse, any>({
-    queryKey: ["chat", urlConversationId],
+    queryKey: ["chat", urlConversationId || "new"],
     queryFn: () => {
-      //TODO
       if (!urlConversationId) {
         throw new Error("Conversation ID is required");
       }

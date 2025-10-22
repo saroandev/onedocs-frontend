@@ -14,7 +14,7 @@ export const ChatList = () => {
         [styles.noConversation]: !conversationId,
       })}
     >
-      <ChatArea />
+      <ChatArea conversationId={conversationId} />
       <ChatPrompt />
     </div>
   );

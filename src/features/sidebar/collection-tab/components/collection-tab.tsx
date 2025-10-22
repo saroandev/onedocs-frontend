@@ -1,31 +1,27 @@
 import { useState } from "react";
 import { CreateCollectionModal } from "./create-collection-modal";
-import { CollectionList } from "./collection-list";
+import { CollectionDetail } from "./collection-detail";
 import styles from "../styles/collection-list.module.scss";
 import { Button, Skeleton, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
 import { useUIStore } from "@/shared/store/ui.store";
-import classnames from "classnames";
-import { Check } from "lucide-react";
 import { useGetCollections } from "../hooks";
-import { scopeMapping } from "../constants/collection-tab-config";
-import { formatDate } from "@/shared/lib/dateFormatter";
+import { Collection } from "./collection";
 
 export const CollectionTab = () => {
-  const [activeScope, setActiveScope] = useState<"personal" | "org">("personal");
+  const [activeScope, setActiveScope] = useState<"private" | "shared">("private");
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [showCreateCollectionModal, setShowCreateCollectionModal] = useState(false);
-  const [selectedCollectionId, setSelectedCollectionId] = useState<string | null>(null);
+  const [selectedCollectionData, setSelectedCollectionData] = useState<{
+    name: string;
+    scope: "private" | "shared";
+  } | null>(null);
   const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>([]);
 
-  // Collections listesini çek
   const { data: collectionsData, isLoading } = useGetCollections({
-    query: activeScope === "personal" ? "private" : "shared",
+    query: "all",
   });
 
-  const collections = collectionsData?.collections || [];
-
   const handleAskAssistant = () => {
-    // Seçili koleksiyonlarla asistana sor işlemi
     console.log("Selected collections:", selectedCollectionIds);
   };
 
@@ -39,17 +35,13 @@ export const CollectionTab = () => {
     });
   };
 
-  const selectedCollection = !selectedCollectionId
-    ? null
-    : collections.find((col) => col.name === selectedCollectionId);
-
   const renderFilteredCollections = () => {
     if (isLoading) {
       return <Skeleton />;
     }
 
     return (
-      !selectedCollectionId && (
+      !selectedCollectionData && (
         <div className={styles.contentScroll}>
           <div className={styles.actionsBar}>
             <Button
@@ -63,7 +55,7 @@ export const CollectionTab = () => {
 
           <div className={styles.statsBar}>
             <span className={styles.statsText}>
-              {collections.length} koleksiyon
+              {collectionsData?.collections.length} koleksiyon
               {selectedCollectionIds.length > 0 && (
                 <span className={styles.selectedCount}>
                   • {selectedCollectionIds.length} seçili
@@ -73,16 +65,16 @@ export const CollectionTab = () => {
             <Tabs
               value={activeScope}
               onValueChange={(v) => {
-                setActiveScope(v as "personal" | "org");
+                setActiveScope(v as "private" | "shared");
                 setSelectedCollectionIds([]);
               }}
               className={styles.tabsList}
             >
               <TabsList className={styles.tabsList}>
-                <TabsTrigger value="personal" className={styles.tabTrigger}>
+                <TabsTrigger value="private" className={styles.tabTrigger}>
                   Kişisel
                 </TabsTrigger>
-                <TabsTrigger value="org" className={styles.tabTrigger}>
+                <TabsTrigger value="shared" className={styles.tabTrigger}>
                   Organizasyon
                 </TabsTrigger>
               </TabsList>
@@ -101,7 +93,7 @@ export const CollectionTab = () => {
             </div>
           )}
 
-          {collections.length === 0 && (
+          {collectionsData?.collections.length === 0 && (
             <div className={styles.collectionsList}>
               <div className={styles.emptyState}>
                 <p className={styles.emptyTitle}>Henüz koleksiyon yok</p>
@@ -110,51 +102,19 @@ export const CollectionTab = () => {
             </div>
           )}
 
-          {collections.map((col) => {
-            const isSelected = selectedCollectionIds.includes(col.name);
+          {collectionsData?.collections?.map((collection) => {
+            const isSelected = selectedCollectionIds.includes(collection.name);
 
             return (
-              <div className={styles.collectionsList}>
-                <div
-                  key={col.name}
-                  className={classnames(styles.collectionItem, {
-                    [styles.selected]: isSelected,
-                  })}
-                >
-                  <div className={styles.collectionContent}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleCollectionSelection(col.name);
-                      }}
-                      className={classnames(styles.checkbox, {
-                        [styles.checked]: isSelected,
-                      })}
-                    >
-                      {isSelected && <Check className={styles.checkIcon} />}
-                    </button>
-                    <div
-                      className={styles.collectionInfo}
-                      onClick={() => setSelectedCollectionId(col.name)}
-                    >
-                      <h3>{col.name}</h3>
-                      <p className={styles.lastUpdated}>
-                        Son güncelleme:
-                        {formatDate(col.updated_at, "withText")}
-                      </p>
-                      <div className={styles.collectionStats}>
-                        <span>
-                          {col.document_count === 0 ? "Dosya yok" : `${col.document_count} dosya`}
-                        </span>
-                        <span>{col.size_mb.toFixed(2)} MB</span>
-                      </div>
-                      <p className={styles.collectionMembers}>
-                        {col.chunk_count} chunk • {col.created_by_email}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              collection.scope === activeScope && (
+                <Collection
+                  key={collection.created_at}
+                  data={collection}
+                  isSelected={isSelected}
+                  setSelectedCollectionData={setSelectedCollectionData}
+                  toggleCollectionSelection={toggleCollectionSelection}
+                />
+              )
             );
           })}
         </div>
@@ -176,20 +136,19 @@ export const CollectionTab = () => {
           iconType={{ default: "close" }}
         />
       </div>
-
       {renderFilteredCollections()}
-
-      {selectedCollectionId && selectedCollection && (
-        <CollectionList
-          setSelectedCollectionId={setSelectedCollectionId}
-          selectedCollection={selectedCollection}
-          collectionScope={scopeMapping[activeScope]}
+      {selectedCollectionData && (
+        <CollectionDetail
+          setSelectedCollectionData={setSelectedCollectionData}
+          selectedCollectionData={selectedCollectionData}
         />
       )}
-      <CreateCollectionModal
-        open={showCreateCollectionModal}
-        setOpen={setShowCreateCollectionModal}
-      />
+      {showCreateCollectionModal && (
+        <CreateCollectionModal
+          open={showCreateCollectionModal}
+          setOpen={setShowCreateCollectionModal}
+        />
+      )}
     </div>
   );
 };

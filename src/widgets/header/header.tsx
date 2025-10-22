@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <header className={styles.header}>
       <div className={styles.titleContainer}>
-        <h2 className={styles.title}>headerTitle</h2>
+        {/* <h2 className={styles.title}>headerTitle</h2> */}
       </div>
 
       {/* <div className={styles.actions}>

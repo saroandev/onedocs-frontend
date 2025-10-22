@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Button,
   DropdownMenu,
@@ -6,30 +7,51 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui";
 import {
-  Clock,
-  FileEdit,
-  FileSearch,
-  FileText,
-  GitCompare,
+  // Clock,
+  // FileEdit,
+  // FileSearch,
+  // GitCompare,
+  // FileText,
   Globe,
   Library,
-  Scale,
-  Search,
 } from "lucide-react";
-import {
-  collectionOptions,
-  providerOptions,
-  type SelectedPromptOption,
-} from "../constants/chat-prompt-config";
+// import { providerOptions } from "../constants/chat-prompt-config";
 import styles from "../styles/chat-prompt.module.scss";
 import classnames from "classnames";
+import { useGetCollections } from "@/features/sidebar/collection-tab/hooks";
+import { optionsSource } from "../constants/chat-prompt-config";
+import {
+  LogoAdaletBakanlik,
+  LogoLexPara,
+  LogoRekabetKurum,
+  LogoReklamKurul,
+  LogoTLB,
+  LogoYargitay,
+} from "@/shared/ui/icons";
 
 export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
-  const { handleOnSelect, onSelectPromptOption, selectedPromptOptions, isMobile = false } = props;
+  const {
+    // handleOnSelect,
+    onSelectCollection,
+    onSelectSource,
+    selectedCollections,
+    selectedSources,
+    isMobile = false,
+  } = props;
+
+  const { data: collectionsData, isLoading: loadingCollections } = useGetCollections({
+    query: "all",
+  });
+
+  const renderOptionSourceLogo = {
+    "turk-hukuk-mevzuat": <LogoAdaletBakanlik />,
+    "reklam-kurum-karar": <LogoReklamKurul />,
+    "rekabet-kurum-karar": <LogoRekabetKurum />,
+  };
 
   return (
     <>
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div>
             <Button
@@ -64,7 +86,8 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
             Zaman Girişi Yap
           </DropdownMenuItem>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div>
@@ -82,15 +105,15 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
           <div className={styles.dropdownHeader}>
             <p className={styles.sectionLabel}>ARAMA KAYNAKLARI</p>
           </div>
-          {providerOptions.map((provider) => (
+          {optionsSource.map((source) => (
             <DropdownMenuItem
-              key={provider.id}
-              onClick={() => onSelectPromptOption(provider)}
+              key={source.name}
+              onClick={() => onSelectSource(source.name)}
               className={styles.menuItem}
             >
-              <Scale className={styles.smallIcon} />
-              <span className={styles.menuLabel}>{provider.name}</span>
-              {selectedPromptOptions.some((selectedItem) => selectedItem.id === provider.id) && (
+              {renderOptionSourceLogo[source.id]}
+              <span className={styles.menuLabel}>{source.name}</span>
+              {selectedSources.some((selectedSource) => selectedSource === source.name) && (
                 <span className={styles.checkmark}>✓</span>
               )}
             </DropdownMenuItem>
@@ -100,12 +123,16 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
             <p className={styles.sectionLabel}>YAKINDA</p>
           </div>
           <DropdownMenuItem disabled className={styles.disabledItem}>
-            <FileText className={styles.smallIcon} />
-            <span className={styles.menuLabel}>İçtihat</span>
+            <LogoYargitay />
+            <span className={styles.menuLabel}>Yargıtay Karar Arama</span>
           </DropdownMenuItem>
           <DropdownMenuItem disabled className={styles.disabledItem}>
-            <Search className={styles.smallIcon} />
+            <LogoLexPara />
             <span className={styles.menuLabel}>Lexpera</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled className={styles.disabledItem}>
+            <LogoTLB />
+            <span className={styles.menuLabel}>Turkish Law Blog</span>
           </DropdownMenuItem>
           <DropdownMenuItem disabled className={styles.disabledItem}>
             <Globe className={styles.smallIcon} />
@@ -113,6 +140,7 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <div>
@@ -130,10 +158,12 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
           <div className={styles.dropdownHeader}>
             <p className={styles.sectionLabel}>KOLEKSİYONLAR</p>
           </div>
-          {collectionOptions.map((collection) => (
+          {collectionsData?.collections?.map((collection) => (
             <DropdownMenuItem
-              key={collection.id}
-              onClick={() => onSelectPromptOption(collection)}
+              key={collection.created_at}
+              onClick={() =>
+                onSelectCollection({ name: collection.name, scopes: [collection.scope] })
+              }
               className={styles.menuItem}
             >
               <Library className={styles.smallIcon} />
@@ -141,16 +171,16 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
                 <span className={styles.collectionName}>{collection.name}</span>
                 <span
                   className={classnames(styles.badge, {
-                    [styles.orgBadge]: collection.scope === "org",
-                    [styles.personalBadge]: collection.scope !== "org",
+                    [styles.orgBadge]: collection.scope === "shared",
+                    [styles.personalBadge]: collection.scope !== "shared",
                   })}
                 >
-                  {collection.scope === "org" ? "Organizasyon" : "Kişisel"}
+                  {collection.scope === "shared" ? "Organizasyon" : "Kişisel"}
                 </span>
               </div>
-              {selectedPromptOptions.some((selectedItem) => selectedItem.id === collection.id) && (
-                <span className={styles.checkmark}>✓</span>
-              )}
+              {selectedCollections?.some(
+                (selectedCollection) => selectedCollection.name === collection.name
+              ) && <span className={styles.checkmark}>✓</span>}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
@@ -160,14 +190,22 @@ export const ChatDropdownMenus = (props: ChatDropdownMenusProps) => {
 };
 
 interface ChatDropdownMenusProps {
-  handleOnSelect: {
-    documentEdit: () => void;
-    documentCreate: () => void;
-    documentAnalysis: () => void;
-    documentCompare: () => void;
-    timeTrack: () => void;
-  };
-  onSelectPromptOption: (item: SelectedPromptOption) => void;
-  selectedPromptOptions: SelectedPromptOption[];
+  // handleOnSelect: {
+  //   documentEdit: () => void;
+  //   documentCreate: () => void;
+  //   documentAnalysis: () => void;
+  //   documentCompare: () => void;
+  //   timeTrack: () => void;
+  // };
+  onSelectCollection: ({
+    name,
+    scopes,
+  }: {
+    name: string;
+    scopes: ("shared" | "private")[];
+  }) => void;
+  onSelectSource: (name: string) => void;
+  selectedCollections: { name: string; scopes: ("shared" | "private")[] }[];
+  selectedSources: string[];
   isMobile?: boolean;
 }

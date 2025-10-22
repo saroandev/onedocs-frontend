@@ -11,14 +11,7 @@ export const useCreateCollection = () => {
     mutationFn: (data: CreateCollectionDto) => collectionApi.createCollection(data),
     onSuccess: (response) => {
       showNotification("success", response.message || "Koleksiyon başarıyla oluşturuldu");
-      // Collections listesini yeniden yükle
       queryClient.invalidateQueries({ queryKey: ["collections"] });
-    },
-    onError: (error: any) => {
-      showNotification(
-        "error",
-        error?.response?.data?.detail || "Koleksiyon oluşturulurken bir hata oluştu"
-      );
     },
   });
 };

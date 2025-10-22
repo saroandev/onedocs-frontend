@@ -11,14 +11,7 @@ export const useDeleteCollection = () => {
     mutationFn: (data: CollectionDeleteDto) => collectionApi.deleteCollection(data),
     onSuccess: (response) => {
       showNotification("success", response.message || "Koleksiyon başarıyla silindi");
-      // Collections listesini yeniden yükle
       queryClient.invalidateQueries({ queryKey: ["collections"] });
-    },
-    onError: (error: any) => {
-      showNotification(
-        "error",
-        error?.response?.data?.detail || "Koleksiyon silinirken bir hata oluştu"
-      );
     },
   });
 };

@@ -2,12 +2,15 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition: 0.3s ease-in-out;
 
   &.hasConversation {
     justify-content: space-between;
+    transition: 0.3s ease-in-out;
   }
 
   &.noConversation {
     justify-content: center;
+    transition: 0.3s ease-in-out;
   }
 }

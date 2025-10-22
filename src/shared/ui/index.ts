@@ -88,3 +88,4 @@ export { Loading } from "./loading/loading";
 export { Banner } from "./banner/banner";
 export { Textarea } from "./textarea/textarea";
 export { Skeleton } from "./skeleton/skeleton";
+export { ConfirmDialog } from "./confirm-dialog/confirm-dialog";

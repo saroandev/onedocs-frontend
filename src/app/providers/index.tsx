@@ -8,7 +8,7 @@ import { ToastContainer } from "react-toastify";
 const queryCache = new QueryCache({
   onError: (error: any) => {
     const errorMessage =
-      error?.response?.data?.detail || error?.response?.data?.detail[0]?.msg || "Bir hata oluştu";
+      error?.response?.data?.detail[0]?.msg || error?.response?.data?.detail || "Bir hata oluştu";
     showNotification("error", errorMessage);
   },
 });

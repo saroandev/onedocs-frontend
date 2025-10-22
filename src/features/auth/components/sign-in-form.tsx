@@ -5,6 +5,7 @@ import { ROUTES } from "@/app/router/config/routes.config";
 import { Button, Checkbox, Input } from "@/shared/ui";
 import { getInitialSignInValues } from "../constants";
 import { useSignIn } from "../hooks";
+import { OnedocsLogo } from "@/shared/ui/icons";
 
 export const SignInForm = () => {
   const { mutate: signIn, isPending: loading } = useSignIn();
@@ -26,6 +27,9 @@ export const SignInForm = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <OnedocsLogo />
+      </div>
       <div className={styles.top}>
         <h1>Hoş Geldiniz</h1>
         <p>Hesabınıza giriş yapın</p>

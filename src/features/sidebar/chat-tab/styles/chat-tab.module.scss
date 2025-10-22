@@ -100,9 +100,16 @@
   padding: 12px;
   transition: background-color 0.2s;
   cursor: pointer;
+  position: relative;
 
   &:hover {
     background-color: rgba(#f3f4f6, 0.3);
+  }
+
+  .deleteChat {
+    position: absolute;
+    right: 8px;
+    top: 8px;
   }
 }
 

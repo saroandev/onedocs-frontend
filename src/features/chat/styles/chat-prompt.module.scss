@@ -116,19 +116,19 @@
       background-color: #f8f9fa;
     }
   }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+    // color: #9ca3af;
+  }
 }
 
 .menuIcon {
   width: 16px;
   height: 16px;
   margin-right: 8px;
-}
-
-.smallIcon {
-  width: 16px;
-  height: 16px;
-  margin-right: 12px;
-  color: #9ca3af;
 }
 
 .menuLabel {
@@ -147,7 +147,8 @@
 }
 
 .disabledItem {
-  padding: 10px 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
   opacity: 0.5;
   pointer-events: none;
 }

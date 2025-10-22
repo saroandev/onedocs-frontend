@@ -4,7 +4,7 @@ import type { ConversationsResponse } from "../api/chat.types";
 
 export const useGetChats = () => {
   return useQuery<ConversationsResponse, Error>({
-    queryKey: ["allChats"],
+    queryKey: ["chats"],
     queryFn: () => chatApi.getChats({ limit: 20 }),
     staleTime: 1000 * 60 * 5, // 5 dakika boyunca fresh say
     gcTime: 1000 * 60 * 30, // 30 dakika cache'de tut (önceden cacheTime)

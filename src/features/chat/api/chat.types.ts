@@ -1,11 +1,9 @@
 export interface CreateChatDto {
   conversation_id?: string;
-  collections?: [
-    {
-      name: string;
-      scopes: string[];
-    }
-  ];
+  collections?: {
+    name: string;
+    scopes: ("shared" | "private")[];
+  }[];
   include_low_confidence_sources?: boolean;
   max_sources_in_context?: number;
   min_relevance_score?: number;
@@ -52,7 +50,7 @@ export interface ConversationMessage {
   created_at: string;
   message_id: string;
   processing_time: number;
-  role: string;
+  role: "user" | "assistant";
   sources: string[];
   tokens_used: number;
 }
@@ -80,4 +78,14 @@ export interface ConversationsResponse {
     started_at: string;
   }[];
   total_count: number;
+}
+
+export interface ChatDeleteDto {
+  conversation_id: string;
+}
+
+export interface ChatDeleteResponse {
+  conversation_id: "conv-123";
+  message: "Conversation deleted successfully";
+  messages_deleted: 4;
 }

@@ -23,11 +23,5 @@ export const useCreateCollectionDocuments = () => {
       // Ana collections listesini de yenile
       // queryClient.invalidateQueries({ queryKey: ["collections"] }); //TODO
     },
-    onError: (error: any) => {
-      showNotification(
-        "error",
-        error?.response?.data?.detail || "Dosya yüklenirken bir hata oluştu"
-      );
-    },
   });
 };

@@ -5,10 +5,9 @@
   transform: translate(-50%, -50%);
 
   .loading {
-    height: 24px;
-    width: 24px;
+    height: 50px;
+    width: 50px;
     overflow: hidden;
-    position: relative;
     z-index: 10003;
     animation: spin 1s linear infinite;
     -webkit-animation: 1s spin linear infinite;

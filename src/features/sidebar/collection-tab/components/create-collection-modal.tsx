@@ -10,7 +10,7 @@ import {
   Textarea,
   Radio,
 } from "@/shared/ui";
-import styles from "../styles/collection-dialog.module.scss";
+import styles from "../styles/create-collection-modal.module.scss";
 import { useFormik } from "formik";
 import { getInitialCreateCollectionModalValues } from "../constants";
 import { useCreateCollection } from "../hooks";

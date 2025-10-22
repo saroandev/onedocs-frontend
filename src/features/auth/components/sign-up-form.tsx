@@ -6,6 +6,7 @@ import { getInitialSignupValues } from "../constants";
 import { showNotification } from "@/shared/lib/notification";
 import { Button, Input } from "@/shared/ui";
 import { ROUTES } from "@/app/router/config/routes.config";
+import { OnedocsLogo } from "@/shared/ui/icons";
 
 export const SignUpForm = () => {
   const { mutate: signUp, isPending: loading } = useSignUp();
@@ -38,6 +39,9 @@ export const SignUpForm = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <OnedocsLogo />
+      </div>
       <div className={styles.top}>
         <h1>Hesap Oluşturun</h1>
         <p>Onedocs'a katılın ve başlayın</p>

@@ -1,0 +1,15 @@
+.container {
+  max-width: 448px;
+
+  .footer {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 448px;
+  }
+}

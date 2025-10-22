@@ -1,23 +1,26 @@
 export interface CreateCollectionDto {
   description: string;
   name: string;
-  scope: string;
+  scope: "private" | "shared";
+}
+
+export interface Collection {
+  chunk_count: number;
+  created_at: string;
+  created_by: string;
+  created_by_email: string;
+  description: string;
+  document_count: number;
+  milvus_collection_name: string;
+  minio_prefix: string;
+  name: string;
+  scope: "private" | "shared";
+  size_mb: number;
 }
 
 export interface CreateCollectionResponse {
-  collection: {
-    chunk_count: number;
-    created_at: string;
-    created_by: string;
-    created_by_email: string;
-    description: string;
-    document_count: number;
-    milvus_collection_name: string;
-    minio_prefix: string;
-    name: string;
-    scope: string;
+  collection: Collection & {
     size_bytes: number;
-    size_mb: number;
   };
   message: string;
 }
@@ -27,20 +30,10 @@ export interface CollectionsDto {
 }
 
 export interface CollectionsResponse {
-  collections: {
-    chunk_count: number;
-    created_at: string;
-    created_by: string;
-    created_by_email: string;
-    document_count: number;
-    milvus_collection_name: string;
-    minio_prefix: string;
-    name: string;
-    scope: string;
+  collections: (Collection & {
     size_bytes: number;
-    size_mb: number;
     updated_at: string;
-  }[];
+  })[];
   scope_filter: string;
   total_count: number;
 }
@@ -50,22 +43,9 @@ export interface CollectionDto {
   scope: "private" | "shared";
 }
 
-export interface CollectionResponse {
-  chunk_count: number;
-  created_at: string;
-  created_by: string;
-  created_by_email: string;
-  description: string;
-  document_count: number;
-  metadata: {
-    category: string;
-  };
-  milvus_collection_name: string;
-  minio_prefix: string;
-  name: string;
-  scope: string;
-  size_bytes: 5242880;
-  size_mb: number;
+export interface CollectionResponse extends Collection {
+  metadata: { category: string };
+  size_bytes: number;
   updated_at: string;
 }
 
@@ -79,7 +59,7 @@ export interface CollectionDeleteResponse {
   collection_name: string;
   documents_deleted: number;
   message: string;
-  scope: string;
+  scope: "private" | "shared";
 }
 
 export interface CollectionDocumentsDto {
@@ -99,7 +79,7 @@ export interface CollectionDocumentsResponse {
     category: string;
     pages: number;
   };
-  scope: string;
+  scope: "private" | "shared";
   size_bytes: number;
   size_mb: number;
   title: string;

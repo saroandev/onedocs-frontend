@@ -1,53 +1,17 @@
-export const collectionOptions = [
+export const optionsSource = [
   {
-    id: "1",
-    name: "İç Politika ve Prosedürler",
-    scope: "personal",
+    id: "turk-hukuk-mevzuat",
+    name: "Türk Hukuku Mevzuatları",
   },
   {
-    id: "3",
-    name: "Mevzuat ve Yönetmelikler",
-    scope: "org",
-  },
-  {
-    id: "4",
-    name: "İnsan Kaynakları Politikaları",
-    scope: "personal",
-  },
-  {
-    id: "5",
-    name: "Ticari Sözleşmeler",
-    scope: "org",
-  },
-];
-
-export const providerOptions = [
-  {
-    id: "karar",
-    name: "Rekabet Kurumu Kararları",
-  },
-  {
-    id: "reklam",
+    id: "reklam-kurum-karar",
     name: "Reklam Kurulu Kararları",
   },
   {
-    id: "mevzuat",
-    name: "Mevzuat",
+    id: "rekabet-kurum-karar",
+    name: "Rekabet Kurumu Kararları",
   },
 ];
-
-interface CollectionOption {
-  id: string;
-  name: string;
-  scope: "personal" | "org";
-}
-
-interface ProviderOption {
-  id: string;
-  name: string;
-}
-
-export type SelectedPromptOption = CollectionOption | ProviderOption;
 
 export const DOCUMENT_TEMPLATES = [
   {

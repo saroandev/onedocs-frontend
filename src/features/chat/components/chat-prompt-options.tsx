@@ -1,11 +1,10 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
-import type { SelectedPromptOption } from "../constants/chat-prompt-config";
 import styles from "../styles/chat-prompt.module.scss";
 import classnames from "classnames";
 import { X } from "lucide-react";
 
 export const ChatPromptOptions = (props: PromptOptionsProps) => {
-  const { selectedPromptOptions, handleRemove } = props;
+  const { selectedPromptOptions, handlePromptOptionRemove } = props;
 
   const getColorClass = (name: string) => {
     const colors = [
@@ -27,10 +26,10 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
     <div className={styles.selectedItems}>
       {/* visibleItems */}
       {selectedPromptOptions.slice(0, 3).map((item) => (
-        <div key={item.id} className={classnames(styles.badge, getColorClass(item.name))}>
-          <span>{item.name}</span>
+        <div key={item} className={classnames(styles.badge, getColorClass(item))}>
+          <span>{item}</span>
           <button
-            onClick={() => handleRemove(item.id)}
+            onClick={() => handlePromptOptionRemove(item)}
             className={styles.badgeRemove}
             aria-label="Kaldır"
           >
@@ -49,13 +48,10 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
           <PopoverContent align="start" className={styles.popoverContent}>
             <div className={styles.popoverGrid}>
               {selectedPromptOptions.slice(3).map((item) => (
-                <div
-                  key={item.id}
-                  className={classnames(styles.popoverItem, getColorClass(item.name))}
-                >
-                  <span className={styles.popoverLabel}>{item.name}</span>
+                <div key={item} className={classnames(styles.popoverItem, getColorClass(item))}>
+                  <span className={styles.popoverLabel}>{item}</span>
                   <button
-                    onClick={() => handleRemove(item.id)}
+                    onClick={() => handlePromptOptionRemove(item)}
                     className={styles.badgeRemove}
                     aria-label="Kaldır"
                   >
@@ -72,6 +68,6 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
 };
 
 interface PromptOptionsProps {
-  selectedPromptOptions: SelectedPromptOption[];
-  handleRemove: (selectedItemId: string) => void;
+  selectedPromptOptions: string[];
+  handlePromptOptionRemove: (selectedItemId: string) => void;
 }

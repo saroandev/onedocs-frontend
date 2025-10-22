@@ -1,14 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useRef, useState, type ChangeEvent, type KeyboardEvent } from "react";
-import { useUIStore } from "@/shared/store/ui.store";
-import { showNotification } from "@/shared/lib/notification";
+// import { useUIStore } from "@/shared/store/ui.store";
+// import { showNotification } from "@/shared/lib/notification";
 import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shared/ui";
 import styles from "../styles/chat-prompt.module.scss";
-import { SIDEBAR_MENU_IDS } from "@/widgets/sidebar/constants/sidebar-config";
-import {
-  DOCUMENT_TEMPLATES,
-  playbooks,
-  type SelectedPromptOption,
-} from "../constants/chat-prompt-config";
+// import { SIDEBAR_MENU_IDS } from "@/widgets/sidebar/constants/sidebar-config";
+// import { DOCUMENT_TEMPLATES, playbooks } from "../constants/chat-prompt-config";
 import { ChatDropdownMenus } from "./chat-dropdown-menus";
 import { ChatPromptOptions } from "./chat-prompt-options";
 import { useCreateChat } from "../hooks";
@@ -17,30 +14,26 @@ import { useChatStore } from "../store/chat.store";
 
 export const ChatPrompt = () => {
   const { conversationId } = useParams<{ conversationId: string }>();
-  const { mutate: createChat, isPending: isLoading } = useCreateChat();
-  const setChoosenTab = useUIStore((state) => state.setChoosenTab);
+  const { mutate: createChat, isPending: loadingCreateMessage } = useCreateChat();
+  // const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [value, setValue] = useState("");
-  const [selectedPromptOptions, setSelectedPromptOptions] = useState<SelectedPromptOption[]>([]);
-  const [showDocumentModal, setShowDocumentModal] = useState(false);
-  const [showPlaybookModal, setShowPlaybookModal] = useState(false);
+  const [selectedCollections, setSelectedCollections] = useState<
+    { name: string; scopes: ("shared" | "private")[] }[]
+  >([]);
+  const [selectedSources, setSelectedSources] = useState<string[]>([]);
+  // const [showDocumentModal, setShowDocumentModal] = useState(false);
+  // const [showPlaybookModal, setShowPlaybookModal] = useState(false);
   const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
+  const [selectedPromptOptions, setSelectedPromptOptions] = useState<string[]>([]);
 
   const handleSend = async () => {
     const userText = value.trim();
-    if (!userText || isLoading || isCreatingMessage) return;
+    if (!userText || loadingCreateMessage || isCreatingMessage) return;
 
     const userMessage = {
       question: userText,
-      // collections: [
-      //   {
-      //     name: "sozlesmeler";
-      //     scopes: ["private", "shared"];
-      //   },
-      //   {
-      //     name: "kanunlar";
-      //     scopes: ["private"];
-      //   }
-      // ];
+      collections: selectedCollections,
+      // sources: selectedSources,
       // include_low_confidence_sources: false;
       // max_sources_in_context: 5;
       // min_relevance_score: 0.7;
@@ -50,7 +43,6 @@ export const ChatPrompt = () => {
       //   stream: false;
       //   tone: "resmi";
       // };
-      // sources: ["mevzuat"];
       // top_k: 5;
       // use_reranker: true;
     };
@@ -71,7 +63,7 @@ export const ChatPrompt = () => {
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];
-    if (!f || isLoading) return;
+    if (!f || loadingCreateMessage) return;
     const sizeKB = Math.max(1, Math.round(f.size / 1024));
     const msg = `📎 Belge yüklendi: ${f.name} (${sizeKB} KB)`;
 
@@ -85,50 +77,70 @@ export const ChatPrompt = () => {
     e.target.value = "";
   };
 
-  const handleDocumentEdit = () => {
-    showNotification("success", "Belge Düzenle secildi");
+  // const handleDocumentEdit = () => {
+  //   showNotification("success", "Belge Düzenle secildi");
+  // };
+
+  // const handleDocumentCreate = () => {
+  //   setShowDocumentModal(true);
+  //   showNotification("success", "Belge Oluştur secildi");
+  // };
+
+  // const handleDocumentAnalysis = () => {
+  //   setShowPlaybookModal(true);
+  //   showNotification("success", "Belge Analizi secildi");
+  // };
+
+  // const handleDocumentCompare = () => {
+  //   setChoosenTab(SIDEBAR_MENU_IDS.TABLE);
+  //   showNotification("success", "Belgeleri Karşılaştır secildi");
+  // };
+
+  // const handleTimeTrack = () => {
+  //   setChoosenTab(SIDEBAR_MENU_IDS.TIME_TRACK);
+  //   showNotification("success", "zaman takibi secildi");
+  // };
+
+  // const handleChatDropdownMenus = {
+  //   documentEdit: handleDocumentEdit,
+  //   documentCreate: handleDocumentCreate,
+  //   documentAnalysis: handleDocumentAnalysis,
+  //   documentCompare: handleDocumentCompare,
+  //   timeTrack: handleTimeTrack,
+  // };
+
+  const handleCollectionSelect = ({
+    name,
+    scopes,
+  }: {
+    name: string;
+    scopes: ("shared" | "private")[];
+  }) => {
+    const alreadySelected = selectedCollections.some((collection) => collection.name === name);
+
+    const selectedOptions = alreadySelected
+      ? selectedCollections.filter((collection) => collection.name !== name)
+      : [...selectedCollections, { name, scopes }];
+
+    setSelectedPromptOptions([...selectedSources, ...selectedOptions.map((item) => item.name)]);
+    setSelectedCollections(selectedOptions);
   };
 
-  const handleDocumentCreate = () => {
-    setShowDocumentModal(true);
-    showNotification("success", "Belge Oluştur secildi");
+  const handleSourceSelect = (name: string) => {
+    const alreadySelected = selectedSources.some((source) => source === name);
+
+    const selectedOptions = alreadySelected
+      ? selectedSources.filter((source) => source !== name)
+      : [...selectedSources, name];
+
+    setSelectedPromptOptions([...selectedCollections.map((item) => item.name), ...selectedOptions]);
+    setSelectedSources(selectedOptions);
   };
 
-  const handleDocumentAnalysis = () => {
-    setShowPlaybookModal(true);
-    showNotification("success", "Belge Analizi secildi");
+  const handlePromptOptionRemove = (selectedOption: string) => {
+    const removedSelectedOptions = selectedPromptOptions.filter((item) => item !== selectedOption);
+    setSelectedSources(removedSelectedOptions);
   };
-
-  const handleDocumentCompare = () => {
-    setChoosenTab(SIDEBAR_MENU_IDS.TABLE);
-    showNotification("success", "Belgeleri Karşılaştır secildi");
-  };
-
-  const handleTimeTrack = () => {
-    setChoosenTab(SIDEBAR_MENU_IDS.TIME_TRACK);
-    showNotification("success", "zaman takibi secildi");
-  };
-
-  const handleChatDropdownMenus = {
-    documentEdit: handleDocumentEdit,
-    documentCreate: handleDocumentCreate,
-    documentAnalysis: handleDocumentAnalysis,
-    documentCompare: handleDocumentCompare,
-    timeTrack: handleTimeTrack,
-  };
-
-  const onSelectPromptOption = (item: SelectedPromptOption) =>
-    setSelectedPromptOptions((prev) => {
-      const isSelected = prev.some((c) => c.id === item.id);
-      if (isSelected) {
-        return prev.filter((c) => c.id !== item.id);
-      } else {
-        return [...prev, item];
-      }
-    });
-
-  const handleSelectedItemRemove = (selectedItemId: string) =>
-    setSelectedPromptOptions((prev) => prev.filter((c) => c.id !== selectedItemId));
 
   return (
     <div className={styles.container}>
@@ -139,20 +151,22 @@ export const ChatPrompt = () => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={onKeyDown}
-          disabled={isCreatingMessage || isLoading}
+          disabled={isCreatingMessage || loadingCreateMessage}
         />
       </div>
       <div className={styles.controlsSection}>
         <div className={styles.controlGroup}>
           <ChatDropdownMenus
-            handleOnSelect={handleChatDropdownMenus}
-            onSelectPromptOption={onSelectPromptOption}
-            selectedPromptOptions={selectedPromptOptions}
+            // handleOnSelect={handleChatDropdownMenus}
+            onSelectCollection={handleCollectionSelect}
+            selectedCollections={selectedCollections}
+            onSelectSource={handleSourceSelect}
+            selectedSources={selectedSources}
           />
           <div className={styles.separator} role="separator" />
           <ChatPromptOptions
             selectedPromptOptions={selectedPromptOptions}
-            handleRemove={handleSelectedItemRemove}
+            handlePromptOptionRemove={handlePromptOptionRemove}
           />
         </div>
         <div className={styles.sendButtonDesktop}>
@@ -161,14 +175,14 @@ export const ChatPrompt = () => {
             onClick={handleAttachClick}
             buttonType="justIcon"
             iconType={{ default: "paperclip" }}
-            disabled={isLoading || isCreatingMessage}
+            disabled={loadingCreateMessage || isCreatingMessage}
           />
           <input
             ref={fileInputRef}
             type="file"
             className={styles.hiddenInput}
             onChange={handleFileChange}
-            disabled={isLoading || isCreatingMessage}
+            disabled={loadingCreateMessage || isCreatingMessage}
           />
           <Button
             label=""
@@ -176,17 +190,17 @@ export const ChatPrompt = () => {
             buttonType="justIcon"
             iconType={{ default: "arrow-up" }}
             className={styles.sendButton}
-            isLoading={isLoading || isCreatingMessage}
-            disabled={value.trim() == ""}
+            disabled={loadingCreateMessage || isCreatingMessage}
           />
         </div>
-        <div className={`${styles.mobileControls} ${styles.leftControls}`}>
+        {/* <div className={`${styles.mobileControls} ${styles.leftControls}`}>
           <div className={styles.mobileControlGroup}>
             <ChatDropdownMenus
               handleOnSelect={handleChatDropdownMenus}
-              onSelectPromptOption={onSelectPromptOption}
-              selectedPromptOptions={selectedPromptOptions}
-              isMobile
+              onSelectCollection={handleCollectionSelect}
+              selectedCollections={selectedCollections}
+              onSelectSource={handleSourceSelect}
+              selectedSources={selectedSources}
             />
           </div>
           <div className={styles.mobileActionButtons}>
@@ -196,7 +210,7 @@ export const ChatPrompt = () => {
               buttonType="iconWithText"
               iconType={{ default: "paperclip" }}
               iconTextReverse
-              disabled={isLoading || isCreatingMessage}
+              disabled={loadingCreateMessage || isCreatingMessage}
             />
             <Button
               label="Gönder"
@@ -205,13 +219,13 @@ export const ChatPrompt = () => {
               iconType={{ default: "arrow-up" }}
               iconTextReverse
               variant="secondary"
-              disabled={isLoading || isCreatingMessage}
+              disabled={loadingCreateMessage || isCreatingMessage}
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
-      <Dialog open={showPlaybookModal} onOpenChange={setShowPlaybookModal}>
+      {/* <Dialog open={showPlaybookModal} onOpenChange={setShowPlaybookModal}>
         <DialogContent className={styles.dialogContent}>
           <DialogHeader>
             <DialogTitle>Playbook Seçin</DialogTitle>
@@ -256,7 +270,7 @@ export const ChatPrompt = () => {
             </div>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 };

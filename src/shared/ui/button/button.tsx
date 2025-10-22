@@ -14,7 +14,7 @@ import {
   ChevronDown,
   ChevronRight,
   X,
-  Trash,
+  Trash2,
   FolderPlus,
   EllipsisVertical,
   SlidersHorizontal,
@@ -58,7 +58,7 @@ export const Button = (props: Props) => {
   const iconTypes = {
     [ICON_TYPE.ADD]: <Plus />,
     [ICON_TYPE.ARROW]: <MoveRight />,
-    [ICON_TYPE.DELETE]: <Trash />,
+    [ICON_TYPE.DELETE]: <Trash2 />,
     [ICON_TYPE.EXPORT]: <Download />,
     [ICON_TYPE.DOCUMENT]: <FolderPlus />,
     [ICON_TYPE.UPDATE]: <Pencil />,

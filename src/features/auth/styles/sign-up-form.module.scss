@@ -1,4 +1,14 @@
 .container {
+  .header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    svg {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
   .top {
     text-align: center;
     margin-bottom: 30px;

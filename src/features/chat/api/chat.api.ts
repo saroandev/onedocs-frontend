@@ -6,6 +6,8 @@ import type {
   ConversationResponse,
   CreateChatDto,
   CreateChatResponse,
+  ChatDeleteDto,
+  ChatDeleteResponse,
 } from "./chat.types";
 
 export const chatApi = {
@@ -35,6 +37,15 @@ export const chatApi = {
       {
         params: { limit },
       }
+    );
+    return response.data;
+  },
+
+  deleteChat: async (data: ChatDeleteDto): Promise<ChatDeleteResponse> => {
+    const { conversation_id } = data;
+
+    const response = await onedocsKnowledgeBaseApiClient.delete<ChatDeleteResponse>(
+      `conversations/${conversation_id}`
     );
     return response.data;
   },
