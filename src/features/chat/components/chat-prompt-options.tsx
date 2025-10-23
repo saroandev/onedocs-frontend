@@ -1,7 +1,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui";
-import styles from "../styles/chat-prompt.module.scss";
 import classnames from "classnames";
 import { X } from "lucide-react";
+import styles from "@/widgets/chat/styles/chat-prompt.module.scss";
 
 export const ChatPromptOptions = (props: PromptOptionsProps) => {
   const { selectedPromptOptions, handlePromptOptionRemove } = props;

@@ -63,6 +63,7 @@ export const SignInForm = () => {
               checked={values.rememberMe}
               onChange={(e) => setFieldValue("rememberMe", e.target.checked)}
               label="Beni hatırla"
+              disabled={loading}
             />
             <Link to={ROUTES.FORGOT_PASSWORD}>Şifremi Unuttum</Link>
           </div>

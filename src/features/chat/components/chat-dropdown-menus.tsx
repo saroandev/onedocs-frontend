@@ -16,10 +16,10 @@ import {
   Library,
 } from "lucide-react";
 // import { providerOptions } from "../constants/chat-prompt-config";
-import styles from "../styles/chat-prompt.module.scss";
+import styles from "@/widgets/chat/styles/chat-prompt.module.scss";
 import classnames from "classnames";
 import { useGetCollections } from "@/features/sidebar/collection-tab/hooks";
-import { optionsSource } from "../constants/chat-prompt-config";
+import { optionsSource } from "../constants/chat-config";
 import {
   LogoAdaletBakanlik,
   LogoLexPara,

@@ -15,6 +15,11 @@ import { ReactComponent as LogoTLB } from "../../assets/icons/tlb.svg";
 import { ReactComponent as LogoAdaletBakanlik } from "../../assets/icons/adalet-bakanlik.svg";
 import { ReactComponent as LogoRekabetKurum } from "../../assets/icons/rekabet-kurum.svg";
 import { ReactComponent as LogoReklamKurul } from "../../assets/icons/ticaret-bakanlik.svg";
+import { ReactComponent as IconInfo } from "../../assets/icons/info.svg";
+import { ReactComponent as IconSuccess } from "../../assets/icons/success.svg";
+import { ReactComponent as IconWarning } from "../../assets/icons/warning.svg";
+import { ReactComponent as IconEmpty } from "../../assets/icons/empty.svg";
+import { ReactComponent as IconErrorCircle } from "../../assets/icons/error-circle.svg";
 
 export {
   IconMaintenance,
@@ -34,4 +39,9 @@ export {
   LogoAdaletBakanlik,
   LogoRekabetKurum,
   LogoReklamKurul,
+  IconInfo,
+  IconSuccess,
+  IconWarning,
+  IconEmpty,
+  IconErrorCircle,
 };

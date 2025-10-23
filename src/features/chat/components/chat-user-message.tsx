@@ -1,5 +1,5 @@
-import styles from "../styles/chat-area.module.scss";
 import classnames from "classnames";
+import styles from "@/widgets/chat/styles/chat-area.module.scss";
 
 export const ChatUserMessage = (props: ChatUserMessageProps) => {
   const { data } = props;

@@ -1,5 +1,5 @@
 import { Button } from "@/shared/ui";
-import styles from "../styles/chat-area.module.scss";
+import styles from "@/widgets/chat/styles/chat-area.module.scss";
 import classnames from "classnames";
 // import { throttleBasic, useLLMOutput, useStreamExample } from "@llm-ui/react";
 // import { CodeBlock, MarkdownComponent } from "@/shared/lib/llm-ui";

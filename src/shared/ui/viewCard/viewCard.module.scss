@@ -1,0 +1,138 @@
+.containerWithCard {
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  color: #1d2939;
+  margin-bottom: 30px;
+
+  .header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #f3f4f6;
+
+    .title {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1f2937;
+    }
+
+    .description {
+      margin-top: 4px;
+      font-size: 14px;
+      color: #6b7280;
+    }
+  }
+
+  .content {
+    padding: 16px;
+    font-size: 14px;
+  }
+}
+
+.containerWithEmptyCard {
+  min-height: 300px;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  background-color: #fff;
+  padding: 28px 20px;
+
+  .content {
+    margin: 0px auto;
+    width: 100%;
+    max-width: 630px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .title {
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: #1f2937;
+      font-size: 24px;
+      border-bottom: 1px solid #e5e7eb;
+      width: fit-content;
+    }
+
+    .description {
+      font-size: 14px;
+      color: #6b7280;
+    }
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: 0px auto;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      color: #6b7280;
+    }
+  }
+}
+
+// html[data-theme="dark"] .containerWithCard {
+//   background-color: color-mix(in oklab, #fff 3%, transparent);
+//   border-color: variables.$black-10;
+//   color: #1d2939;
+
+//   .header {
+//     border-color: variables.$black-10;
+
+//     .title {
+//       color: variables.$gray-10;
+//     }
+
+//     .description {
+//       color: variables.$blue-190;
+//     }
+//   }
+// }
+
+// html[data-theme="dark"] .containerWithEmptyCard {
+//   border-color: #1f2937;
+//   background-color: variables.$black-40;
+
+//   .content {
+//     .title {
+//       color: variables.$gray-10;
+//     }
+
+//     .description {
+//       color: variables.$gray-60;
+//     }
+//   }
+// }
+
+@media (min-width: 1280px) {
+  .containerWithEmptyCard {
+    padding: 48px 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  .containerWithCard {
+    .content {
+      padding: 24px;
+    }
+  }
+}
+
+@media (min-width: 640) {
+  .containerWithEmptyCard {
+    .content {
+      .title {
+        font-size: 20px;
+      }
+
+      .description {
+        font-size: 16px;
+      }
+    }
+  }
+}

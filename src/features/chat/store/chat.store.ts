@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
 
-export const useChatStore = create<UIState>((set) => ({
+export const useChatStore = create<ChatState>((set) => ({
   playbookAnalysisOpen: false,
   selectedPlaybookForAnalysis: null,
   conversationId: "",
@@ -14,7 +14,7 @@ export const useChatStore = create<UIState>((set) => ({
   setIsCreatingMessage: (val) => set({ isCreatingMessage: val }),
 }));
 
-interface UIState {
+interface ChatState {
   playbookAnalysisOpen: boolean;
   selectedPlaybookForAnalysis: any | null;
   conversationId: string | null;

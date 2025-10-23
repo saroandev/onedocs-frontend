@@ -26,7 +26,7 @@ export interface CreateCollectionResponse {
 }
 
 export interface CollectionsDto {
-  query: "private" | "shared" | "all" | "";
+  scope: "private" | "shared" | "all" | "";
 }
 
 export interface CollectionsResponse {

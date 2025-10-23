@@ -25,9 +25,10 @@ export const collectionApi = {
     return response.data;
   },
 
-  getCollections: async (query: CollectionsDto): Promise<CollectionsResponse> => {
+  getCollections: async (data: CollectionsDto): Promise<CollectionsResponse> => {
+    const { scope } = data;
     const response = await onedocsKnowledgeBaseApiClient.get<CollectionsResponse>("collections", {
-      params: query,
+      params: { scope },
     });
     return response.data;
   },

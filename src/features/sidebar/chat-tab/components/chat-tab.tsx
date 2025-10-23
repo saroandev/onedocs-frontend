@@ -1,4 +1,4 @@
-import { Button, ConfirmDialog } from "@/shared/ui";
+import { Alert, Button, ConfirmDialog, ViewCard } from "@/shared/ui";
 import styles from "../styles/chat-tab.module.scss";
 import { useUIStore } from "@/shared/store/ui.store";
 import { useGetChats } from "@/features/chat/hooks/use-get-chats";
@@ -37,9 +37,24 @@ export const ChatTab = () => {
   };
 
   const renderContent = () => {
-    if (isError) return <div>Hata oluştu</div>;
+    if (isError)
+      return (
+        <Alert
+          variant="error"
+          title="Sohbetler yüklenemedi"
+          message="Sohbet geçmişi yüklenirken beklenmeyen bir hata oluştu."
+          showLink={false}
+        />
+      );
 
-    if (data?.total_count == 0) return <div>herhangi bi sohbet yoktur</div>;
+    if (data?.total_count == 0)
+      return (
+        <ViewCard
+          className={styles.emptyCard}
+          title="Sohbet Listesi"
+          description="Herhangi bir sohbet yoktur"
+        />
+      );
 
     return data?.conversations.map((chat, index) => (
       <div

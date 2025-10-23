@@ -19,7 +19,6 @@ export const authRoutes: AppRoute[] = [
     path: ROUTES.CHAT,
     element: <PageLoader key="ChatPage" moduleName="ChatPage" modulePath="chat/chat.page.tsx" />,
   },
-
   {
     path: "*",
     element: <Error404Page />,

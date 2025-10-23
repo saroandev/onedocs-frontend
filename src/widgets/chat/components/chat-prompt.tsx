@@ -6,11 +6,8 @@ import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shar
 import styles from "../styles/chat-prompt.module.scss";
 // import { SIDEBAR_MENU_IDS } from "@/widgets/sidebar/constants/sidebar-config";
 // import { DOCUMENT_TEMPLATES, playbooks } from "../constants/chat-prompt-config";
-import { ChatDropdownMenus } from "./chat-dropdown-menus";
-import { ChatPromptOptions } from "./chat-prompt-options";
-import { useCreateChat } from "../hooks";
+import { ChatDropdownMenus, ChatPromptOptions, useCreateChat, useChatStore } from "@/features/chat";
 import { useParams } from "react-router-dom";
-import { useChatStore } from "../store/chat.store";
 
 export const ChatPrompt = () => {
   const { conversationId } = useParams<{ conversationId: string }>();

@@ -1,4 +1,4 @@
-export { Alert, AlertDescription, AlertTitle } from "./alert/alert";
+export { Alert } from "./alert/alert";
 export { Badge } from "./badge/badge";
 export {
   Breadcrumb,
@@ -89,3 +89,4 @@ export { Banner } from "./banner/banner";
 export { Textarea } from "./textarea/textarea";
 export { Skeleton } from "./skeleton/skeleton";
 export { ConfirmDialog } from "./confirm-dialog/confirm-dialog";
+export { ViewCard } from "./viewCard/viewCard";

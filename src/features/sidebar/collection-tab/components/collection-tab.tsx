@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CreateCollectionModal } from "./create-collection-modal";
 import { CollectionDetail } from "./collection-detail";
 import styles from "../styles/collection-list.module.scss";
-import { Button, Skeleton, Tabs, TabsList, TabsTrigger } from "@/shared/ui";
+import { Button, Skeleton, Tabs, TabsList, TabsTrigger, ViewCard } from "@/shared/ui";
 import { useUIStore } from "@/shared/store/ui.store";
 import { useGetCollections } from "../hooks";
 import { Collection } from "./collection";
@@ -18,7 +18,7 @@ export const CollectionTab = () => {
   const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>([]);
 
   const { data: collectionsData, isLoading } = useGetCollections({
-    query: "all",
+    scope: "all",
   });
 
   const handleAskAssistant = () => {
@@ -94,12 +94,11 @@ export const CollectionTab = () => {
           )}
 
           {collectionsData?.collections.length === 0 && (
-            <div className={styles.collectionsList}>
-              <div className={styles.emptyState}>
-                <p className={styles.emptyTitle}>Henüz koleksiyon yok</p>
-                <p className={styles.emptyDesc}>Yeni bir koleksiyon oluşturarak başlayın</p>
-              </div>
-            </div>
+            <ViewCard
+              className={styles.emptyCard}
+              title="Koleksiyon Listesi"
+              description="Henüz koleksiyon yok, yeni bir koleksiyon oluşturarak başlayın"
+            />
           )}
 
           {collectionsData?.collections?.map((collection) => {

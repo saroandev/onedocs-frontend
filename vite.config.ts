@@ -27,7 +27,7 @@ export default defineConfig({
     minify: "terser",
   },
   server: {
-    port: 3000,
+    port: 8088,
     // hmr: { overlay: false }, //TODO
   },
 });
