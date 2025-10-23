@@ -14,6 +14,8 @@ import type {
   CollectionDeleteResponse,
   CreateCollectionDto,
   CreateCollectionResponse,
+  CollectionDocumentDeleteDto,
+  CollectionDocumentDeleteResponse,
 } from "./collection.types";
 
 export const collectionApi = {
@@ -77,7 +79,7 @@ export const collectionApi = {
     const { collection_name, file, scope } = data;
 
     const response = await onedocsKnowledgeBaseApiClient.post<CollectionCreateDocumentResponse>(
-      `collections/${collection_name}/ingest`,
+      `api/collections/${collection_name}/ingest`,
       { file, scope },
       {
         headers: { "Content-Type": "multipart/form-data" },
@@ -92,12 +94,24 @@ export const collectionApi = {
     const { collection_name, scope, files, max_files } = data;
 
     const response = await onedocsKnowledgeBaseApiClient.post<CollectionCreateDocumentsResponse>(
-      `collections/${collection_name}/batch-ingest`,
+      `api/collections/${collection_name}/batch-ingest`,
       { files, scope },
       {
         params: { max_files },
         headers: { "Content-Type": "multipart/form-data" },
       }
+    );
+    return response.data;
+  },
+
+  deleteDocument: async (
+    data: CollectionDocumentDeleteDto
+  ): Promise<CollectionDocumentDeleteResponse> => {
+    const { document_id, scope, collection } = data;
+
+    const response = await onedocsKnowledgeBaseApiClient.delete<CollectionDocumentDeleteResponse>(
+      `documents/${document_id}`,
+      { params: { scope, collection } }
     );
     return response.data;
   },

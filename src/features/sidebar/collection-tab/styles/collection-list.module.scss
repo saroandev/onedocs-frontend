@@ -230,34 +230,6 @@
     color: #6b7280;
   }
 
-  .emptyState {
-    text-align: center;
-    padding: 48px;
-    background-color: rgba(#f8f9fa, 0.5);
-    border-radius: 8px;
-    border: 2px dashed #e5e7eb;
-
-    .emptyIcon {
-      margin: 0 auto;
-      height: 48px;
-      width: 48px;
-      color: #9ca3af;
-      margin-bottom: 12px;
-    }
-
-    .emptyTitle {
-      color: #1f2937;
-      font-weight: 500;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .emptyDesc {
-      font-size: 14px;
-      color: #9ca3af;
-    }
-  }
-
   .documentsList {
     display: flex;
     flex-direction: column;

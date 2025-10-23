@@ -7,8 +7,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Skeleton,
+  ViewCard,
 } from "@/shared/ui";
-import { FileText, FolderOpen } from "lucide-react";
+import { FileText } from "lucide-react";
 import styles from "../styles/collection-list.module.scss";
 import { useRef, useState } from "react";
 import {
@@ -16,6 +17,7 @@ import {
   useGetCollectionDocuments,
   useDeleteCollection,
   useCreateCollectionDocument,
+  useDeleteDocument,
 } from "../hooks";
 import { formatDate } from "@/shared/lib/dateFormatter";
 
@@ -23,26 +25,29 @@ export const CollectionDetail = (props: CollectionListProps) => {
   const { setSelectedCollectionData, selectedCollectionData } = props;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showDeleteCollectionModal, setShowDeleteCollectionModal] = useState(false);
+  const [showDeleteDocModal, setShowDeleteDocModal] = useState(false);
+  const [selectedDocData, setSelectedDocData] = useState<{
+    document_id: string;
+    scope: string;
+    collection?: string;
+    title?: string;
+  } | null>(null);
 
-  // Collection detaylarını çek
   const { data: collectionDetail, isLoading: isLoadingCollection } = useGetCollection({
     collection_name: selectedCollectionData.name,
     scope: selectedCollectionData.scope,
   });
 
-  // Collection documents'ı çek
   const { data: documents = [], isLoading: isLoadingDocuments } = useGetCollectionDocuments({
     collection_name: selectedCollectionData.name,
     scope: selectedCollectionData.scope,
   });
 
-  // Delete collection mutation
-  const { mutate: deleteCollection, isPending: isDeleting } = useDeleteCollection();
-
-  // Create document mutation
+  const { mutate: deleteCollection, isPending: isDeletingCollection } = useDeleteCollection();
   const { mutate: createDocument, isPending: isUploadingDocument } = useCreateCollectionDocument();
+  const { mutate: deleteDocument, isPending: isDeletingDocument } = useDeleteDocument();
 
-  const handleDelete = () =>
+  const handleDeleteCollection = () =>
     deleteCollection(
       {
         collection_name: selectedCollectionData.name,
@@ -73,6 +78,14 @@ export const CollectionDetail = (props: CollectionListProps) => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+  };
+
+  const handleDeleteDocument = () => {
+    deleteDocument(selectedDocData, {
+      onSuccess: () => {
+        setShowDeleteDocModal(false);
+      },
+    });
   };
 
   const renderContent = () => {
@@ -114,11 +127,7 @@ export const CollectionDetail = (props: CollectionListProps) => {
           <span className={styles.fileCount}>{documents.length} dosya</span>
         </div>
         {documents.length === 0 ? (
-          <div className={styles.emptyState}>
-            <FolderOpen className={styles.emptyIcon} />
-            <p className={styles.emptyTitle}>Henüz dosya yüklenmemiş</p>
-            <p className={styles.emptyDesc}>Dosya yükleyerek başlayın</p>
-          </div>
+          <ViewCard title="Dosya Listesi" description="Herhangi bir yüklenen dosya yoktur" />
         ) : (
           <div className={styles.documentsList}>
             {documents.map((doc) => (
@@ -145,7 +154,20 @@ export const CollectionDetail = (props: CollectionListProps) => {
                         İndir
                       </DropdownMenuItem>
                       <DropdownMenuItem>Yeniden adlandır</DropdownMenuItem>
-                      <DropdownMenuItem className={styles.dropdownRemove}>Sil</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setShowDeleteDocModal(true);
+                          setSelectedDocData({
+                            document_id: doc.document_id,
+                            scope: doc.scope,
+                            collection: doc.collection_name,
+                            title: doc.title,
+                          });
+                        }}
+                        className={styles.dropdownRemove}
+                      >
+                        Sil
+                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -208,7 +230,7 @@ export const CollectionDetail = (props: CollectionListProps) => {
               <DropdownMenuItem
                 className={styles.dropdownRemove}
                 onClick={() => setShowDeleteCollectionModal(true)}
-                disabled={isDeleting || isUploadingDocument}
+                disabled={isDeletingCollection || isUploadingDocument || isDeletingDocument}
               >
                 Sil
               </DropdownMenuItem>
@@ -219,11 +241,20 @@ export const CollectionDetail = (props: CollectionListProps) => {
       {renderContent()}
       {showDeleteCollectionModal && (
         <ConfirmDialog
-          loading={isDeleting}
+          loading={isDeletingCollection}
           open={showDeleteCollectionModal}
           setOpen={setShowDeleteCollectionModal}
           content={`"${selectedCollectionData}" koleksiyonunu silmek istediğinize emin misiniz?`}
-          onConfirm={handleDelete}
+          onConfirm={handleDeleteCollection}
+        />
+      )}
+      {showDeleteDocModal && (
+        <ConfirmDialog
+          loading={isDeletingDocument}
+          open={showDeleteDocModal}
+          setOpen={setShowDeleteDocModal}
+          content={`"${selectedDocData.title}" dosyasını silmek istediğinize emin misiniz?`}
+          onConfirm={handleDeleteDocument}
         />
       )}
     </div>

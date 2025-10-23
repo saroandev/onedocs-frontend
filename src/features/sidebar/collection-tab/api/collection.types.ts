@@ -152,3 +152,21 @@ export interface CollectionCreateDocumentsResponse {
   total_files: number;
   total_processing_time: number;
 }
+
+export interface CollectionDocumentDeleteDto {
+  document_id: string;
+  scope: string;
+  collection?: string;
+}
+
+export interface CollectionDocumentDeleteResponse {
+  deleted_chunks: number;
+  details: {
+    milvus_status: string;
+    minio_status: string;
+  };
+  document_id: string;
+  document_title: string;
+  message: string;
+  success: boolean;
+}

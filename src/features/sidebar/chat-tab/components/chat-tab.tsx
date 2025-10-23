@@ -48,13 +48,7 @@ export const ChatTab = () => {
       );
 
     if (data?.total_count == 0)
-      return (
-        <ViewCard
-          className={styles.emptyCard}
-          title="Sohbet Listesi"
-          description="Herhangi bir sohbet yoktur"
-        />
-      );
+      return <ViewCard title="Sohbet Listesi" description="Herhangi bir sohbet yoktur" />;
 
     return data?.conversations.map((chat, index) => (
       <div
