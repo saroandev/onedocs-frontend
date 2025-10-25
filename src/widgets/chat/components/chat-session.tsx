@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import styles from "../styles/chat-area.module.scss";
+import styles from "../styles/chat-session.module.scss";
 import { useGetChat, useChatStore, ChatAssistantMessage, ChatUserMessage } from "@/features/chat";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { ROUTES } from "@/app/router/config/routes.config";
@@ -23,6 +23,16 @@ export const ChatSession = () => {
       goTo(ROUTES.DASHBOARD, { replace: true });
     }
   }, [isError, error]);
+
+  // const newestMessageId = useMemo(() => {
+  //   if (data?.messages && data.messages.length > 0) {
+  //     const lastMessage = data.messages[data.messages.length - 1];
+  //     if (lastMessage.role === "assistant") {
+  //       return lastMessage.message_id;
+  //     }
+  //   }
+  //   return null;
+  // }, [data?.messages]);
 
   if ((!data || data?.messages.length === 0) && !isCreatingMessage && !conversationId) {
     return (
@@ -66,7 +76,11 @@ export const ChatSession = () => {
             message.role === "user" ? (
               <ChatUserMessage data={message.content} key={message.message_id} />
             ) : (
-              <ChatAssistantMessage data={message.content} key={message.message_id} />
+              <ChatAssistantMessage
+                data={message.content}
+                key={message.message_id}
+                // isNew={message.message_id === newestMessageId}
+              />
             )
           )}
           {isCreatingMessage && conversationId && <Shell className={styles.loading} />}

@@ -87,7 +87,6 @@ export const useCreateChat = () => {
     onSuccess: (aiResponse: CreateChatResponse, _variables, _context: any) => {
       const responseConversationId = aiResponse.conversation_id;
 
-      // Mevcut conversation'a AI cevabını ekle
       const queryKey = ["chat", responseConversationId];
       queryClient.setQueryData<any>(queryKey, (old: any) => {
         if (!old) return old;

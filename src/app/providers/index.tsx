@@ -21,10 +21,10 @@ const queryClient = new QueryClient({
       staleTime: 1000 * 60 * 5, // 5 dakika cache
       gcTime: 1000 * 60 * 30, // 30 dakika (eski adı cacheTime)
       refetchOnWindowFocus: false, // Pencere focus'ta yenileme
-      retry: 1, // Hata durumunda 1 kez retry
+      retry: false, // Hata durumunda 1 kez retry
     },
     mutations: {
-      retry: 0,
+      retry: false,
     },
   },
 });

@@ -102,7 +102,7 @@ export const ProfileTab = () => {
               variant="destructive"
               iconTextReverse
               onClick={() => signOut()}
-              disabled={loading}
+              isLoading={loading}
             />
           </div>
         </div>

@@ -153,12 +153,6 @@
   pointer-events: none;
 }
 
-.emptyState {
-  padding: 12px 16px;
-  font-size: 14px;
-  color: #9ca3af;
-}
-
 .collectionContent {
   flex: 1;
   display: flex;
@@ -283,20 +277,6 @@
   @media (min-width: 640px) {
     display: none;
   }
-}
-
-.libraryButton {
-  height: 28px;
-  padding: 0 8px;
-  font-size: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.libraryIcon {
-  width: 14px;
-  height: 14px;
 }
 
 .dialogContent {
@@ -488,4 +468,24 @@
 .color7 {
   background-color: #fee4e2;
   color: #f04438;
+}
+
+.emptyCard {
+  padding: 24px 20px;
+  min-height: 220px;
+
+  div {
+    &:last-child {
+      width: 30px !important;
+      height: 30px !important;
+    }
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 14px;
+  }
 }

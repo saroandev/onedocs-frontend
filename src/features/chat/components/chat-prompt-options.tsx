@@ -28,11 +28,7 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
       {selectedPromptOptions.slice(0, 3).map((item) => (
         <div key={item} className={classnames(styles.badge, getColorClass(item))}>
           <span>{item}</span>
-          <button
-            onClick={() => handlePromptOptionRemove(item)}
-            className={styles.badgeRemove}
-            aria-label="Kaldır"
-          >
+          <button onClick={() => handlePromptOptionRemove(item)} className={styles.badgeRemove}>
             <X className={styles.xIcon} />
           </button>
         </div>
@@ -53,7 +49,6 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
                   <button
                     onClick={() => handlePromptOptionRemove(item)}
                     className={styles.badgeRemove}
-                    aria-label="Kaldır"
                   >
                     <X className={styles.xIcon} />
                   </button>

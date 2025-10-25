@@ -1,64 +1,39 @@
+// src/features/chat/components/chat-assistant-message.tsx
 import { Button } from "@/shared/ui";
-import styles from "@/widgets/chat/styles/chat-area.module.scss";
+// import { MarkdownRenderer } from "@/shared/ui/markdown-renderer/markdown-renderer";
+// import { TypewriterText } from "@/shared/ui/typewriter-text/typewriter-text";
+import styles from "@/widgets/chat/styles/chat-session.module.scss";
 import classnames from "classnames";
-// import { throttleBasic, useLLMOutput, useStreamExample } from "@llm-ui/react";
-// import { CodeBlock, MarkdownComponent } from "@/shared/lib/llm-ui";
-// import { codeBlockLookBack, findCompleteCodeBlock, findPartialCodeBlock } from "@llm-ui/code";
-// import { markdownLookBack } from "@llm-ui/markdown";
-
-// const chatLikeThrottle = throttleBasic({
-//   readAheadChars: 40, // LLM çıktısının 40 karakterini buffer olarak hazırla
-//   targetBufferChars: 25, // Yazarken 25 karakterlik bir fark bırak
-//   adjustPercentage: 0.3, // Hızlanma/yavaşlama oranı (düşük = daha doğal)
-//   frameLookBackMs: 8000, // Ortalama hız hesaplamasında 8 saniyelik pencere
-//   windowLookBackMs: 1500, // Küçük anlık yavaşlama/yumuşatma süresi
-// });
+// import { useState } from "react";
 
 export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
-  const { data } = props;
-  // const { isStreamFinished, output } = useStreamExample(data);
-
-  // const { blockMatches } = useLLMOutput({
-  //   llmOutput: output,
-  //   fallbackBlock: {
-  //     component: MarkdownComponent, // from Step 1
-  //     lookBack: markdownLookBack(),
-  //   },
-  //   blocks: [
-  //     {
-  //       component: CodeBlock, // from Step 2
-  //       findCompleteMatch: findCompleteCodeBlock(),
-  //       findPartialMatch: findPartialCodeBlock(),
-  //       lookBack: codeBlockLookBack(),
-  //     },
-  //   ],
-  //   isStreamFinished,
-  //   throttle: chatLikeThrottle,
-  // });
-
-  // const handleMail = (data: ChatMessageType) => {
-  //   const subject = encodeURIComponent("Sohbet Mesajı");
-  //   const body = encodeURIComponent(data.content);
-  //   window.location.href = `mailto:?subject=${subject}&body=${body}`;
-  // };
+  const {
+    data,
+    //  isNew = false
+  } = props;
+  // const [isTypingComplete, setIsTypingComplete] = useState(!isNew);
 
   return (
     <div className={classnames(styles.messageWrapper, styles.assistantMessage)}>
       <div className={styles.messageContent}>
         <div className={styles.assistantBubble}>
-          <div className={styles.textContent}>{data}</div>
-
-          {/* {isFetching ? (
-            <div className={styles.textContent}>{data}</div>
-          ) : (
           <div className={styles.textContent}>
-            {blockMatches.map((blockMatch, index) => {
-              const Component = blockMatch.block.component;
-              return <Component key={index} blockMatch={blockMatch} />;
-            })}
+            {/* {isNew ? (
+              <TypewriterText
+                text={data}
+                speed={5}
+                isNew={isNew}
+                onComplete={() => setIsTypingComplete(true)}
+              />
+            ) : (
+              <MarkdownRenderer content={data} />
+            )} */}
+            {data}
           </div>
-          )} */}
-          <div className={styles.actionButtons}>
+
+          {/* Butonları typing bittiğinde göster */}
+          {/* {isTypingComplete && ( */}
+          <div className={classnames(styles.actionButtons, styles.fadeIn)}>
             <Button
               label="Beğen"
               buttonType="justIcon"
@@ -83,7 +58,6 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
               buttonType="justIcon"
               iconType={{ default: "mail" }}
               variant="secondary"
-              // onClick={() => handleMail(data)}
             />
             <Button
               label="Editöre Ekle"
@@ -92,6 +66,7 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
               variant="secondary"
             />
           </div>
+          {/* )} */}
         </div>
       </div>
     </div>
@@ -100,4 +75,5 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
 
 interface ChatAssistantMessageProps {
   data: string;
+  isNew?: boolean; // Yeni gelen mesaj mı yoksa geçmiş conversation'dan mı?
 }

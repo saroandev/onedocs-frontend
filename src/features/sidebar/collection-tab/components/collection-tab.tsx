@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CreateCollectionModal } from "./create-collection-modal";
 import { CollectionDetail } from "./collection-detail";
 import styles from "../styles/collection-list.module.scss";
-import { Button, Skeleton, Tabs, TabsList, TabsTrigger, ViewCard } from "@/shared/ui";
+import { Alert, Button, Skeleton, Tabs, TabsList, TabsTrigger, ViewCard } from "@/shared/ui";
 import { useUIStore } from "@/shared/store/ui.store";
 import { useGetCollections } from "../hooks";
 import { Collection } from "./collection";
@@ -17,7 +17,11 @@ export const CollectionTab = () => {
   } | null>(null);
   const [selectedCollectionIds, setSelectedCollectionIds] = useState<string[]>([]);
 
-  const { data: collectionsData, isLoading } = useGetCollections({
+  const {
+    data: collectionsData,
+    isLoading,
+    isError,
+  } = useGetCollections({
     scope: "all",
   });
 
@@ -35,89 +39,79 @@ export const CollectionTab = () => {
     });
   };
 
-  const renderFilteredCollections = () => {
-    if (isLoading) {
-      return <Skeleton />;
-    }
+  const renderContent = () => {
+    if (isError)
+      return (
+        <Alert
+          variant="error"
+          title="Koleksiyonlar yüklenemedi"
+          message="Koleksiyon listesi yüklenirken beklenmeyen bir hata oluştu."
+          showLink={false}
+        />
+      );
+
+    if (collectionsData?.collections.length === 0)
+      return (
+        <ViewCard
+          className={styles.emptyCard}
+          title="Koleksiyon Listesi"
+          description="Henüz koleksiyon yok, yeni bir koleksiyon oluşturarak başlayın"
+        />
+      );
 
     return (
-      !selectedCollectionData && (
-        <div className={styles.contentScroll}>
+      <>
+        <div className={styles.statsBar}>
+          <span className={styles.statsText}>
+            {collectionsData?.collections.length} koleksiyon
+            {selectedCollectionIds.length > 0 && (
+              <span className={styles.selectedCount}>• {selectedCollectionIds.length} seçili</span>
+            )}
+          </span>
+          <Tabs
+            value={activeScope}
+            onValueChange={(v) => {
+              setActiveScope(v as "private" | "shared");
+              setSelectedCollectionIds([]);
+            }}
+            className={styles.tabsList}
+          >
+            <TabsList className={styles.tabsList}>
+              <TabsTrigger value="private" className={styles.tabTrigger}>
+                Kişisel
+              </TabsTrigger>
+              <TabsTrigger value="shared" className={styles.tabTrigger}>
+                Organizasyon
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
+        {selectedCollectionIds.length > 0 && (
           <div className={styles.actionsBar}>
             <Button
-              label="Yeni Koleksiyon"
+              label={`Asistana Sor ${selectedCollectionIds.length}`}
+              onClick={handleAskAssistant}
               buttonType={"iconWithText"}
-              onClick={() => setShowCreateCollectionModal(true)}
-              iconType={{ default: "document" }}
+              iconType={{ default: "message" }}
               iconTextReverse
             />
           </div>
-
-          <div className={styles.statsBar}>
-            <span className={styles.statsText}>
-              {collectionsData?.collections.length} koleksiyon
-              {selectedCollectionIds.length > 0 && (
-                <span className={styles.selectedCount}>
-                  • {selectedCollectionIds.length} seçili
-                </span>
-              )}
-            </span>
-            <Tabs
-              value={activeScope}
-              onValueChange={(v) => {
-                setActiveScope(v as "private" | "shared");
-                setSelectedCollectionIds([]);
-              }}
-              className={styles.tabsList}
-            >
-              <TabsList className={styles.tabsList}>
-                <TabsTrigger value="private" className={styles.tabTrigger}>
-                  Kişisel
-                </TabsTrigger>
-                <TabsTrigger value="shared" className={styles.tabTrigger}>
-                  Organizasyon
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-
-          {selectedCollectionIds.length > 0 && (
-            <div className={styles.actionsBar}>
-              <Button
-                label={`Asistana Sor ${selectedCollectionIds.length}`}
-                onClick={handleAskAssistant}
-                buttonType={"iconWithText"}
-                iconType={{ default: "message" }}
-                iconTextReverse
+        )}
+        {collectionsData?.collections?.map((collection) => {
+          const isSelected = selectedCollectionIds.includes(collection.name);
+          return (
+            collection.scope === activeScope && (
+              <Collection
+                key={collection.created_at}
+                data={collection}
+                isSelected={isSelected}
+                setSelectedCollectionData={setSelectedCollectionData}
+                toggleCollectionSelection={toggleCollectionSelection}
               />
-            </div>
-          )}
-
-          {collectionsData?.collections.length === 0 && (
-            <ViewCard
-              className={styles.emptyCard}
-              title="Koleksiyon Listesi"
-              description="Henüz koleksiyon yok, yeni bir koleksiyon oluşturarak başlayın"
-            />
-          )}
-
-          {collectionsData?.collections?.map((collection) => {
-            const isSelected = selectedCollectionIds.includes(collection.name);
-
-            return (
-              collection.scope === activeScope && (
-                <Collection
-                  key={collection.created_at}
-                  data={collection}
-                  isSelected={isSelected}
-                  setSelectedCollectionData={setSelectedCollectionData}
-                  toggleCollectionSelection={toggleCollectionSelection}
-                />
-              )
-            );
-          })}
-        </div>
-      )
+            )
+          );
+        })}
+      </>
     );
   };
 
@@ -135,7 +129,24 @@ export const CollectionTab = () => {
           iconType={{ default: "close" }}
         />
       </div>
-      {renderFilteredCollections()}
+      {isLoading ? (
+        <Skeleton />
+      ) : (
+        !selectedCollectionData && (
+          <div className={styles.contentScroll}>
+            <div className={styles.actionsBar}>
+              <Button
+                label="Yeni Koleksiyon"
+                buttonType={"iconWithText"}
+                onClick={() => setShowCreateCollectionModal(true)}
+                iconType={{ default: "document" }}
+                iconTextReverse
+              />
+            </div>
+            {renderContent()}
+          </div>
+        )
+      )}
       {selectedCollectionData && (
         <CollectionDetail
           setSelectedCollectionData={setSelectedCollectionData}

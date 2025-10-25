@@ -1,7 +1,9 @@
 export { ChatAssistantMessage } from "./components/chat-assistant-message";
-export { ChatDropdownMenus } from "./components/chat-dropdown-menus";
 export { ChatPromptOptions } from "./components/chat-prompt-options";
 export { ChatUserMessage } from "./components/chat-user-message";
+export { ChatDocumentMenu } from "./components/chat-document-menu";
+export { ChatCollectionMenu } from "./components/chat-collection-menu";
+export { ChatSourceMenu } from "./components/chat-source-menu";
 
 export { chatApi } from "./api/chat.api";
 export type {

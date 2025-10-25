@@ -194,16 +194,6 @@
     color: #fafafa;
     opacity: 0.9;
   }
-
-  &.loadingButton {
-    circle {
-      stroke: #fafafa;
-    }
-
-    path {
-      stroke: #000;
-    }
-  }
 }
 
 /* html[data-theme="dark"] .container {

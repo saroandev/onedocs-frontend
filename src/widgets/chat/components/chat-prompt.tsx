@@ -6,7 +6,14 @@ import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from "@/shar
 import styles from "../styles/chat-prompt.module.scss";
 // import { SIDEBAR_MENU_IDS } from "@/widgets/sidebar/constants/sidebar-config";
 // import { DOCUMENT_TEMPLATES, playbooks } from "../constants/chat-prompt-config";
-import { ChatDropdownMenus, ChatPromptOptions, useCreateChat, useChatStore } from "@/features/chat";
+import {
+  ChatDocumentMenu,
+  ChatPromptOptions,
+  useCreateChat,
+  useChatStore,
+  ChatSourceMenu,
+  ChatCollectionMenu,
+} from "@/features/chat";
 import { useParams } from "react-router-dom";
 
 export const ChatPrompt = () => {
@@ -30,7 +37,7 @@ export const ChatPrompt = () => {
     const userMessage = {
       question: userText,
       collections: selectedCollections,
-      // sources: selectedSources,
+      sources: selectedSources,
       // include_low_confidence_sources: false;
       // max_sources_in_context: 5;
       // min_relevance_score: 0.7;
@@ -45,6 +52,7 @@ export const ChatPrompt = () => {
     };
 
     // Mesajı gönder (yeni chat veya mevcut conversation)
+
     createChat(userMessage);
     setValue("");
   };
@@ -136,7 +144,7 @@ export const ChatPrompt = () => {
 
   const handlePromptOptionRemove = (selectedOption: string) => {
     const removedSelectedOptions = selectedPromptOptions.filter((item) => item !== selectedOption);
-    setSelectedSources(removedSelectedOptions);
+    setSelectedPromptOptions(removedSelectedOptions);
   };
 
   return (
@@ -153,12 +161,11 @@ export const ChatPrompt = () => {
       </div>
       <div className={styles.controlsSection}>
         <div className={styles.controlGroup}>
-          <ChatDropdownMenus
-            // handleOnSelect={handleChatDropdownMenus}
+          {/* <ChatDocumentMenu handleOnSelect={handleChatDropdownMenus} /> */}
+          <ChatSourceMenu onSelectSource={handleSourceSelect} selectedSources={selectedSources} />
+          <ChatCollectionMenu
             onSelectCollection={handleCollectionSelect}
             selectedCollections={selectedCollections}
-            onSelectSource={handleSourceSelect}
-            selectedSources={selectedSources}
           />
           <div className={styles.separator} role="separator" />
           <ChatPromptOptions
@@ -192,7 +199,7 @@ export const ChatPrompt = () => {
         </div>
         {/* <div className={`${styles.mobileControls} ${styles.leftControls}`}>
           <div className={styles.mobileControlGroup}>
-            <ChatDropdownMenus
+            <ChatDocumentMenu
               handleOnSelect={handleChatDropdownMenus}
               onSelectCollection={handleCollectionSelect}
               selectedCollections={selectedCollections}
