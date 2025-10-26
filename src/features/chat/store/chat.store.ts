@@ -6,12 +6,14 @@ export const useChatStore = create<ChatState>((set) => ({
   selectedPlaybookForAnalysis: null,
   conversationId: "",
   isCreatingMessage: false,
+  lastAssistantMessageId: "",
 
   setPlaybookAnalysisOpen: (val) => set({ playbookAnalysisOpen: val }),
   setSelectedPlaybookForAnalysis: (val) => set({ selectedPlaybookForAnalysis: val }),
   setConversationId: (val) => set({ conversationId: val }),
   clearConversation: () => set({ conversationId: null }),
   setIsCreatingMessage: (val) => set({ isCreatingMessage: val }),
+  setLastAssistantMessageId: (val) => set({ lastAssistantMessageId: val }),
 }));
 
 interface ChatState {
@@ -24,4 +26,6 @@ interface ChatState {
   setConversationId: (val: string | null) => void;
   clearConversation: () => void;
   setIsCreatingMessage: (val: boolean) => void;
+  lastAssistantMessageId: string;
+  setLastAssistantMessageId: (val: string) => void;
 }

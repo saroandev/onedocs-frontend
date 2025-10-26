@@ -14,15 +14,13 @@ import classnames from "classnames";
 import { useGetCollections } from "@/features/sidebar/collection-tab/hooks";
 
 export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
-  const { onSelectCollection, selectedCollections, isMobile = false } = props;
+  const { onSelectCollection, selectedCollections, isMobile = false, open, setOpen } = props;
 
   const {
     data: collectionsData,
     isLoading: loadingCollections,
     isError,
-  } = useGetCollections({
-    scope: "all",
-  });
+  } = useGetCollections({ scope: "all" }, open);
 
   const renderCollectionContent = () => {
     if (isError)
@@ -73,7 +71,7 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <div>
           <Button
@@ -83,6 +81,10 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
             variant="secondary"
             iconTextReverse
             className={styles.dropdownButton}
+            onClick={(e) => {
+              e.preventDefault();
+              setOpen(!open);
+            }}
           />
         </div>
       </DropdownMenuTrigger>
@@ -106,4 +108,6 @@ interface ChatCollectionMenuProps {
   }) => void;
   selectedCollections: { name: string; scopes: ("shared" | "private")[] }[];
   isMobile?: boolean;
+  open: boolean;
+  setOpen: (val: boolean) => void;
 }

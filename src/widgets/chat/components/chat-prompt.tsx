@@ -29,6 +29,7 @@ export const ChatPrompt = () => {
   // const [showPlaybookModal, setShowPlaybookModal] = useState(false);
   const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
   const [selectedPromptOptions, setSelectedPromptOptions] = useState<string[]>([]);
+  const [showCollectionMenu, setShowCollectionMenu] = useState(false);
 
   const handleSend = async () => {
     const userText = value.trim();
@@ -164,6 +165,8 @@ export const ChatPrompt = () => {
           {/* <ChatDocumentMenu handleOnSelect={handleChatDropdownMenus} /> */}
           <ChatSourceMenu onSelectSource={handleSourceSelect} selectedSources={selectedSources} />
           <ChatCollectionMenu
+            open={showCollectionMenu}
+            setOpen={setShowCollectionMenu}
             onSelectCollection={handleCollectionSelect}
             selectedCollections={selectedCollections}
           />

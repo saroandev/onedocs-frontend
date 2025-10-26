@@ -13,6 +13,7 @@ export const ChatSession = () => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
   const { data, isLoading, isError, error } = useGetChat();
+  const lastAssistantMessageId = useChatStore((state) => state.lastAssistantMessageId);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -23,16 +24,6 @@ export const ChatSession = () => {
       goTo(ROUTES.DASHBOARD, { replace: true });
     }
   }, [isError, error]);
-
-  // const newestMessageId = useMemo(() => {
-  //   if (data?.messages && data.messages.length > 0) {
-  //     const lastMessage = data.messages[data.messages.length - 1];
-  //     if (lastMessage.role === "assistant") {
-  //       return lastMessage.message_id;
-  //     }
-  //   }
-  //   return null;
-  // }, [data?.messages]);
 
   if ((!data || data?.messages.length === 0) && !isCreatingMessage && !conversationId) {
     return (
@@ -79,7 +70,7 @@ export const ChatSession = () => {
               <ChatAssistantMessage
                 data={message.content}
                 key={message.message_id}
-                // isNew={message.message_id === newestMessageId}
+                isNew={message.message_id === lastAssistantMessageId}
               />
             )
           )}

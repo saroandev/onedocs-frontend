@@ -14,6 +14,7 @@ export const useCreateChat = () => {
   const conversationId = useChatStore((state) => state.conversationId);
   const setConversationId = useChatStore((state) => state.setConversationId);
   const setIsCreatingMessage = useChatStore((state) => state.setIsCreatingMessage);
+  const setLastAssistantMessageId = useChatStore((state) => state.setLastAssistantMessageId);
   const { goTo } = useAppNavigation();
 
   const mutation = useMutation<CreateChatResponse, Error, CreateChatDto>({
@@ -87,6 +88,10 @@ export const useCreateChat = () => {
     onSuccess: (aiResponse: CreateChatResponse, _variables, _context: any) => {
       const responseConversationId = aiResponse.conversation_id;
 
+      const assistanMessageId = `assistant-${Date.now()}`;
+
+      setLastAssistantMessageId(assistanMessageId);
+
       const queryKey = ["chat", responseConversationId];
       queryClient.setQueryData<any>(queryKey, (old: any) => {
         if (!old) return old;
@@ -98,7 +103,7 @@ export const useCreateChat = () => {
             {
               content: aiResponse.answer,
               role: "assistant",
-              message_id: `assistant-${Date.now()}`,
+              message_id: assistanMessageId,
               created_at: new Date().toISOString(),
               sources: aiResponse.sources,
               tokens_used: aiResponse.tokens_used,

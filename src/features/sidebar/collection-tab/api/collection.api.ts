@@ -21,7 +21,7 @@ import type {
 export const collectionApi = {
   createCollection: async (data: CreateCollectionDto): Promise<CreateCollectionResponse> => {
     const response = await onedocsKnowledgeBaseApiClient.post<CreateCollectionResponse>(
-      "collections",
+      "create_collection",
       data
     );
     return response.data;

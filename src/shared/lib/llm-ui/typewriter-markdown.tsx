@@ -1,7 +1,8 @@
 // src/shared/ui/typewriter-text/typewriter-text.tsx
 import { useEffect, useState, useRef, useMemo } from "react";
+import { MarkdownRenderer } from "./markdown-renderer";
 
-interface TypewriterTextProps {
+interface TypewriterMarkdownProps {
   text: string;
   speed?: number;
   onComplete?: () => void;
@@ -9,8 +10,8 @@ interface TypewriterTextProps {
 }
 
 // Bileşen artık state sıfırlama mantığını doğrudan içeriyor.
-export const TypewriterText = (props: TypewriterTextProps) => {
-  const { text, speed = 20, onComplete, isNew = false } = props;
+export const TypewriterMarkdown = (props: TypewriterMarkdownProps) => {
+  const { text, speed = 15, onComplete, isNew = false } = props;
 
   // 1. Durum: text değiştiğinde veya isNew true olduğunda iç state'i sıfırlamak için
   // text ve isNew'e bağlı bir "anahtar" değeri oluşturulur.
@@ -56,5 +57,5 @@ export const TypewriterText = (props: TypewriterTextProps) => {
     // Animasyon ilerleme durumunu currentIndex yönetiyor. text, speed, onComplete prop'ları sabit.
   }, [currentIndex, text, speed, onComplete, isNew]);
 
-  return <span>{displayedText}</span>;
+  return <MarkdownRenderer content={displayedText} />;
 };
