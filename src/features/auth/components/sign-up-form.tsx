@@ -49,7 +49,6 @@ export const SignUpForm = () => {
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit}>
           <Input
-            type="text"
             name="name"
             value={values.name}
             label="Ad Soyad"
@@ -74,6 +73,7 @@ export const SignUpForm = () => {
             isExistPassword
             value={values.password}
             name="password"
+            type="password"
             label="Şifre"
             placeholder="En az 6 karakter"
             onChange={handleChange}
@@ -86,6 +86,7 @@ export const SignUpForm = () => {
             value={values.confirmPassword}
             name="confirmPassword"
             label="Şifre Tekrar"
+            type="password"
             placeholder="Şifrenizi tekrar girin"
             onChange={handleChange}
             disabled={loading}

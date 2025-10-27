@@ -1,4 +1,4 @@
-import { IndexRouteObject, NonIndexRouteObject } from "react-router-dom";
+import type { IndexRouteObject, NonIndexRouteObject } from "react-router-dom";
 
 type CustomRouteObject = {
   authority?: string | Array<string>;

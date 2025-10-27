@@ -1,24 +1,16 @@
 import { useEffect } from "react";
 import { useChatStore } from "@/features/chat/store/chat.store";
 import { Chat } from "@/widgets/chat/chat";
+import { useUIStore } from "@/shared/store/ui.store";
 
-/**
- * DashboardList - Yeni chat başlangıç ekranı
- * URL: /
- *
- * Bu sayfa:
- * 1. Kullanıcı ilk kez açtığında conversationId olmadan açılır
- * 2. Kullanıcı ilk mesajı gönderdiğinde backend'den conversationId alır
- * 3. /chat/:conversationId URL'ine navigate edilir
- * 4. Conversation o sayfada devam eder
- */
 export const DashboardList = () => {
   const clearConversation = useChatStore((state) => state.clearConversation);
+  const preloadModule = useUIStore((state) => state.preloadModule);
 
-  // Dashboard'a geldiğimizde conversationId'yi temizle (yeni chat için)
   useEffect(() => {
+    preloadModule("chat/chat.page.tsx");
     clearConversation();
-  }, [clearConversation]);
+  }, [clearConversation, preloadModule]);
 
   return <Chat />;
 };

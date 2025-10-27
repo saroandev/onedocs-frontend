@@ -20,7 +20,6 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
               onComplete={() => setIsTypingComplete(true)}
             />
           </div>
-
           {isTypingComplete && (
             <div className={classnames(styles.actionButtons, styles.fadeIn)}>
               <Button

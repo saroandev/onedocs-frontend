@@ -74,7 +74,7 @@ export const Input = (props: Props) => {
         )}
         <input
           value={value || ""}
-          type={type || passwordVisible ? "text" : "password"}
+          type={type !== "password" || passwordVisible ? "text" : "password"}
           disabled={disabled}
           className={classnames(
             isExistSearch && styles.existSearchInput,

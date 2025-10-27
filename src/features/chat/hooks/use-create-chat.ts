@@ -7,7 +7,7 @@ import { showNotification } from "@/shared/lib/notification";
 import type { CreateChatDto, CreateChatResponse } from "../api/chat.types";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { v4 as uuidv4 } from "uuid";
-import { preloadPageModule } from "@/shared/lib/preload/preload";
+import { useUIStore } from "@/shared/store/ui.store";
 
 export const useCreateChat = () => {
   const queryClient = useQueryClient();
@@ -16,6 +16,8 @@ export const useCreateChat = () => {
   const setIsCreatingMessage = useChatStore((state) => state.setIsCreatingMessage);
   const setLastAssistantMessageId = useChatStore((state) => state.setLastAssistantMessageId);
   const { goTo } = useAppNavigation();
+  const isModulePreloaded = useUIStore((state) => state.isModulePreloaded);
+  const preloadModule = useUIStore((state) => state.preloadModule);
 
   const mutation = useMutation<CreateChatResponse, Error, CreateChatDto>({
     mutationFn: (data) => {
@@ -32,7 +34,10 @@ export const useCreateChat = () => {
       let currentConversationId = conversationId;
 
       if (!conversationId) {
-        await preloadPageModule("chat/chat.page.tsx");
+        if (!isModulePreloaded("chat/chat.page.tsx")) {
+          await preloadModule("chat/chat.page.tsx");
+        }
+
         const newClientId = uuidv4();
         currentConversationId = newClientId;
         setConversationId(newClientId);

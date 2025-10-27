@@ -50,6 +50,7 @@ export const SignInForm = () => {
           <Input
             isExistPassword
             value={values.password}
+            type="password"
             name="password"
             label="Şifre"
             placeholder="En az 6 karakter"
