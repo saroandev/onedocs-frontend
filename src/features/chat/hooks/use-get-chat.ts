@@ -32,7 +32,7 @@ export const useGetChat = () => {
     gcTime: 1000 * 60 * 30, // 30 dakika cache
     refetchOnWindowFocus: false,
     retryDelay: 1000,
-    retry: 2, // Network hatalarında 2 kez dene
+    retry: 1, // Network hatalarında 1 kez dene
     // refetchOnMount: "always", // Refresh için önemli
     // Sadece cache'de data yoksa fetch et. useCreateChat zaten cache'i güncelliyor, gereksiz fetch önleniyor
     refetchOnMount: (query) => {

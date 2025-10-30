@@ -8,6 +8,8 @@ import type {
   CreateChatResponse,
   ChatDeleteDto,
   ChatDeleteResponse,
+  ChatSourceDto,
+  ChatSourceResponse,
 } from "./chat.types";
 
 export const chatApi = {
@@ -46,6 +48,14 @@ export const chatApi = {
 
     const response = await onedocsKnowledgeBaseApiClient.delete<ChatDeleteResponse>(
       `conversations/${conversation_id}`
+    );
+    return response.data;
+  },
+
+  getSourceByChat: async (data: ChatSourceDto): Promise<ChatSourceResponse> => {
+    const response = await onedocsKnowledgeBaseApiClient.post<ChatSourceResponse>(
+      "docs/presign",
+      data
     );
     return response.data;
   },

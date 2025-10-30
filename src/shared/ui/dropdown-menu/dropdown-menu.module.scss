@@ -5,7 +5,7 @@
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
   overflow-x: hidden;
   overflow-y: auto;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
   padding: 8px;
   background-color: #fff;
@@ -43,7 +43,7 @@
   cursor: default;
   align-items: center;
   gap: 8px;
-  border-radius: 2px;
+  border-radius: 8px;
   padding: 6px 8px;
   font-size: 14px;
   outline: none;
@@ -96,7 +96,7 @@
   cursor: default;
   align-items: center;
   gap: 8px;
-  border-radius: 2px;
+  border-radius: 8px;
   padding: 6px 8px 6px 32px;
   font-size: 14px;
   outline: none;
@@ -169,7 +169,7 @@
   display: flex;
   cursor: default;
   align-items: center;
-  border-radius: 2px;
+  border-radius: 8px;
   padding: 6px 8px;
   font-size: 14px;
   outline: none;
@@ -197,7 +197,7 @@
   min-width: 128px;
   transform-origin: var(--radix-dropdown-menu-content-transform-origin);
   overflow: hidden;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
   padding: 4px;
   background-color: #fff;

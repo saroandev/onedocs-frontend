@@ -16,12 +16,17 @@ export type {
   ConversationsResponse,
   CreateChatDto,
   CreateChatResponse,
+  ChatSourceDto,
+  ChatSourceResponse,
 } from "./api/chat.types";
 
-export { useCreateChat } from "./hooks/use-create-chat";
-export { useDeleteChat } from "./hooks/use-delete-chat";
-export { useGetChat } from "./hooks/use-get-chat";
-export { useGetChats } from "./hooks/use-get-chats";
-export { useSendMessageStreaming } from "./hooks/use-send-message-streaming";
+export {
+  useCreateChat,
+  useDeleteChat,
+  useGetChat,
+  useGetChats,
+  useSendMessageStreaming,
+  useGetSource,
+} from "./hooks";
 
 export { useChatStore } from "./store/chat.store";

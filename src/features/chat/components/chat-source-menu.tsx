@@ -19,7 +19,7 @@ import {
 } from "@/shared/ui/icons";
 
 export const ChatSourceMenu = (props: ChatSourceMenuProps) => {
-  const { onSelectSource, selectedSources, isMobile = false } = props;
+  const { onSelectSource, selectedSources, isMobile = false, isSubmit, open, setOpen } = props;
 
   const renderOptionSourceLogo = {
     "turk-hukuk-mevzuat": <LogoAdaletBakanlik />,
@@ -27,9 +27,15 @@ export const ChatSourceMenu = (props: ChatSourceMenuProps) => {
     "rekabet-kurum-karar": <LogoRekabetKurum />,
   };
 
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (isSubmit) return;
+    e.preventDefault();
+    setOpen(!open);
+  };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <DropdownMenu open={!isSubmit && open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild disabled={isSubmit}>
         <div>
           <Button
             label={isMobile ? "" : "Kaynak Seç"}
@@ -38,6 +44,8 @@ export const ChatSourceMenu = (props: ChatSourceMenuProps) => {
             variant="secondary"
             iconTextReverse
             className={styles.dropdownButton}
+            disabled={isSubmit}
+            onClick={handleOpen}
           />
         </div>
       </DropdownMenuTrigger>
@@ -48,7 +56,7 @@ export const ChatSourceMenu = (props: ChatSourceMenuProps) => {
         {optionsSource.map((source) => (
           <DropdownMenuItem
             key={source.name}
-            onClick={() => onSelectSource(source.name)}
+            onClick={() => !isSubmit && onSelectSource(source.name)}
             className={styles.menuItem}
           >
             {renderOptionSourceLogo[source.id]}
@@ -75,7 +83,7 @@ export const ChatSourceMenu = (props: ChatSourceMenuProps) => {
           <span className={styles.menuLabel}>Turkish Law Blog</span>
         </DropdownMenuItem>
         <DropdownMenuItem disabled className={styles.disabledItem}>
-          <Globe className={styles.smallIcon} />
+          <Globe />
           <span className={styles.menuLabel}>İnternet Arama</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -87,4 +95,7 @@ interface ChatSourceMenuProps {
   onSelectSource: (name: string) => void;
   selectedSources: string[];
   isMobile?: boolean;
+  isSubmit: boolean;
+  open: boolean;
+  setOpen: (val: boolean) => void;
 }

@@ -17,16 +17,16 @@
   font-weight: 500;
   border: 1px solid #000;
 
-  &:not(.loadingButton):hover {
+  &:not(:disabled):hover {
     background-color: #fff;
     color: #111827;
   }
 
-  &:focus {
+  &:not(:disabled):focus {
     outline: 0;
   }
 
-  &:active {
+  &:not(:disabled):active {
     transform: scale(0.99) !important;
   }
 
@@ -46,8 +46,8 @@
   }
 
   .progress {
-    height: 20px;
-    width: 20px;
+    height: 24px;
+    width: 24px;
     overflow: hidden;
     position: relative;
     z-index: 2;
@@ -66,6 +66,20 @@
       }
       100% {
         transform: rotate(360deg);
+      }
+    }
+  }
+
+  &:not(.tertiary, .destructive, .primary).justIcon {
+    .progress {
+      svg {
+        circle {
+          stroke: #111827;
+        }
+
+        path {
+          stroke: #111827;
+        }
       }
     }
   }
@@ -115,13 +129,14 @@
   border: none;
   color: #1f2937;
   box-shadow: none;
+  border: 1px solid #e5e7eb;
 
-  &:active {
+  &:not(:disabled):active {
     transform: scale(0.94) !important;
   }
 
-  &:hover {
-    background-color: #c8ceda !important;
+  &:not(:disabled):hover {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 
     .popover {
       display: block;
@@ -158,7 +173,7 @@
   color: #374151;
   border-color: #e5e7eb;
 
-  &:not(.loadingButton):hover {
+  &:not(:disabled):hover {
     background-color: #f3f4f6;
     color: #1f2937;
   }
@@ -178,7 +193,7 @@
   background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
   box-shadow: unset;
 
-  &:not(.loadingButton):hover {
+  &:not(:disabled):hover {
     background-image: linear-gradient(to right, #213338, #24424a, #25515e, #246172, #217187);
     color: #fff;
   }
@@ -189,7 +204,7 @@
   color: #fafafa;
   border: none;
 
-  &:not(.loadingButton):hover {
+  &:not(:disabled):hover {
     background-color: #ef4444;
     color: #fafafa;
     opacity: 0.9;
@@ -202,7 +217,7 @@
     color: variables.$blue-190;
     box-shadow: inset 0 0 0 1px #374151;
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: variables.$black-40;
       color: #d1d5db;
 
@@ -226,7 +241,7 @@
       fill: variables.$gray-600;
     }
 
-    &:hover {
+    &:not(:disabled):hover {
       background-color: variables.$gray-610;
 
       svg {

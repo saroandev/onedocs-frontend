@@ -6,7 +6,7 @@
   justify-content: center;
   transition: colors 150ms ease;
   outline: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
 
   &:focus {
@@ -20,7 +20,7 @@
 }
 
 .unselected {
-  border-radius: 6px;
+  border-radius: 8px;
   color: #6b7280;
 
   &:hover {

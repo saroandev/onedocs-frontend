@@ -8,19 +8,26 @@ import {
   Skeleton,
   ViewCard,
 } from "@/shared/ui";
-import { Library } from "lucide-react";
+import { Library, Shield, User } from "lucide-react";
 import styles from "@/widgets/chat/styles/chat-prompt.module.scss";
 import classnames from "classnames";
 import { useGetCollections } from "@/features/sidebar/collection-tab/hooks";
 
 export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
-  const { onSelectCollection, selectedCollections, isMobile = false, open, setOpen } = props;
+  const {
+    onSelectCollection,
+    selectedCollections,
+    isMobile = false,
+    open,
+    setOpen,
+    isSubmit,
+  } = props;
 
   const {
     data: collectionsData,
     isLoading: loadingCollections,
     isError,
-  } = useGetCollections({ scope: "all" }, open);
+  } = useGetCollections({ scope: "all" }, open && !isSubmit);
 
   const renderCollectionContent = () => {
     if (isError)
@@ -43,7 +50,8 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
       );
     }
 
-    if (loadingCollections) return <Skeleton />;
+    if (loadingCollections)
+      return <Skeleton variant="list" lines={3} className={styles.skeleton} />;
 
     return collectionsData?.collections?.map((collection) => (
       <DropdownMenuItem
@@ -51,7 +59,7 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
         onClick={() => onSelectCollection({ name: collection.name, scopes: [collection.scope] })}
         className={styles.menuItem}
       >
-        <Library className={styles.smallIcon} />
+        <Library className={styles.itemIcon} />
         <div className={styles.collectionContent}>
           <span className={styles.collectionName}>{collection.name}</span>
           <span
@@ -60,7 +68,7 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
               [styles.personalBadge]: collection.scope !== "shared",
             })}
           >
-            {collection.scope === "shared" ? "Organizasyon" : "Kişisel"}
+            {collection.scope === "shared" ? <User /> : <Shield />}
           </span>
         </div>
         {selectedCollections?.some(
@@ -70,9 +78,15 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
     ));
   };
 
+  const handleOpen = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (isSubmit) return;
+    e.preventDefault();
+    setOpen(!open);
+  };
+
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
+    <DropdownMenu open={!isSubmit && open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild disabled={isSubmit}>
         <div>
           <Button
             label={isMobile ? "" : "Koleksiyon Seç"}
@@ -81,10 +95,8 @@ export const ChatCollectionMenu = (props: ChatCollectionMenuProps) => {
             variant="secondary"
             iconTextReverse
             className={styles.dropdownButton}
-            onClick={(e) => {
-              e.preventDefault();
-              setOpen(!open);
-            }}
+            onClick={handleOpen}
+            disabled={isSubmit}
           />
         </div>
       </DropdownMenuTrigger>
@@ -110,4 +122,5 @@ interface ChatCollectionMenuProps {
   isMobile?: boolean;
   open: boolean;
   setOpen: (val: boolean) => void;
+  isSubmit: boolean;
 }

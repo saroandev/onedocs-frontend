@@ -1,3 +1,3 @@
-import { Chat } from "@/widgets/chat/chat";
+import { Chat } from "@/widgets/chat";
 
 export const ChatPage = () => <Chat />;

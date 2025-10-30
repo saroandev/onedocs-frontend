@@ -51,7 +51,7 @@ export const Button = (props: Props) => {
     disabled,
     onClick,
     buttonType,
-    variant,
+    variant = "primary",
     iconTextReverse,
   } = props;
 

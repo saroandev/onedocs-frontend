@@ -1,6 +1,12 @@
 import { useEffect, useRef } from "react";
 import styles from "../styles/chat-session.module.scss";
-import { useGetChat, useChatStore, ChatAssistantMessage, ChatUserMessage } from "@/features/chat";
+import {
+  useGetChat,
+  useChatStore,
+  ChatAssistantMessage,
+  ChatUserMessage,
+  useGetSource,
+} from "@/features/chat";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { ROUTES } from "@/app/router/config/routes.config";
 import { Skeleton } from "@/shared/ui";
@@ -14,6 +20,7 @@ export const ChatSession = () => {
   const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
   const { data, isLoading, isError, error } = useGetChat();
   const lastAssistantMessageId = useChatStore((state) => state.lastAssistantMessageId);
+  const { mutate: getSource } = useGetSource();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -71,6 +78,9 @@ export const ChatSession = () => {
                 data={message.content}
                 key={message.message_id}
                 isNew={message.message_id === lastAssistantMessageId}
+                isLoading={isCreatingMessage}
+                sources={message?.sources}
+                getSource={getSource}
               />
             )
           )}

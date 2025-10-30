@@ -112,7 +112,7 @@
     display: inline-block;
     width: fit-content;
     max-width: 100%;
-    border-radius: 16px;
+    border-radius: 8px;
     background-color: #000;
     color: #fff;
     padding: 8px 16px;
@@ -167,27 +167,35 @@
 
   .fadeIn {
     animation: fadeIn 0.3s ease-in;
-  }
+    transform: translateY(20px);
+    animation: fadeSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 
-  @keyframes fadeIn {
-    from {
+    > * {
       opacity: 0;
-      transform: translateY(4px);
+      transform: translateY(12px);
+      animation: childFadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
+
+    @keyframes childFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   }
 }

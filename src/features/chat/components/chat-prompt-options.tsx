@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 import styles from "@/widgets/chat/styles/chat-prompt.module.scss";
 
 export const ChatPromptOptions = (props: PromptOptionsProps) => {
-  const { selectedPromptOptions, handlePromptOptionRemove } = props;
+  const { selectedPromptOptions, onRemove, isSubmit } = props;
 
   const getColorClass = (name: string) => {
     const colors = [
@@ -22,18 +22,21 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
     return colors[index % colors.length];
   };
 
+  const handleRemove = (item: string) => {
+    if (isSubmit) return;
+    onRemove(item);
+  };
+
   return (
     <div className={styles.selectedItems}>
-      {/* visibleItems */}
       {selectedPromptOptions.slice(0, 3).map((item) => (
         <div key={item} className={classnames(styles.badge, getColorClass(item))}>
           <span>{item}</span>
-          <button onClick={() => handlePromptOptionRemove(item)} className={styles.badgeRemove}>
+          <button onClick={() => handleRemove(item)} className={styles.badgeRemove}>
             <X className={styles.xIcon} />
           </button>
         </div>
       ))}
-      {/* hiddenItems */}
       {selectedPromptOptions.slice(3).length > 0 && (
         <Popover>
           <PopoverTrigger asChild>
@@ -46,10 +49,7 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
               {selectedPromptOptions.slice(3).map((item) => (
                 <div key={item} className={classnames(styles.popoverItem, getColorClass(item))}>
                   <span className={styles.popoverLabel}>{item}</span>
-                  <button
-                    onClick={() => handlePromptOptionRemove(item)}
-                    className={styles.badgeRemove}
-                  >
+                  <button onClick={() => handleRemove(item)} className={styles.badgeRemove}>
                     <X className={styles.xIcon} />
                   </button>
                 </div>
@@ -64,5 +64,6 @@ export const ChatPromptOptions = (props: PromptOptionsProps) => {
 
 interface PromptOptionsProps {
   selectedPromptOptions: string[];
-  handlePromptOptionRemove: (selectedItemId: string) => void;
+  onRemove: (selectedItemId: string) => void;
+  isSubmit: boolean;
 }

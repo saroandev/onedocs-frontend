@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 8px;
   background-color: #fff;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 8px 12px 8px 12px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1), 0 0 1px 1px rgba(0, 0, 0, 0.02);
@@ -94,34 +94,110 @@
 
 .sourceDropdown {
   width: 280px;
-}
+  max-height: 380px;
+  overflow: auto;
+  overflow: hidden;
 
-.dropdownHeader {
-  padding: 6px 8px;
-}
+  .dropdownHeader {
+    padding: 6px 8px;
+  }
 
-.sectionLabel {
-  font-size: 11px;
-  font-weight: 500;
-  color: #9ca3af;
-}
+  .sectionLabel {
+    font-size: 11px;
+    font-weight: 500;
+    color: #9ca3af;
+  }
 
-.menuItem {
-  padding: 10px 6px;
+  .emptyCard {
+    padding: 24px 20px;
+    min-height: 220px;
 
-  &:not([disabled]) {
-    cursor: pointer;
+    div {
+      &:last-child {
+        width: 30px !important;
+        height: 30px !important;
+      }
+    }
 
-    &:hover {
-      background-color: #f8f9fa;
+    h3 {
+      font-size: 18px !important;
+    }
+
+    p {
+      font-size: 14px;
     }
   }
 
-  svg {
-    width: 16px;
-    height: 16px;
-    margin-right: 12px;
-    // color: #9ca3af;
+  .skeleton {
+    padding: 0px;
+  }
+
+  .menuItem {
+    padding: 6px 4px;
+    border-radius: 8px;
+
+    &:not([disabled]) {
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f8f9fa;
+      }
+    }
+
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .itemIcon {
+    margin-right: 4px;
+  }
+
+  .collectionContent {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .collectionName {
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 180px;
+    overflow: hidden;
+  }
+
+  .badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px;
+    border-radius: 9999px;
+
+    &.orgBadge {
+      background-color: #dde9ff;
+
+      svg {
+        color: #3641f5;
+      }
+    }
+
+    &.personalBadge {
+      background-color: #ffead5;
+
+      svg {
+        color: #fb6514;
+      }
+    }
+  }
+
+  .checkmark {
+    margin-left: auto;
+    color: #2563eb;
   }
 }
 
@@ -133,11 +209,6 @@
 
 .menuLabel {
   font-size: 14px;
-}
-
-.checkmark {
-  margin-left: auto;
-  color: #2563eb;
 }
 
 .divider {
@@ -152,18 +223,6 @@
   opacity: 0.5;
   pointer-events: none;
 }
-
-.collectionContent {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.collectionName {
-  font-size: 14px;
-}
-
 .badge {
   display: inline-flex;
   align-items: center;
@@ -257,7 +316,7 @@
   justify-content: space-between;
   gap: 8px;
   padding: 6px 8px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .popoverLabel {
@@ -377,7 +436,7 @@
 .templateCategory {
   display: inline-flex;
   align-items: center;
-  border-radius: 4px;
+  border-radius: 8px;
   border: 1px solid #f3f4f6;
   background-color: #f3f4f6;
   padding: 2px 8px;
@@ -423,7 +482,8 @@
 }
 
 .sendButton {
-  background-color: #000;
+  background-color: #000 !important;
+  border: none;
 
   svg {
     color: #fff;
@@ -468,24 +528,4 @@
 .color7 {
   background-color: #fee4e2;
   color: #f04438;
-}
-
-.emptyCard {
-  padding: 24px 20px;
-  min-height: 220px;
-
-  div {
-    &:last-child {
-      width: 30px !important;
-      height: 30px !important;
-    }
-  }
-
-  h3 {
-    font-size: 18px !important;
-  }
-
-  p {
-    font-size: 14px;
-  }
 }

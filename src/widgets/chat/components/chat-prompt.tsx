@@ -30,6 +30,7 @@ export const ChatPrompt = () => {
   const isCreatingMessage = useChatStore((state) => state.isCreatingMessage);
   const [selectedPromptOptions, setSelectedPromptOptions] = useState<string[]>([]);
   const [showCollectionMenu, setShowCollectionMenu] = useState(false);
+  const [showSourceMenu, setShowSourceMenu] = useState(false);
 
   const handleSend = async () => {
     const userText = value.trim();
@@ -56,6 +57,7 @@ export const ChatPrompt = () => {
 
     createChat(userMessage);
     setValue("");
+    setSelectedPromptOptions([]);
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -163,17 +165,25 @@ export const ChatPrompt = () => {
       <div className={styles.controlsSection}>
         <div className={styles.controlGroup}>
           {/* <ChatDocumentMenu handleOnSelect={handleChatDropdownMenus} /> */}
-          <ChatSourceMenu onSelectSource={handleSourceSelect} selectedSources={selectedSources} />
+          <ChatSourceMenu
+            onSelectSource={handleSourceSelect}
+            selectedSources={selectedSources}
+            isSubmit={isCreatingMessage}
+            open={showSourceMenu}
+            setOpen={setShowSourceMenu}
+          />
           <ChatCollectionMenu
             open={showCollectionMenu}
             setOpen={setShowCollectionMenu}
             onSelectCollection={handleCollectionSelect}
             selectedCollections={selectedCollections}
+            isSubmit={isCreatingMessage}
           />
           <div className={styles.separator} role="separator" />
           <ChatPromptOptions
             selectedPromptOptions={selectedPromptOptions}
-            handlePromptOptionRemove={handlePromptOptionRemove}
+            onRemove={handlePromptOptionRemove}
+            isSubmit={isCreatingMessage}
           />
         </div>
         <div className={styles.sendButtonDesktop}>
@@ -183,6 +193,7 @@ export const ChatPrompt = () => {
             buttonType="justIcon"
             iconType={{ default: "paperclip" }}
             disabled={loadingCreateMessage || isCreatingMessage}
+            variant="secondary"
           />
           <input
             ref={fileInputRef}

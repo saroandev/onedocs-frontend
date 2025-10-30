@@ -51,7 +51,24 @@ export interface ConversationMessage {
   message_id: string;
   processing_time: number;
   role: "user" | "assistant";
-  sources: string[];
+  sources: {
+    text: string;
+    metadata: {
+      title: string;
+      bucket: string;
+      source: string;
+      filename: string;
+      file_hash: string;
+      file_size: 247628;
+      page_number: number;
+      upload_date: string;
+      uploaded_by: string;
+    };
+    chunk_index: number;
+    document_id: string;
+    document_url: string;
+    relevance_score: number;
+  }[];
   tokens_used: number;
 }
 
@@ -88,4 +105,16 @@ export interface ChatDeleteResponse {
   conversation_id: "conv-123";
   message: "Conversation deleted successfully";
   messages_deleted: 4;
+}
+
+export interface ChatSourceDto {
+  document_url: string;
+  expires_seconds?: number;
+}
+
+export interface ChatSourceResponse {
+  document_id: string;
+  expires_in: number;
+  source_type: string;
+  url: string;
 }

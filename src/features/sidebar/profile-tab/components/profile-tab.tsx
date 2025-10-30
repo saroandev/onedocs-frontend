@@ -101,7 +101,10 @@ export const ProfileTab = () => {
               buttonType="iconWithText"
               variant="destructive"
               iconTextReverse
-              onClick={() => signOut()}
+              onClick={() => {
+                signOut();
+                setChoosenTab("");
+              }}
               isLoading={loading}
             />
           </div>

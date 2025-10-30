@@ -10,6 +10,7 @@ export const Alert = (props: Props) => {
     showLink = false,
     linkHref = "/",
     linkText = "Learn more",
+    className,
   } = props;
 
   const variantClasses = {
@@ -39,7 +40,7 @@ export const Alert = (props: Props) => {
   };
 
   return (
-    <div className={classnames(styles.container, variantClasses[variant].container)}>
+    <div className={classnames(styles.container, variantClasses[variant].container, className)}>
       <div className={styles.content}>
         <div className={classnames(styles.iconWrapper, variantClasses[variant].icon)}>
           {icons[variant]}
@@ -65,4 +66,5 @@ export interface Props {
   showLink?: boolean;
   linkHref?: string;
   linkText?: string;
+  className?: string;
 }

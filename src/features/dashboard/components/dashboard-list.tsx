@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useChatStore } from "@/features/chat/store/chat.store";
-import { Chat } from "@/widgets/chat/chat";
+import { Chat } from "@/widgets/chat";
 import { useUIStore } from "@/shared/store/ui.store";
 
 export const DashboardList = () => {
