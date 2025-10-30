@@ -87,6 +87,7 @@
     width: 100%;
     min-width: 0;
     animation: slideIn 0.3s ease-out;
+    margin-left: 6px;
 
     &.userMessage {
       justify-content: flex-end;

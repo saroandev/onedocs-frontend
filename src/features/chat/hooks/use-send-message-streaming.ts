@@ -1,28 +1,28 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useChatStore } from "../store/chat.store";
-import type { CreateChatDto } from "../api/chat.types";
+import type { CreateMessageDto } from "../api/chat.types";
 
 export const useSendMessageStreaming = () => {
   const queryClient = useQueryClient();
   const conversationId = useChatStore((state) => state.conversationId);
 
   return useMutation({
-    mutationFn: async (userMessage: CreateChatDto) => {
+    mutationFn: async (userMessage: CreateMessageDto) => {
       const queryKey = ["chat", conversationId];
 
       // 1. Kullanıcı mesajını ekle
-      queryClient.setQueryData<CreateChatDto[]>(queryKey, (old = []) => [...old, userMessage]);
+      queryClient.setQueryData<CreateMessageDto[]>(queryKey, (old = []) => [...old, userMessage]);
 
       // 2. AI mesajı için placeholder oluştur
       const aiMessageId = crypto.randomUUID();
-      const aiMessage: CreateChatDto = {
+      const aiMessage: CreateMessageDto = {
         id: aiMessageId,
         content: "", // Boş başla
         role: "assistant",
         createdAt: Date.now(),
       };
 
-      queryClient.setQueryData<CreateChatDto[]>(queryKey, (old = []) => [...old, aiMessage]);
+      queryClient.setQueryData<CreateMessageDto[]>(queryKey, (old = []) => [...old, aiMessage]);
 
       // 3. Streaming response'u dinle
       const response = await fetch("/api/chat/stream", {
@@ -49,7 +49,7 @@ export const useSendMessageStreaming = () => {
           fullContent += chunk;
 
           // Her chunk'ta AI mesajını güncelle
-          queryClient.setQueryData<CreateChatDto[]>(queryKey, (old = []) =>
+          queryClient.setQueryData<CreateMessageDto[]>(queryKey, (old = []) =>
             old.map((msg) => (msg.id === aiMessageId ? { ...msg, content: fullContent } : msg))
           );
         }
@@ -61,5 +61,5 @@ export const useSendMessageStreaming = () => {
 };
 
 // KULLANIMI:
-// const { mutate: createChat, isPending } = useSendMessageStreaming();
-// createChat(userMessage);
+// const { mutate: createMessage, isPending } = useSendMessageStreaming();
+// createMessage(userMessage);

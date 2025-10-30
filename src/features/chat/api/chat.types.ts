@@ -1,4 +1,4 @@
-export interface CreateChatDto {
+export interface CreateMessageDto {
   conversation_id?: string;
   collections?: {
     name: string;
@@ -19,7 +19,7 @@ export interface CreateChatDto {
   use_reranker?: true;
 }
 
-export interface CreateChatResponse {
+export interface CreateMessageResponse {
   answer: string;
   conversation_id: string;
   model_used: string;

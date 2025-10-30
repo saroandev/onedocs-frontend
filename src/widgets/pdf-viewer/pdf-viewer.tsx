@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useCallback, useEffect, useRef, useMemo } from "react";
+import { useState, useRef, useMemo } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import styles from "./pdf-viewer.module.scss";
 import { showNotification } from "@/shared/lib/notification";
@@ -16,7 +16,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 ).toString();
 
 export const PdfViewer = (props: PdfViewerProps) => {
-  const { fileUrl, highlightText = "", pageable = false } = props;
+  const { fileUrl, pageable = false } = props;
   const setShowPdfViewer = useChatStore((state) => state.setShowPdfViewer);
   const isLoadingSourceUrl = useChatStore((state) => state.isLoadingSourceUrl);
   const [numPages, setNumPages] = useState<number>(0);
@@ -24,7 +24,6 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState(false);
   const [scale, setScale] = useState<number>(1.0);
-  const [searchText, setSearchText] = useState<string>(highlightText);
   const documentRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -41,10 +40,6 @@ export const PdfViewer = (props: PdfViewerProps) => {
     }),
     []
   );
-
-  useEffect(() => {
-    setSearchText(highlightText);
-  }, [highlightText]);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -76,94 +71,6 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const handleZoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
   const handleClose = () => setShowPdfViewer(false);
 
-  const normalizeText = useCallback((text: string): string => {
-    return text.toLocaleLowerCase("tr-TR").trim().replace(/\s+/g, " ");
-  }, []);
-
-  const highlightTextInDOM = useCallback(() => {
-    if (!searchText || searchText.trim() === "") return;
-
-    // Tüm text layer span'lerini bul
-    const textLayers = document.querySelectorAll(".react-pdf__Page__textContent");
-
-    textLayers.forEach((textLayer) => {
-      const spans = Array.from(textLayer.querySelectorAll('span[role="presentation"]'));
-
-      // Tüm span'lerdeki text'i birleştir
-      let fullText = "";
-      const spanTexts: string[] = [];
-
-      spans.forEach((span) => {
-        const text = span.textContent || "";
-        spanTexts.push(text);
-        fullText += text;
-      });
-
-      // Normalize edilmiş versiyonlarda ara
-      const normalizedFullText = normalizeText(fullText);
-      const normalizedSearch = normalizeText(searchText);
-
-      if (!normalizedFullText.includes(normalizedSearch)) return;
-
-      // Search phrase'in başlangıç ve bitiş indekslerini bul
-      const searchIndex = normalizedFullText.indexOf(normalizedSearch);
-      if (searchIndex === -1) return;
-
-      const searchEndIndex = searchIndex + normalizedSearch.length;
-
-      // Hangi span'lerin highlight edilmesi gerektiğini bul
-      let currentIndex = 0;
-      spans.forEach((span, idx) => {
-        const spanText = spanTexts[idx];
-        const spanLength = normalizeText(spanText).length;
-        const spanStart = currentIndex;
-        const spanEnd = currentIndex + spanLength;
-
-        // Bu span, search phrase'in içinde mi?
-        if (spanEnd > searchIndex && spanStart < searchEndIndex) {
-          // Önceki highlight'ları temizle
-          if (!span.classList.contains("pdf-highlight-wrapper")) {
-            span.classList.add("pdf-highlight-wrapper");
-
-            // Mark elementi ekle
-            const mark = document.createElement("mark");
-            mark.className = "pdf-highlight";
-            mark.textContent = spanText;
-
-            // Span'in içeriğini temizle ve mark ekle
-            span.textContent = "";
-            span.appendChild(mark);
-          }
-        }
-
-        currentIndex = spanEnd;
-      });
-    });
-  }, [searchText, normalizeText]);
-
-  const onPageRenderSuccess = useCallback(() => {
-    setTimeout(() => {
-      highlightTextInDOM();
-    }, 100);
-  }, [highlightTextInDOM]);
-
-  useEffect(() => {
-    if (numPages > 0) {
-      // Önce tüm highlight'ları temizle
-      const existingHighlights = document.querySelectorAll(".pdf-highlight-wrapper");
-      existingHighlights.forEach((span) => {
-        const mark = span.querySelector("mark.pdf-highlight");
-        if (mark) {
-          const text = mark.textContent || "";
-          span.textContent = text;
-          span.classList.remove("pdf-highlight-wrapper");
-        }
-      });
-
-      highlightTextInDOM();
-    }
-  }, [searchText, currentPage, numPages, highlightTextInDOM]);
-
   const renderPages = () => {
     if (!numPages) return null;
 
@@ -173,17 +80,14 @@ export const PdfViewer = (props: PdfViewerProps) => {
       renderTextLayer: true,
       renderAnnotationLayer: true,
       loading: null,
-      onRenderSuccess: onPageRenderSuccess,
     };
 
     if (pageable) {
-      return (
-        <Page key={`page_${currentPage}_${searchText}`} pageNumber={currentPage} {...commonProps} />
-      );
+      return <Page key={`page_${currentPage}`} pageNumber={currentPage} {...commonProps} />;
     }
 
     return Array.from(new Array(numPages), (_, index) => (
-      <Page key={`page_${index + 1}_${searchText}`} pageNumber={index + 1} {...commonProps} />
+      <Page key={`page_${index + 1}`} pageNumber={index + 1} {...commonProps} />
     ));
   };
 
@@ -301,6 +205,5 @@ export const PdfViewer = (props: PdfViewerProps) => {
 
 interface PdfViewerProps {
   fileUrl?: string;
-  highlightText?: string;
   pageable?: boolean;
 }

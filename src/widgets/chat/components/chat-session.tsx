@@ -55,7 +55,6 @@ export const ChatSession = () => {
     );
   }
 
-  // Loading: Sadece conversation history fetch edilirken (sayfa yenileme veya başka sekmeden açma)
   if (isLoading && conversationId) {
     return (
       <div className={styles.container}>

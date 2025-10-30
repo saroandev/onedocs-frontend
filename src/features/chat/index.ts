@@ -14,14 +14,14 @@ export type {
   ConversationResponse,
   ConversationsDto,
   ConversationsResponse,
-  CreateChatDto,
-  CreateChatResponse,
+  CreateMessageDto,
+  CreateMessageResponse,
   ChatSourceDto,
   ChatSourceResponse,
 } from "./api/chat.types";
 
 export {
-  useCreateChat,
+  useCreateMessage,
   useDeleteChat,
   useGetChat,
   useGetChats,

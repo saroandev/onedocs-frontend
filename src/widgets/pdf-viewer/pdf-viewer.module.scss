@@ -66,25 +66,6 @@
   white-space: nowrap;
 }
 
-.highlight {
-  background-color: #fef08a;
-  color: #854d0e;
-  padding: 2px 0;
-  border-radius: 2px;
-  font-weight: 500;
-  animation: highlightPulse 0.5s ease-in-out;
-
-  @keyframes highlightPulse {
-    0%,
-    100% {
-      background-color: #fef08a;
-    }
-    50% {
-      background-color: #fde047;
-    }
-  }
-}
-
 .toolbar {
   display: flex;
   align-items: center;
@@ -151,8 +132,6 @@
 }
 
 .alert {
-  // height: 60px;
-  // width: 60px;
   top: 50%;
   left: 50%;
   position: absolute;
@@ -196,63 +175,6 @@
     max-width: 100%;
     height: auto;
   }
-
-  // ⭐ Text layer için highlight desteği - GLOBAL SCOPE
-  :global(.react-pdf__Page__textContent) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-    opacity: 1;
-    line-height: 1;
-
-    span {
-      color: transparent;
-      position: absolute;
-      white-space: pre;
-      cursor: text;
-      transform-origin: 0% 0%;
-
-      // ⭐ KRITIK: PDF text layer'daki highlight stilleri
-      :global(mark.pdf-highlight),
-      :global(.pdf-highlight) {
-        background-color: #fef08a !important;
-        color: #854d0e !important;
-        padding: 2px 0 !important;
-        border-radius: 2px !important;
-        font-weight: 500 !important;
-        box-shadow: 0 0 0 2px rgba(254, 240, 138, 0.4) !important;
-        animation: highlightFade 0.6s ease-in-out;
-        font-size: 10px;
-      }
-
-      @keyframes highlightFade {
-        0% {
-          background-color: #fde047;
-          box-shadow: 0 0 0 4px rgba(253, 224, 71, 0.6);
-        }
-        100% {
-          background-color: #fef08a;
-          box-shadow: 0 0 0 2px rgba(254, 240, 138, 0.4);
-        }
-      }
-    }
-
-    mark {
-      color: transparent;
-    }
-  }
-
-  // Annotation layer için
-  :global(.react-pdf__Page__annotations) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-  }
 }
 
 .contentScrollable .page {
@@ -281,37 +203,6 @@
     }
     100% {
       transform: rotate(360deg);
-    }
-  }
-}
-
-// Farklı highlight tipleri
-.page {
-  :global(.react-pdf__Page__textContent) {
-    span {
-      // Sarı highlight (varsayılan)
-      :global(.pdf-highlight-yellow) {
-        background-color: #fef08a !important;
-        color: #854d0e !important;
-      }
-
-      // Yeşil highlight
-      :global(.pdf-highlight-green) {
-        background-color: #bbf7d0 !important;
-        color: #166534 !important;
-      }
-
-      // Mavi highlight
-      :global(.pdf-highlight-blue) {
-        background-color: #bfdbfe !important;
-        color: #1e40af !important;
-      }
-
-      // Turuncu highlight
-      :global(.pdf-highlight-orange) {
-        background-color: #fed7aa !important;
-        color: #9a3412 !important;
-      }
     }
   }
 }

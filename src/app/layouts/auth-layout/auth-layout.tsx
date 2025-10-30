@@ -9,7 +9,6 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const showPdfViewer = useChatStore((state) => state.showPdfViewer);
   const sourceUrl = useChatStore((state) => state.sourceUrl);
-  const pdfHighlightText = useChatStore((state) => state.pdfHighlightText);
 
   return (
     <div className={styles.container}>
@@ -18,12 +17,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <Header />
         <main className={styles.main}>
           <div className={styles.contentWrapper}>{children}</div>
-          {showPdfViewer && (
-            <PdfViewer
-              highlightText={pdfHighlightText}
-              fileUrl={"https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf"}
-            />
-          )}
+          {showPdfViewer && <PdfViewer fileUrl={sourceUrl} />}
         </main>
       </div>
     </div>

@@ -34,7 +34,7 @@ export const useGetChat = () => {
     retryDelay: 1000,
     retry: 1, // Network hatalarında 1 kez dene
     // refetchOnMount: "always", // Refresh için önemli
-    // Sadece cache'de data yoksa fetch et. useCreateChat zaten cache'i güncelliyor, gereksiz fetch önleniyor
+    // Sadece cache'de data yoksa fetch et. useCreateMessage zaten cache'i güncelliyor, gereksiz fetch önleniyor
     refetchOnMount: (query) => {
       // Cache'de data yoksa veya stale ise fetch et
       // Bu sayede:

@@ -4,8 +4,8 @@ import type {
   ConversationsResponse,
   ConversationDto,
   ConversationResponse,
-  CreateChatDto,
-  CreateChatResponse,
+  CreateMessageDto,
+  CreateMessageResponse,
   ChatDeleteDto,
   ChatDeleteResponse,
   ChatSourceDto,
@@ -13,8 +13,8 @@ import type {
 } from "./chat.types";
 
 export const chatApi = {
-  createChat: async (data: CreateChatDto): Promise<CreateChatResponse> => {
-    const response = await onedocsKnowledgeBaseApiClient.post<CreateChatResponse>(
+  createMessage: async (data: CreateMessageDto): Promise<CreateMessageResponse> => {
+    const response = await onedocsKnowledgeBaseApiClient.post<CreateMessageResponse>(
       "chat/process",
       data
     );

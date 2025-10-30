@@ -14,8 +14,12 @@ export const Chat = () => {
         [styles.noConversation]: !conversationId,
       })}
     >
-      <ChatSession />
-      <ChatPrompt />
+      <div className={styles.chatSession}>
+        <ChatSession />
+      </div>
+      <div className={styles.chatPrompt}>
+        <ChatPrompt />
+      </div>
     </div>
   );
 };

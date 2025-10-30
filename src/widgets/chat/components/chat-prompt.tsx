@@ -9,7 +9,7 @@ import styles from "../styles/chat-prompt.module.scss";
 import {
   ChatDocumentMenu,
   ChatPromptOptions,
-  useCreateChat,
+  useCreateMessage,
   useChatStore,
   ChatSourceMenu,
   ChatCollectionMenu,
@@ -18,7 +18,7 @@ import { useParams } from "react-router-dom";
 
 export const ChatPrompt = () => {
   const { conversationId } = useParams<{ conversationId: string }>();
-  const { mutate: createChat, isPending: loadingCreateMessage } = useCreateChat();
+  const { mutate: createMessage, isPending: loadingCreateMessage } = useCreateMessage();
   // const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const [value, setValue] = useState("");
   const [selectedCollections, setSelectedCollections] = useState<
@@ -53,9 +53,7 @@ export const ChatPrompt = () => {
       // use_reranker: true;
     };
 
-    // Mesajı gönder (yeni chat veya mevcut conversation)
-
-    createChat(userMessage);
+    createMessage(userMessage);
     setValue("");
     setSelectedPromptOptions([]);
   };
@@ -81,7 +79,7 @@ export const ChatPrompt = () => {
     //   role: "user",
     //   createdAt: Date.now(),
     // };
-    // createChat(userMessage);
+    // createMessage(userMessage);
     e.target.value = "";
   };
 

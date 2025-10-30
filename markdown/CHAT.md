@@ -11,7 +11,7 @@
    └─ ChatPrompt input bekler
 
 2. Kullanıcı ilk mesajı yazar ve Enter'a basar
-   └─ useCreateChat.mutate() çağrılır
+   └─ useCreateMessage.mutate() çağrılır
    └─ onMutate: Optimistic update (yeni conversation için geçici state)
 
 3. Backend'den cevap gelir
@@ -37,7 +37,7 @@
    └─ Mesajlar ChatArea'da gösterilir
 
 2. Kullanıcı yeni mesaj yazar
-   └─ useCreateChat.mutate() çağrılır
+   └─ useCreateMessage.mutate() çağrılır
    └─ onMutate: Kullanıcı mesajı optimistically eklenir
 
 3. Backend'den cevap gelir

@@ -1,7 +1,7 @@
 <!-- sequenceDiagram
 participant U as User
 participant CP as ChatPrompt
-participant SM as useCreateChat
+participant SM as useCreateMessage
 participant QC as QueryClient Cache
 participant API as Backend API
 participant CA as ChatArea
@@ -15,7 +15,7 @@ participant CA as ChatArea
 
     Note over U,CA: 2. Yeni Mesaj Gönderme
     U->>CP: Mesaj yazar ve gönderir
-    CP->>SM: createChat(userMessage)
+    CP->>SM: createMessage(userMessage)
 
     Note over SM,QC: Optimistic Update (onMutate)
     SM->>QC: setQueryData - userMessage ekle

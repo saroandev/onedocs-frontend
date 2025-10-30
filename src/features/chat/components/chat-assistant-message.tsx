@@ -3,14 +3,12 @@ import { Button } from "@/shared/ui";
 import styles from "@/widgets/chat/styles/chat-session.module.scss";
 import classnames from "classnames";
 import { useCallback, useState } from "react";
-import { useChatStore } from "../store/chat.store";
 import type { UseMutateFunction } from "@tanstack/react-query";
 import type { ChatSourceDto, ChatSourceResponse } from "../api/chat.types";
 
 export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
   const { data, isNew = false, isLoading, sources, getSource } = props;
   const [isTypingComplete, setIsTypingComplete] = useState(!isNew);
-  const setPdfHighlightText = useChatStore((state) => state.setPdfHighlightText);
 
   const handleSourceByChat = useCallback(
     (sourceNumber: number) => {
@@ -28,13 +26,12 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
         return;
       }
 
-      setPdfHighlightText(selectedSource.text);
       getSource({
         document_url: selectedSource.document_url,
         expires_seconds: 3600,
       });
     },
-    [sources, setPdfHighlightText, getSource]
+    [sources, getSource]
   );
 
   return (

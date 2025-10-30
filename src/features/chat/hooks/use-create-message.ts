@@ -4,12 +4,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useChatStore } from "../store/chat.store";
 import { chatApi } from "../api/chat.api";
 import { showNotification } from "@/shared/lib/notification";
-import type { CreateChatDto, CreateChatResponse } from "../api/chat.types";
+import type { CreateMessageDto, CreateMessageResponse } from "../api/chat.types";
 import { useAppNavigation } from "@/shared/lib/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useUIStore } from "@/shared/store/ui.store";
 
-export const useCreateChat = () => {
+export const useCreateMessage = () => {
   const queryClient = useQueryClient();
   const conversationId = useChatStore((state) => state.conversationId);
   const setConversationId = useChatStore((state) => state.setConversationId);
@@ -19,11 +19,11 @@ export const useCreateChat = () => {
   const isModulePreloaded = useUIStore((state) => state.isModulePreloaded);
   const preloadModule = useUIStore((state) => state.preloadModule);
 
-  const mutation = useMutation<CreateChatResponse, Error, CreateChatDto>({
+  const mutation = useMutation<CreateMessageResponse, Error, CreateMessageDto>({
     mutationFn: (data) => {
       const clientConversationId = conversationId;
 
-      return chatApi.createChat({
+      return chatApi.createMessage({
         ...data,
         conversation_id: clientConversationId,
       });
@@ -46,9 +46,9 @@ export const useCreateChat = () => {
 
       const queryKey = ["chat", currentConversationId];
       await queryClient.cancelQueries({ queryKey });
-      const previousData = queryClient.getQueryData<CreateChatDto[]>(queryKey);
+      const previousData = queryClient.getQueryData<CreateMessageDto[]>(queryKey);
 
-      queryClient.setQueryData<CreateChatDto[]>(queryKey, (old: any = []) => {
+      queryClient.setQueryData<CreateMessageDto[]>(queryKey, (old: any = []) => {
         if (!old || !old.messages) {
           return {
             conversation_id: currentConversationId,
@@ -90,7 +90,7 @@ export const useCreateChat = () => {
       };
     },
 
-    onSuccess: (aiResponse: CreateChatResponse, _variables, _context: any) => {
+    onSuccess: (aiResponse: CreateMessageResponse, _variables, _context: any) => {
       const responseConversationId = aiResponse.conversation_id;
 
       const assistanMessageId = `assistant-${Date.now()}`;
