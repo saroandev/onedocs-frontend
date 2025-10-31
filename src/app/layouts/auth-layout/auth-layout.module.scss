@@ -3,12 +3,13 @@
 
 .container {
   display: flex;
-  height: 100vh;
   background-color: #fff;
 
   .mainWrapper {
     width: 100%;
     height: 100%;
+    margin-left: 60px;
+    flex: 1;
   }
 
   .main {
