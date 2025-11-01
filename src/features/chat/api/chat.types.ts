@@ -122,6 +122,7 @@ export interface ChatDeleteResponse {
 export interface ChatSourceDto {
   document_url: string;
   expires_seconds?: number;
+  highlight_text?: string;
 }
 
 export interface ChatSourceResponse {

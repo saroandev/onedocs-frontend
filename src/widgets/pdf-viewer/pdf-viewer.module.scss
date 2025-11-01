@@ -209,3 +209,13 @@
     }
   }
 }
+
+// Highlight style for matched text in PDF
+:global(.pdf-highlight) {
+  background-color: #ffeb3b !important;
+  color: #000 !important;
+  border-radius: 2px;
+  padding: 2px 0;
+  box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.3);
+  transition: background-color 0.3s ease;
+}

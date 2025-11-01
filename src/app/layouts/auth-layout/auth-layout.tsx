@@ -11,6 +11,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   const setChoosenTab = useUIStore((state) => state.setChoosenTab);
   const showPdfViewer = useChatStore((state) => state.showPdfViewer);
   const sourceUrl = useChatStore((state) => state.sourceUrl);
+  const highlightText = useChatStore((state) => state.highlightText);
 
   return (
     <div className={styles.container}>
@@ -25,7 +26,7 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           >
             {children}
           </div>
-          {showPdfViewer && <PdfViewer fileUrl={sourceUrl} />}
+          {showPdfViewer && <PdfViewer fileUrl={sourceUrl} highlightText={highlightText} />}
         </main>
       </div>
     </div>

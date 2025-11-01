@@ -35,9 +35,12 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
       }
 
       console.log("✅ Getting source with URL:", selectedSource.document_url);
+      console.log("📝 Highlight text:", selectedSource.text);
+
       getSource({
         document_url: selectedSource.document_url,
         expires_seconds: 3600,
+        highlight_text: selectedSource.text, // ← Citation text'i highlight için gönder
       });
     },
     [sources, getSource]

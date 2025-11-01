@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import styles from "./pdf-viewer.module.scss";
 import { showNotification } from "@/shared/lib/notification";
@@ -15,7 +15,7 @@ import { useChatStore } from "@/features/chat";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export const PdfViewer = (props: PdfViewerProps) => {
-  const { fileUrl, pageable = false } = props;
+  const { fileUrl, pageable = false, highlightText = "" } = props;
   const setShowPdfViewer = useChatStore((state) => state.setShowPdfViewer);
   const isLoadingSourceUrl = useChatStore((state) => state.isLoadingSourceUrl);
   const [numPages, setNumPages] = useState<number>(0);
@@ -46,6 +46,79 @@ export const PdfViewer = (props: PdfViewerProps) => {
     setNumPages(numPages);
     setCurrentPage(1);
     setIsLoading(false);
+  };
+
+  // PDF yüklendikten sonra text'i highlight et
+  useEffect(() => {
+    if (!highlightText || !numPages || isLoading) return;
+
+    // TextLayer render olması için kısa bir delay
+    const timer = setTimeout(() => {
+      highlightTextInPdf(highlightText);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [highlightText, numPages, isLoading]);
+
+  const highlightTextInPdf = (searchText: string) => {
+    if (!containerRef.current) return;
+
+    // Önceki highlight'ları temizle
+    const previousHighlights = containerRef.current.querySelectorAll(".pdf-highlight");
+    previousHighlights.forEach((el) => el.classList.remove("pdf-highlight"));
+
+    // TextLayer'daki tüm text span'leri bul
+    const textLayerDivs = containerRef.current.querySelectorAll(".react-pdf__Page__textContent");
+
+    let firstMatch: HTMLElement | null = null;
+    let foundMatch = false;
+
+    textLayerDivs.forEach((textLayer) => {
+      const textSpans = textLayer.querySelectorAll("span");
+
+      // Tüm text'i birleştir ve normalize et
+      let fullText = "";
+      const spanMap: { start: number; end: number; span: HTMLElement }[] = [];
+
+      textSpans.forEach((span) => {
+        const start = fullText.length;
+        const text = span.textContent || "";
+        fullText += text;
+        spanMap.push({ start, end: fullText.length, span });
+      });
+
+      // Normalize edilmiş text'te ara
+      const normalizedSearchText = searchText.toLowerCase().trim();
+      const normalizedFullText = fullText.toLowerCase();
+
+      const index = normalizedFullText.indexOf(normalizedSearchText);
+
+      if (index !== -1) {
+        foundMatch = true;
+        const matchEnd = index + normalizedSearchText.length;
+
+        // Eşleşen text'in hangi span'lerde olduğunu bul
+        spanMap.forEach(({ start, end, span }) => {
+          if ((start >= index && start < matchEnd) || (end > index && end <= matchEnd) || (start <= index && end >= matchEnd)) {
+            span.classList.add("pdf-highlight");
+            if (!firstMatch) {
+              firstMatch = span;
+            }
+          }
+        });
+      }
+    });
+
+    // İlk eşleşmeye scroll yap
+    if (firstMatch && containerRef.current) {
+      setTimeout(() => {
+        firstMatch?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+
+      console.log("✅ Text highlighted and scrolled:", searchText.substring(0, 50) + "...");
+    } else if (!foundMatch) {
+      console.warn("⚠️ Text not found in PDF:", searchText.substring(0, 50) + "...");
+    }
   };
 
   const onDocumentLoadError = (error: Error) => {
@@ -266,4 +339,5 @@ export const PdfViewer = (props: PdfViewerProps) => {
 interface PdfViewerProps {
   fileUrl?: string;
   pageable?: boolean;
+  highlightText?: string;
 }

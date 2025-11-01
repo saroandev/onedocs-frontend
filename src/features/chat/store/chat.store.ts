@@ -10,6 +10,7 @@ export const useChatStore = create<ChatState>((set) => ({
   sourceUrl: "",
   isLoadingSourceUrl: false,
   showPdfViewer: false,
+  highlightText: "",
 
   setPlaybookAnalysisOpen: (val) => set({ playbookAnalysisOpen: val }),
   setSelectedPlaybookForAnalysis: (val) => set({ selectedPlaybookForAnalysis: val }),
@@ -20,6 +21,7 @@ export const useChatStore = create<ChatState>((set) => ({
   setSourceUrl: (val) => set({ sourceUrl: val }),
   setIsLoadingSourceUrl: (val) => set({ isLoadingSourceUrl: val }),
   setShowPdfViewer: (val) => set({ showPdfViewer: val }),
+  setHighlightText: (val) => set({ highlightText: val }),
 }));
 
 interface ChatState {
@@ -31,6 +33,7 @@ interface ChatState {
   lastAssistantMessageId: string;
   sourceUrl: string;
   isLoadingSourceUrl: boolean;
+  highlightText: string;
   setPlaybookAnalysisOpen: (val: boolean) => void;
   setSelectedPlaybookForAnalysis: (val: any | null) => void;
   setConversationId: (val: string | null) => void;
@@ -40,4 +43,5 @@ interface ChatState {
   setSourceUrl: (val: string) => void;
   setIsLoadingSourceUrl: (val: boolean) => void;
   setShowPdfViewer: (val: boolean) => void;
+  setHighlightText: (val: string) => void;
 }
