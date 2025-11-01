@@ -15,7 +15,7 @@ import { useChatStore } from "@/features/chat";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export const PdfViewer = (props: PdfViewerProps) => {
-  const { fileUrl, pageable = false, highlightText = "" } = props;
+  const { fileUrl, pageable = false, highlightText = "", highlightPage = 0 } = props;
   const setShowPdfViewer = useChatStore((state) => state.setShowPdfViewer);
   const isLoadingSourceUrl = useChatStore((state) => state.isLoadingSourceUrl);
   const [numPages, setNumPages] = useState<number>(0);
@@ -82,17 +82,23 @@ export const PdfViewer = (props: PdfViewerProps) => {
     let firstMatch: HTMLElement | null = null;
     let foundMatch = false;
 
-    // Search text'i normalize et
+    // Search text'i normalize et ve daha kısa snippet al
     const normalizedSearchText = normalizeText(searchText);
 
-    // Eğer text çok uzunsa, ilk 100 karaktere bak (daha spesifik eşleşme için)
-    const searchSubstring = normalizedSearchText.length > 100
-      ? normalizedSearchText.substring(0, 100)
-      : normalizedSearchText;
+    // İlk 15-20 anlamlı kelimeyi al (daha spesifik eşleşme için)
+    const words = normalizedSearchText.split(" ").filter(w => w.length > 2);
+    const searchWords = words.slice(0, Math.min(20, words.length));
+    const searchSubstring = searchWords.join(" ");
 
-    console.log("🔍 Normalized search text:", searchSubstring);
+    console.log("🔍 Normalized search text (first 20 words):", searchSubstring);
+    console.log("🎯 Target page:", highlightPage + 1);
 
-    textLayerDivs.forEach((textLayer) => {
+    textLayerDivs.forEach((textLayer, pageIndex) => {
+      // Eğer specific page varsa, sadece o sayfayı kontrol et
+      if (highlightPage && pageIndex !== highlightPage) {
+        return; // Bu sayfayı skipple
+      }
+
       const textSpans = textLayer.querySelectorAll("span");
 
       // Tüm text'i birleştir ve normalize et
@@ -110,16 +116,14 @@ export const PdfViewer = (props: PdfViewerProps) => {
       const normalizedFullText = normalizeText(fullText);
 
       // Debug: PDF'den okunan text'i göster
-      if (!foundMatch) {
-        console.log("📄 PDF page text (first 200 chars):", normalizedFullText.substring(0, 200));
-      }
+      console.log(`📄 Page ${pageIndex + 1} text (first 150 chars):`, normalizedFullText.substring(0, 150));
 
       // Normalize edilmiş text'te ara
       const index = normalizedFullText.indexOf(searchSubstring);
 
       if (index !== -1) {
         foundMatch = true;
-        console.log("✅ Match found at index:", index);
+        console.log(`✅ Match found on page ${pageIndex + 1} at index:`, index);
         console.log("📄 PDF text snippet:", normalizedFullText.substring(index, index + 100));
 
         // Normalize edilmiş indexleri orijinal text'e map et
@@ -388,4 +392,5 @@ interface PdfViewerProps {
   fileUrl?: string;
   pageable?: boolean;
   highlightText?: string;
+  highlightPage?: number;
 }

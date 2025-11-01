@@ -7,13 +7,15 @@ export const useGetSource = () => {
   const setIsLoadingSourceUrl = useChatStore((state) => state.setIsLoadingSourceUrl);
   const setShowPdfViewer = useChatStore((state) => state.setShowPdfViewer);
   const setHighlightText = useChatStore((state) => state.setHighlightText);
+  const setHighlightPage = useChatStore((state) => state.setHighlightPage);
 
   return useMutation({
     mutationFn: chatApi.getSourceByChat,
     onMutate: async (variables) => {
       setIsLoadingSourceUrl(true);
-      // Highlight text'i set et (PDF açılmadan önce)
+      // Highlight text ve page'i set et (PDF açılmadan önce)
       setHighlightText(variables.highlight_text || "");
+      setHighlightPage(variables.page_number || 0);
     },
     onSuccess: (response) => {
       setSourceUrl(response.url);
