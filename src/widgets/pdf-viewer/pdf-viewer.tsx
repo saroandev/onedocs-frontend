@@ -51,8 +51,17 @@ export const PdfViewer = (props: PdfViewerProps) => {
       // Backend JSON hata mesajı mı dönüyor kontrol et
       if (contentType?.includes("application/json")) {
         const errorData = await response.json();
-        console.error("❌ Backend error response:", errorData);
-        throw new Error(errorData?.detail?.error?.message || "Backend PDF döndürmedi, JSON hata mesajı geldi");
+        console.error("❌ Backend error response (FULL):", JSON.stringify(errorData, null, 2));
+        console.error("❌ Error detail:", errorData?.detail);
+        console.error("❌ Error code:", errorData?.detail?.error?.code);
+        console.error("❌ Error message:", errorData?.detail?.error?.message);
+
+        const errorMessage = errorData?.detail?.error?.message
+          || errorData?.detail?.message
+          || errorData?.message
+          || "Backend PDF döndürmedi, JSON hata mesajı geldi";
+
+        throw new Error(errorMessage);
       }
 
       // 200-299 arası başarılı sayılır
