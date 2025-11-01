@@ -39,22 +39,31 @@ export const PdfViewer = (props: PdfViewerProps) => {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
+        redirect: "follow", // Redirect'leri takip et (301, 302, etc.)
       });
 
-      if (!response.ok) {
+      console.log("📡 Response status:", response.status, response.statusText);
+      console.log("📡 Final URL after redirects:", response.url);
+
+      // 200-299 arası veya 3xx redirect'ler başarılı sayılır
+      if (!response.ok && response.status >= 400) {
         console.error("❌ PDF fetch failed:", response.status, response.statusText);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
+      const contentType = response.headers.get("content-type");
+      console.log("📄 Content-Type:", contentType);
+
       const blob = await response.blob();
       const blobUrl = URL.createObjectURL(blob);
 
-      console.log("✅ PDF blob created:", blobUrl);
+      console.log("✅ PDF blob created:", blobUrl, "Size:", blob.size, "bytes");
       setPdfBlobUrl(blobUrl);
     } catch (err) {
       console.error("❌ PDF fetch error:", err);
       setError(true);
       setIsLoading(false);
+      showNotification("error", "PDF yüklenirken hata oluştu. Lütfen tekrar deneyin.");
     }
   };
 
