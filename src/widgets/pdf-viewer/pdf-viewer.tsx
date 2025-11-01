@@ -156,6 +156,34 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const handleZoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.5));
   const handleClose = () => setShowPdfViewer(false);
 
+  const handleDownload = () => {
+    if (!pdfBlobUrl) return;
+
+    // Blob URL'den dosya indir
+    const link = document.createElement("a");
+    link.href = pdfBlobUrl;
+    link.download = `document-${Date.now()}.pdf`; // Varsayılan dosya adı
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showNotification("success", "PDF indiriliyor...");
+  };
+
+  const handlePrint = () => {
+    if (!pdfBlobUrl) return;
+
+    // Yeni pencerede aç ve yazdır
+    const printWindow = window.open(pdfBlobUrl, "_blank");
+    if (printWindow) {
+      printWindow.addEventListener("load", () => {
+        printWindow.print();
+      });
+    } else {
+      showNotification("error", "Yazdırma penceresi açılamadı. Lütfen pop-up engelleyiciyi kontrol edin.");
+    }
+  };
+
   const renderPages = () => {
     if (!numPages) return null;
 
@@ -248,6 +276,25 @@ export const PdfViewer = (props: PdfViewerProps) => {
               onClick={handleZoomIn}
               className={styles.toolbarButton}
               iconType={{ default: "plus" }}
+            />
+          </div>
+          <div className={styles.toolbarDivider} />
+          <div className={styles.toolbarGroup}>
+            <Button
+              buttonType="justIcon"
+              label="İndir"
+              disabled={!pdfBlobUrl || error}
+              onClick={handleDownload}
+              className={styles.toolbarButton}
+              iconType={{ default: "download" }}
+            />
+            <Button
+              buttonType="justIcon"
+              label="Yazdır"
+              disabled={!pdfBlobUrl || error}
+              onClick={handlePrint}
+              className={styles.toolbarButton}
+              iconType={{ default: "printer" }}
             />
           </div>
         </div>

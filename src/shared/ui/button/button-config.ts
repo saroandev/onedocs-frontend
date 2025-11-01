@@ -36,6 +36,8 @@ export const ICON_TYPE = {
   LIBRARY: "library",
   LIKE: "like",
   DISLIKE: "dislike",
+  DOWNLOAD: "download",
+  PRINTER: "printer",
   NONE: "none",
 } as const;
 

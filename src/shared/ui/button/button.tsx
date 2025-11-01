@@ -1,3 +1,4 @@
+import React from "react";
 import classnames from "classnames";
 import {
   BUTTON_TYPE,
@@ -37,6 +38,7 @@ import {
   Library,
   ThumbsUp,
   ThumbsDown,
+  Printer,
 } from "lucide-react";
 import styles from "./button.module.scss";
 import { IconLoadingSpin } from "../icons";
@@ -85,6 +87,8 @@ export const Button = (props: Props) => {
     [ICON_TYPE.LIBRARY]: <Library />,
     [ICON_TYPE.LIKE]: <ThumbsUp />,
     [ICON_TYPE.DISLIKE]: <ThumbsDown />,
+    [ICON_TYPE.DOWNLOAD]: <Download />,
+    [ICON_TYPE.PRINTER]: <Printer />,
     [ICON_TYPE.NONE]: <></>,
   };
 
