@@ -62,10 +62,23 @@ export const PdfViewer = (props: PdfViewerProps) => {
 
   const normalizeText = (text: string): string => {
     return text
+      // 1. First normalize Unicode to decompose combining characters (e.g., i̇ → i + dot)
+      .normalize("NFD")
+      // 2. Remove all combining diacritical marks
+      .replace(/[\u0300-\u036f]/g, "")
+      // 3. Convert to lowercase (İ → i, but we'll handle Turkish i separately)
       .toLowerCase()
-      .replace(/\s+/g, " ") // Tüm whitespace'leri tek boşluğa çevir
-      .replace(/[.,;:!?()[\]{}""''«»‹›\-–—/\\]/g, " ") // Tüm noktalama → boşluk
-      .replace(/\s+/g, " ") // Tekrar normalize (çoklu boşlukları temizle)
+      // 4. Turkish character normalization (ı, ğ, ş, ü, ö, ç → i, g, s, u, o, c)
+      .replace(/ı/g, "i")  // Turkish dotless i → regular i
+      .replace(/ğ/g, "g")
+      .replace(/ş/g, "s")
+      .replace(/ü/g, "u")
+      .replace(/ö/g, "o")
+      .replace(/ç/g, "c")
+      // 5. Remove all punctuation and special characters → space
+      .replace(/[.,;:!?()[\]{}""''«»‹›\-–—/\\]/g, " ")
+      // 6. Normalize whitespace (multiple spaces → single space)
+      .replace(/\s+/g, " ")
       .trim();
   };
 
@@ -90,13 +103,15 @@ export const PdfViewer = (props: PdfViewerProps) => {
     const searchWords = words.slice(0, Math.min(20, words.length));
     const searchSubstring = searchWords.join(" ");
 
+    console.log("🔍 Original search text:", searchText.substring(0, 150));
     console.log("🔍 Normalized search text (first 20 words):", searchSubstring);
     console.log("🎯 Target page:", highlightPage + 1);
+    console.log("📊 Normalization test - before:", "i̇hale", "after:", normalizeText("i̇hale"));
 
     textLayerDivs.forEach((textLayer, pageIndex) => {
-      // Eğer specific page varsa, sadece o sayfayı kontrol et
-      if (highlightPage && pageIndex !== highlightPage) {
-        return; // Bu sayfayı skipple
+      // Eğer match bulunmuşsa diğer sayfaları skipple
+      if (foundMatch) {
+        return;
       }
 
       const textSpans = textLayer.querySelectorAll("span");
@@ -116,7 +131,8 @@ export const PdfViewer = (props: PdfViewerProps) => {
       const normalizedFullText = normalizeText(fullText);
 
       // Debug: PDF'den okunan text'i göster
-      console.log(`📄 Page ${pageIndex + 1} text (first 150 chars):`, normalizedFullText.substring(0, 150));
+      console.log(`📄 Page ${pageIndex + 1} original text (first 150 chars):`, fullText.substring(0, 150));
+      console.log(`📄 Page ${pageIndex + 1} normalized text (first 150 chars):`, normalizedFullText.substring(0, 150));
 
       // Normalize edilmiş text'te ara
       const index = normalizedFullText.indexOf(searchSubstring);
