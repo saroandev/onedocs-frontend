@@ -45,19 +45,37 @@ export const PdfViewer = (props: PdfViewerProps) => {
       console.log("📡 Response status:", response.status, response.statusText);
       console.log("📡 Final URL after redirects:", response.url);
 
-      // 200-299 arası veya 3xx redirect'ler başarılı sayılır
-      if (!response.ok && response.status >= 400) {
+      const contentType = response.headers.get("content-type");
+      console.log("📄 Content-Type:", contentType);
+
+      // Backend JSON hata mesajı mı dönüyor kontrol et
+      if (contentType?.includes("application/json")) {
+        const errorData = await response.json();
+        console.error("❌ Backend error response:", errorData);
+        throw new Error(errorData?.detail?.error?.message || "Backend PDF döndürmedi, JSON hata mesajı geldi");
+      }
+
+      // 200-299 arası başarılı sayılır
+      if (!response.ok) {
         console.error("❌ PDF fetch failed:", response.status, response.statusText);
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      const contentType = response.headers.get("content-type");
-      console.log("📄 Content-Type:", contentType);
+      // PDF kontrolü
+      if (!contentType?.includes("application/pdf")) {
+        console.error("❌ Wrong content type:", contentType);
+        throw new Error(`Expected PDF but got: ${contentType}`);
+      }
 
       const blob = await response.blob();
-      const blobUrl = URL.createObjectURL(blob);
+      console.log("✅ PDF blob received. Size:", blob.size, "bytes");
 
-      console.log("✅ PDF blob created:", blobUrl, "Size:", blob.size, "bytes");
+      if (blob.size < 1000) {
+        console.warn("⚠️ Suspiciously small PDF blob, might be an error");
+      }
+
+      const blobUrl = URL.createObjectURL(blob);
+      console.log("✅ PDF blob URL created:", blobUrl);
       setPdfBlobUrl(blobUrl);
     } catch (err) {
       console.error("❌ PDF fetch error:", err);
@@ -82,7 +100,8 @@ export const PdfViewer = (props: PdfViewerProps) => {
         URL.revokeObjectURL(pdfBlobUrl);
       }
     };
-  }, [fileUrl, token, pdfBlobUrl]);
+    // ⚠️ pdfBlobUrl dependency'den ÇIKARILDI - infinite loop önlendi!
+  }, [fileUrl, token]);
 
   const file = useMemo(() => {
     if (!pdfBlobUrl) return null;
