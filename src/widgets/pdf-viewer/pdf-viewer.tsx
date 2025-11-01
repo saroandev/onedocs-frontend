@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import styles from "./pdf-viewer.module.scss";
 import { showNotification } from "@/shared/lib/notification";
@@ -25,20 +25,62 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState(false);
   const [scale, setScale] = useState<number>(1.0);
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const documentRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const file = useMemo(() => {
-    if (!fileUrl) return null;
+  // PDF'i fetch ile indir ve blob URL oluştur
+  const fetchPdfAsBlob = async (url: string, authToken: string) => {
+    try {
+      console.log("🔄 Fetching PDF from:", url);
 
-    // Backend proxy'ye Authorization header gönder
-    return {
-      url: fileUrl,
-      httpHeaders: {
-        Authorization: `Bearer ${token}`,
-      },
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error("❌ PDF fetch failed:", response.status, response.statusText);
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+
+      console.log("✅ PDF blob created:", blobUrl);
+      setPdfBlobUrl(blobUrl);
+    } catch (err) {
+      console.error("❌ PDF fetch error:", err);
+      setError(true);
+      setIsLoading(false);
+    }
+  };
+
+  // fileUrl değiştiğinde PDF'i fetch et
+  useEffect(() => {
+    if (fileUrl && token) {
+      setIsLoading(true);
+      setError(false);
+      setPdfBlobUrl(null);
+      fetchPdfAsBlob(fileUrl, token);
+    }
+
+    // Cleanup: blob URL'i temizle
+    return () => {
+      if (pdfBlobUrl) {
+        URL.revokeObjectURL(pdfBlobUrl);
+      }
     };
-  }, [fileUrl, token]);
+  }, [fileUrl, token, pdfBlobUrl]);
+
+  const file = useMemo(() => {
+    if (!pdfBlobUrl) return null;
+
+    // Blob URL kullan - artık authentication gerektirmez
+    return { url: pdfBlobUrl };
+  }, [pdfBlobUrl]);
 
   const options = useMemo(
     () => ({
