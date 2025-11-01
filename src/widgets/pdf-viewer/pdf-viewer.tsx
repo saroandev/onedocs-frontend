@@ -60,6 +60,14 @@ export const PdfViewer = (props: PdfViewerProps) => {
     return () => clearTimeout(timer);
   }, [highlightText, numPages, isLoading]);
 
+  const normalizeText = (text: string): string => {
+    return text
+      .toLowerCase()
+      .replace(/\s+/g, " ") // Tüm whitespace'leri tek boşluğa çevir
+      .replace(/[.,;:!?()[\]{}""''«»‹›]/g, "") // Noktalama işaretlerini kaldır
+      .trim();
+  };
+
   const highlightTextInPdf = (searchText: string) => {
     if (!containerRef.current) return;
 
@@ -73,37 +81,70 @@ export const PdfViewer = (props: PdfViewerProps) => {
     let firstMatch: HTMLElement | null = null;
     let foundMatch = false;
 
+    // Search text'i normalize et
+    const normalizedSearchText = normalizeText(searchText);
+
+    // Eğer text çok uzunsa, ilk 100 karaktere bak (daha spesifik eşleşme için)
+    const searchSubstring = normalizedSearchText.length > 100
+      ? normalizedSearchText.substring(0, 100)
+      : normalizedSearchText;
+
+    console.log("🔍 Normalized search text:", searchSubstring);
+
     textLayerDivs.forEach((textLayer) => {
       const textSpans = textLayer.querySelectorAll("span");
 
       // Tüm text'i birleştir ve normalize et
       let fullText = "";
-      const spanMap: { start: number; end: number; span: HTMLElement }[] = [];
+      const spanMap: { start: number; end: number; span: HTMLElement; originalText: string }[] = [];
 
       textSpans.forEach((span) => {
+        const originalText = span.textContent || "";
         const start = fullText.length;
-        const text = span.textContent || "";
-        fullText += text;
-        spanMap.push({ start, end: fullText.length, span });
+        fullText += originalText;
+        spanMap.push({ start, end: fullText.length, span, originalText });
       });
 
-      // Normalize edilmiş text'te ara
-      const normalizedSearchText = searchText.toLowerCase().trim();
-      const normalizedFullText = fullText.toLowerCase();
+      // PDF text'ini de normalize et
+      const normalizedFullText = normalizeText(fullText);
 
-      const index = normalizedFullText.indexOf(normalizedSearchText);
+      // Normalize edilmiş text'te ara
+      const index = normalizedFullText.indexOf(searchSubstring);
 
       if (index !== -1) {
         foundMatch = true;
-        const matchEnd = index + normalizedSearchText.length;
+        console.log("✅ Match found at index:", index);
+        console.log("📄 PDF text snippet:", normalizedFullText.substring(index, index + 100));
 
-        // Eşleşen text'in hangi span'lerde olduğunu bul
-        spanMap.forEach(({ start, end, span }) => {
-          if ((start >= index && start < matchEnd) || (end > index && end <= matchEnd) || (start <= index && end >= matchEnd)) {
+        // Normalize edilmiş indexleri orijinal text'e map et
+        // Bu zor kısım - whitespace ve punctuation kaldırdığımız için mapping gerekli
+
+        // Basit approach: Eşleşen kelimelerle başlayan ilk span'i bul
+        const searchWords = searchSubstring.split(" ").filter(w => w.length > 2); // 2 harften uzun kelimeleri al
+        const firstSearchWord = searchWords[0];
+        const lastSearchWord = searchWords[searchWords.length - 1];
+
+        let inMatchRange = false;
+
+        spanMap.forEach(({ span, originalText }) => {
+          const normalizedSpanText = normalizeText(originalText);
+
+          // İlk kelimeyi içeriyorsa, highlight'ı başlat
+          if (normalizedSpanText.includes(firstSearchWord)) {
+            inMatchRange = true;
+          }
+
+          // Match aralığındaysak highlight et
+          if (inMatchRange) {
             span.classList.add("pdf-highlight");
             if (!firstMatch) {
               firstMatch = span;
             }
+          }
+
+          // Son kelimeyi içeriyorsa, highlight'ı bitir
+          if (normalizedSpanText.includes(lastSearchWord)) {
+            inMatchRange = false;
           }
         });
       }
@@ -115,9 +156,10 @@ export const PdfViewer = (props: PdfViewerProps) => {
         firstMatch?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
 
-      console.log("✅ Text highlighted and scrolled:", searchText.substring(0, 50) + "...");
+      console.log("✅ Text highlighted and scrolled");
     } else if (!foundMatch) {
-      console.warn("⚠️ Text not found in PDF:", searchText.substring(0, 50) + "...");
+      console.warn("⚠️ Text not found in PDF");
+      console.log("🔍 Search text:", searchSubstring);
     }
   };
 
