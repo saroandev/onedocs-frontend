@@ -10,8 +10,9 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { useChatStore } from "@/features/chat";
 
-// CDN'den worker yükle - Vite MIME type sorununu çözer
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.mjs`;
+// jsdelivr CDN'den worker yükle - cloudflare CDN'de versiyon yok
+// Alternatif: unpkg.com da kullanılabilir
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdn.jsdelivr.net/npm/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 export const PdfViewer = (props: PdfViewerProps) => {
   const { fileUrl, pageable = false } = props;
