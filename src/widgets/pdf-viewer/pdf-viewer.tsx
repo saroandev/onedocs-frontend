@@ -9,6 +9,7 @@ import { Alert, Button } from "@/shared/ui";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { useChatStore } from "@/features/chat";
+import { useAuthStore } from "@/features/auth/store/auth.store";
 
 // jsdelivr CDN'den worker yükle - cloudflare CDN'de versiyon yok
 // Alternatif: unpkg.com da kullanılabilir
@@ -18,6 +19,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const { fileUrl, pageable = false } = props;
   const setShowPdfViewer = useChatStore((state) => state.setShowPdfViewer);
   const isLoadingSourceUrl = useChatStore((state) => state.isLoadingSourceUrl);
+  const token = useAuthStore((state) => state.token);
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -28,8 +30,15 @@ export const PdfViewer = (props: PdfViewerProps) => {
 
   const file = useMemo(() => {
     if (!fileUrl) return null;
-    return { url: fileUrl };
-  }, [fileUrl]);
+
+    // Backend proxy'ye Authorization header gönder
+    return {
+      url: fileUrl,
+      httpHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+  }, [fileUrl, token]);
 
   const options = useMemo(
     () => ({
