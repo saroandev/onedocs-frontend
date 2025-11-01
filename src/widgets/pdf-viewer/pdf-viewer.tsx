@@ -23,6 +23,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState(false);
   const [scale, setScale] = useState<number>(1.0);
+  const [showCitationInfo, setShowCitationInfo] = useState<boolean>(true);
   const documentRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -51,6 +52,9 @@ export const PdfViewer = (props: PdfViewerProps) => {
   // PDF yüklendikten sonra text'i highlight et
   useEffect(() => {
     if (!highlightText || !numPages || isLoading) return;
+
+    // Yeni citation geldiğinde info box'ı tekrar göster
+    setShowCitationInfo(true);
 
     // TextLayer render olması için kısa bir delay
     const timer = setTimeout(() => {
@@ -142,11 +146,8 @@ export const PdfViewer = (props: PdfViewerProps) => {
         console.log(`✅ Match found on page ${pageIndex + 1} at index:`, index);
         console.log("📄 PDF text snippet:", normalizedFullText.substring(index, index + 100));
 
-        // Normalize edilmiş indexleri orijinal text'e map et
-        // Bu zor kısım - whitespace ve punctuation kaldırdığımız için mapping gerekli
-
         // Basit approach: Eşleşen kelimelerle başlayan ilk span'i bul
-        const searchWords = searchSubstring.split(" ").filter(w => w.length > 2); // 2 harften uzun kelimeleri al
+        const searchWords = searchSubstring.split(" ").filter(w => w.length > 2);
         const firstSearchWord = searchWords[0];
         const lastSearchWord = searchWords[searchWords.length - 1];
 
@@ -183,9 +184,26 @@ export const PdfViewer = (props: PdfViewerProps) => {
       }, 100);
 
       console.log("✅ Text highlighted and scrolled");
-    } else if (!foundMatch) {
-      console.warn("⚠️ Text not found in PDF");
+    } else {
+      // Exact match bulunamadı, page number'a göre scroll yap
+      console.warn("⚠️ Exact text match not found in PDF, scrolling to target page");
       console.log("🔍 Search text:", searchSubstring);
+
+      if (highlightPage > 0 && containerRef.current) {
+        // Page number'a göre scroll (0-indexed, bu yüzden highlightPage direk kullanılabilir)
+        const targetPageElement = containerRef.current.querySelector(
+          `.react-pdf__Page[data-page-number="${highlightPage + 1}"]`
+        );
+
+        if (targetPageElement) {
+          setTimeout(() => {
+            targetPageElement.scrollIntoView({ behavior: "smooth", block: "start" });
+            console.log(`✅ Scrolled to page ${highlightPage + 1}`);
+          }, 100);
+        } else {
+          console.warn(`⚠️ Page ${highlightPage + 1} element not found`);
+        }
+      }
     }
   };
 
@@ -289,6 +307,30 @@ export const PdfViewer = (props: PdfViewerProps) => {
           iconType={{ default: "close" }}
         />
       </div>
+
+      {/* Citation Info Box */}
+      {highlightText && showCitationInfo && (
+        <div className={styles.citationInfo}>
+          <div className={styles.citationInfoContent}>
+            <div className={styles.citationInfoHeader}>
+              <h4 className={styles.citationInfoTitle}>Alıntı Metni</h4>
+              {highlightPage > 0 && (
+                <span className={styles.citationInfoPage}>Sayfa {highlightPage + 1}</span>
+              )}
+            </div>
+            <p className={styles.citationInfoText}>{highlightText}</p>
+          </div>
+          <div className={styles.citationInfoClose}>
+            <Button
+              label=""
+              buttonType="justIcon"
+              onClick={() => setShowCitationInfo(false)}
+              iconType={{ default: "close" }}
+              variant="secondary"
+            />
+          </div>
+        </div>
+      )}
 
       {isLoading && <LoaderPinwheel className={styles.loading} />}
 
