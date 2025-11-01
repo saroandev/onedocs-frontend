@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import styles from "./pdf-viewer.module.scss";
 import { showNotification } from "@/shared/lib/notification";
@@ -23,99 +23,15 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState(false);
   const [scale, setScale] = useState<number>(1.0);
-  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const documentRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // PDF'i fetch ile indir ve blob URL oluştur
-  const fetchPdfAsBlob = async (url: string) => {
-    try {
-      console.log("🔄 Fetching PDF from:", url);
-
-      // ⚠️ Presigned URL'ler için Authorization header GÖNDERMEYİN!
-      // Presigned URL zaten X-Amz-Signature ile kimlik doğrulamalı
-      // Ekstra header göndermek signature'ı bozar
-      const response = await fetch(url, {
-        method: "GET",
-        redirect: "follow", // Redirect'leri takip et (301, 302, etc.)
-      });
-
-      console.log("📡 Response status:", response.status, response.statusText);
-      console.log("📡 Final URL after redirects:", response.url);
-
-      const contentType = response.headers.get("content-type");
-      console.log("📄 Content-Type:", contentType);
-
-      // Backend JSON hata mesajı mı dönüyor kontrol et
-      if (contentType?.includes("application/json")) {
-        const errorData = await response.json();
-        console.error("❌ Backend error response (FULL):", JSON.stringify(errorData, null, 2));
-        console.error("❌ Error detail:", errorData?.detail);
-        console.error("❌ Error code:", errorData?.detail?.error?.code);
-        console.error("❌ Error message:", errorData?.detail?.error?.message);
-
-        const errorMessage = errorData?.detail?.error?.message
-          || errorData?.detail?.message
-          || errorData?.message
-          || "Backend PDF döndürmedi, JSON hata mesajı geldi";
-
-        throw new Error(errorMessage);
-      }
-
-      // 200-299 arası başarılı sayılır
-      if (!response.ok) {
-        console.error("❌ PDF fetch failed:", response.status, response.statusText);
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      // PDF kontrolü
-      if (!contentType?.includes("application/pdf")) {
-        console.error("❌ Wrong content type:", contentType);
-        throw new Error(`Expected PDF but got: ${contentType}`);
-      }
-
-      const blob = await response.blob();
-      console.log("✅ PDF blob received. Size:", blob.size, "bytes");
-
-      if (blob.size < 1000) {
-        console.warn("⚠️ Suspiciously small PDF blob, might be an error");
-      }
-
-      const blobUrl = URL.createObjectURL(blob);
-      console.log("✅ PDF blob URL created:", blobUrl);
-      setPdfBlobUrl(blobUrl);
-    } catch (err) {
-      console.error("❌ PDF fetch error:", err);
-      setError(true);
-      setIsLoading(false);
-      showNotification("error", "PDF yüklenirken hata oluştu. Lütfen tekrar deneyin.");
-    }
-  };
-
-  // fileUrl değiştiğinde PDF'i fetch et
-  useEffect(() => {
-    if (fileUrl) {
-      setIsLoading(true);
-      setError(false);
-      setPdfBlobUrl(null);
-      fetchPdfAsBlob(fileUrl);
-    }
-
-    // Cleanup: blob URL'i temizle
-    return () => {
-      if (pdfBlobUrl) {
-        URL.revokeObjectURL(pdfBlobUrl);
-      }
-    };
-    // ⚠️ pdfBlobUrl dependency'den ÇIKARILDI - infinite loop önlendi!
-  }, [fileUrl]);
-
   const file = useMemo(() => {
-    if (!pdfBlobUrl) return null;
+    if (!fileUrl) return null;
 
-    // Blob URL kullan - presigned URL'ler doğrudan react-pdf ile çalışmıyor
-    return { url: pdfBlobUrl };
-  }, [pdfBlobUrl]);
+    // Direkt HTTPS presigned URL kullan - artık blob'a çevirmeye gerek yok
+    return { url: fileUrl };
+  }, [fileUrl]);
 
   const options = useMemo(
     () => ({
@@ -157,12 +73,13 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const handleClose = () => setShowPdfViewer(false);
 
   const handleDownload = () => {
-    if (!pdfBlobUrl) return;
+    if (!fileUrl) return;
 
-    // Blob URL'den dosya indir
+    // Presigned URL'den dosya indir
     const link = document.createElement("a");
-    link.href = pdfBlobUrl;
-    link.download = `document-${Date.now()}.pdf`; // Varsayılan dosya adı
+    link.href = fileUrl;
+    link.download = `document-${Date.now()}.pdf`;
+    link.target = "_blank"; // Yeni sekmede aç
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -171,10 +88,10 @@ export const PdfViewer = (props: PdfViewerProps) => {
   };
 
   const handlePrint = () => {
-    if (!pdfBlobUrl) return;
+    if (!fileUrl) return;
 
     // Yeni pencerede aç ve yazdır
-    const printWindow = window.open(pdfBlobUrl, "_blank");
+    const printWindow = window.open(fileUrl, "_blank");
     if (printWindow) {
       printWindow.addEventListener("load", () => {
         printWindow.print();
@@ -283,7 +200,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
             <Button
               buttonType="justIcon"
               label="İndir"
-              disabled={!pdfBlobUrl || error}
+              disabled={!fileUrl || error}
               onClick={handleDownload}
               className={styles.toolbarButton}
               iconType={{ default: "download" }}
@@ -291,7 +208,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
             <Button
               buttonType="justIcon"
               label="Yazdır"
-              disabled={!pdfBlobUrl || error}
+              disabled={!fileUrl || error}
               onClick={handlePrint}
               className={styles.toolbarButton}
               iconType={{ default: "printer" }}
