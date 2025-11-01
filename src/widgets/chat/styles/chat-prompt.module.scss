@@ -11,10 +11,24 @@
   width: 100%;
   max-width: 800px;
   margin-inline: auto;
+  animation: slideToBottom 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  @keyframes slideToBottom {
+    from {
+      opacity: 0.8;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   @media (min-width: 640px) {
     padding: 12px 12px 12px 12px;
   }
+
   @media (min-width: 768px) {
     padding: 16px 24px 16px 24px;
   }
@@ -95,7 +109,6 @@
 .sourceDropdown {
   width: 280px;
   max-height: 380px;
-  overflow: auto;
   overflow: hidden;
 
   .dropdownHeader {
@@ -223,6 +236,7 @@
   opacity: 0.5;
   pointer-events: none;
 }
+
 .badge {
   display: inline-flex;
   align-items: center;

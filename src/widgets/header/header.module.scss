@@ -14,32 +14,6 @@
   }
 }
 
-.menuButton {
-  height: 32px;
-  width: 32px;
-
-  &.mobileOnly {
-    @media (min-width: 1024px) {
-      display: none;
-    }
-  }
-}
-
-.menuIcon {
-  height: 20px;
-  width: 20px;
-}
-
-.sheetContent {
-  width: 280px;
-  padding: 0;
-}
-
-.sheetInner {
-  height: 100%;
-  overflow: hidden;
-}
-
 .titleContainer {
   display: flex;
   align-items: center;
@@ -61,30 +35,4 @@
   @media (min-width: 640px) {
     font-size: 13px;
   }
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.actionButton {
-  height: 28px;
-  width: 28px;
-  color: #6b7280;
-
-  &:hover {
-    color: #1f2937;
-  }
-
-  @media (min-width: 640px) {
-    height: 32px;
-    width: 32px;
-  }
-}
-
-.actionIcon {
-  height: 16px;
-  width: 16px;
 }

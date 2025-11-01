@@ -19,36 +19,4 @@
   &.noConversation {
     justify-content: center;
   }
-
-  .chatSession {
-    animation: slideUpCenter 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-    @keyframes slideUpCenter {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-
-  .chatPrompt {
-    animation: slideToBottom 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-
-    @keyframes slideToBottom {
-      from {
-        opacity: 0.8;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
 }

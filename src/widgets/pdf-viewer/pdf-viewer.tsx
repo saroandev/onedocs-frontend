@@ -168,7 +168,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
         </div>
       )}
 
-      {error && (
+      {/* {error && (
         <div className={styles.content}>
           <Alert
             variant="error"
@@ -178,7 +178,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
             className={styles.alert}
           />
         </div>
-      )}
+      )} */}
 
       <div
         ref={containerRef}
@@ -195,9 +195,20 @@ export const PdfViewer = (props: PdfViewerProps) => {
           loading={null}
           className={styles.document}
           inputRef={documentRef}
+          error={false}
         >
           {renderPages()}
         </Document>
+
+        {error && (
+          <Alert
+            variant="error"
+            title="Pdf yüklenemedi"
+            message="Pdf yüklenirken beklenmeyen bir hata oluştu."
+            showLink={false}
+            className={styles.alert}
+          />
+        )}
       </div>
     </aside>
   );
