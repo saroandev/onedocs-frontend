@@ -26,18 +26,30 @@ export interface CreateMessageResponse {
   processing_time: number;
   remaining_credits: number;
   role: "assistant" | "user";
-  sources: {
-    chunk_text: string;
+  // Backend "citations" field'ı gönderiyor (sources değil!)
+  citations: {
     document_id: string;
-    document_title: string;
-    page_number: number;
-    score: number;
+    chunk_index: number;
+    text: string;
+    relevance_score: number;
+    document_url: string;
+    metadata: {
+      filename: string;
+      source: string;
+      file_hash: string;
+      upload_date: string;
+      bucket: string;
+      page_number: number;
+      uploaded_by?: string;
+      title?: string;
+      file_size?: number;
+    };
   }[];
   tokens_used: number;
   total_sources_retrieved?: number;
   sources_after_filtering?: number;
   min_score_applied?: number;
-  low_confidence_sources?: number | null;
+  low_confidence_citations?: number | null;
 }
 
 export interface ConversationDto {

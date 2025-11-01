@@ -12,20 +12,29 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
 
   const handleSourceByChat = useCallback(
     (sourceNumber: number) => {
+      console.log("📚 Source clicked:", { sourceNumber, sources, sourcesLength: sources?.length });
+
       const sourceIndex = sourceNumber - 1;
 
-      if (!sources || sourceIndex < 0 || sourceIndex >= sources.length) {
-        console.error(`Source ${sourceNumber} bulunamadı`);
+      if (!sources || sources.length === 0) {
+        console.error(`❌ Sources array boş veya undefined:`, sources);
+        return;
+      }
+
+      if (sourceIndex < 0 || sourceIndex >= sources.length) {
+        console.error(`❌ Source ${sourceNumber} index out of bounds. Array length: ${sources.length}`);
         return;
       }
 
       const selectedSource = sources[sourceIndex];
+      console.log("📄 Selected source:", selectedSource);
 
       if (!selectedSource?.document_url) {
-        console.error(`Source ${sourceNumber} için document_url bulunamadı`);
+        console.error(`❌ Source ${sourceNumber} için document_url bulunamadı:`, selectedSource);
         return;
       }
 
+      console.log("✅ Getting source with URL:", selectedSource.document_url);
       getSource({
         document_url: selectedSource.document_url,
         expires_seconds: 3600,
@@ -97,7 +106,7 @@ interface ChatAssistantMessageProps {
   data: string;
   isNew?: boolean;
   isLoading: boolean;
-  sources: {
+  sources?: {
     text: string;
     metadata: {
       title: string;

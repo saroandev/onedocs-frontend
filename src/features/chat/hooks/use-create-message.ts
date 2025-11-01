@@ -97,6 +97,22 @@ export const useCreateMessage = () => {
 
       setLastAssistantMessageId(assistanMessageId);
 
+      // Backend'den "citations" geliyor, onu "sources" formatına map et
+      const mappedSources = aiResponse.citations?.map((citation) => ({
+        text: citation.text,
+        chunk_index: citation.chunk_index,
+        document_id: citation.document_id,
+        document_url: citation.document_url,
+        relevance_score: citation.relevance_score,
+        metadata: citation.metadata,
+      })) || [];
+
+      console.log("✅ Mapped citations to sources:", {
+        citationsCount: aiResponse.citations?.length,
+        mappedSourcesCount: mappedSources.length,
+        firstSource: mappedSources[0],
+      });
+
       const queryKey = ["chat", responseConversationId];
       queryClient.setQueryData<any>(queryKey, (old: any) => {
         if (!old) return old;
@@ -110,7 +126,7 @@ export const useCreateMessage = () => {
               role: "assistant",
               message_id: assistanMessageId,
               created_at: new Date().toISOString(),
-              sources: aiResponse.sources,
+              sources: mappedSources, // ← Backend citations → frontend sources
               tokens_used: aiResponse.tokens_used,
               processing_time: aiResponse.processing_time,
             },

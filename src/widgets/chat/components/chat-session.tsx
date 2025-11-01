@@ -69,10 +69,19 @@ export const ChatSession = () => {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.messagesContainer}>
-          {data?.messages.map((message) =>
-            message.role === "user" ? (
-              <ChatUserMessage data={message.content} key={message.message_id} />
-            ) : (
+          {data?.messages.map((message) => {
+            if (message.role === "user") {
+              return <ChatUserMessage data={message.content} key={message.message_id} />;
+            }
+
+            // Debug: Assistant message sources
+            console.log("🔍 Assistant message:", {
+              message_id: message.message_id,
+              sources: message.sources,
+              sourcesLength: message.sources?.length,
+            });
+
+            return (
               <ChatAssistantMessage
                 data={message.content}
                 key={message.message_id}
@@ -81,8 +90,8 @@ export const ChatSession = () => {
                 sources={message?.sources}
                 getSource={getSource}
               />
-            )
-          )}
+            );
+          })}
           {isCreatingMessage && conversationId && <Shell className={styles.loading} />}
           <div ref={bottomRef} />
         </div>
