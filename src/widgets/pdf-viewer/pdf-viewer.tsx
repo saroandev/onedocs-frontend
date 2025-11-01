@@ -64,7 +64,8 @@ export const PdfViewer = (props: PdfViewerProps) => {
     return text
       .toLowerCase()
       .replace(/\s+/g, " ") // Tüm whitespace'leri tek boşluğa çevir
-      .replace(/[.,;:!?()[\]{}""''«»‹›]/g, "") // Noktalama işaretlerini kaldır
+      .replace(/[.,;:!?()[\]{}""''«»‹›\-–—/\\]/g, " ") // Tüm noktalama → boşluk
+      .replace(/\s+/g, " ") // Tekrar normalize (çoklu boşlukları temizle)
       .trim();
   };
 
@@ -107,6 +108,11 @@ export const PdfViewer = (props: PdfViewerProps) => {
 
       // PDF text'ini de normalize et
       const normalizedFullText = normalizeText(fullText);
+
+      // Debug: PDF'den okunan text'i göster
+      if (!foundMatch) {
+        console.log("📄 PDF page text (first 200 chars):", normalizedFullText.substring(0, 200));
+      }
 
       // Normalize edilmiş text'te ara
       const index = normalizedFullText.indexOf(searchSubstring);
