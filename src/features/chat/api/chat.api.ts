@@ -1,4 +1,5 @@
 import { onedocsKnowledgeBaseApiClient } from "@/shared/lib/api/http-client";
+import { ENV } from "@/app/config/env";
 import type {
   ConversationsDto,
   ConversationsResponse,
@@ -53,10 +54,20 @@ export const chatApi = {
   },
 
   getSourceByChat: async (data: ChatSourceDto): Promise<ChatSourceResponse> => {
-    const response = await onedocsKnowledgeBaseApiClient.post<ChatSourceResponse>(
-      "docs/presign",
-      data
-    );
-    return response.data;
+    // Yeni CORS-safe proxy endpoint kullanımı
+    // Backend artık /docs/preview?document_url={url} ile MinIO'dan stream ediyor
+    const { document_url } = data;
+
+    // Proxy URL'ini construct et - baseUrl zaten trailing slash içeriyor
+    const baseUrl = ENV.KNOWLEDGE_BASE_API || "https://knowledgebase-preprod.onedocs.ai/";
+    const previewUrl = `${baseUrl}docs/preview?document_url=${encodeURIComponent(document_url)}`;
+
+    // Response formatını koruyoruz (eski API ile uyumlu)
+    return {
+      url: previewUrl,
+      document_id: document_url.split('/').pop() || "",
+      source_type: "pdf",
+      expires_in: 3600
+    };
   },
 };
