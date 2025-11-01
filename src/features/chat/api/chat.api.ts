@@ -58,11 +58,14 @@ export const chatApi = {
     // MinIO URL'i tarayıcıda zaten açılıyor, CORS sorunu yok
     const { document_url } = data;
 
-    console.log("✅ Using direct MinIO URL (no proxy):", document_url);
+    // 🔒 Mixed Content Fix: HTTP → HTTPS (frontend HTTPS üzerinden çalıştığı için)
+    const secureUrl = document_url.replace(/^http:\/\//i, "https://");
+
+    console.log("✅ Using direct MinIO URL (HTTP→HTTPS):", secureUrl);
 
     // Response formatını koruyoruz (eski API ile uyumlu)
     return {
-      url: document_url, // ← Direkt MinIO URL!
+      url: secureUrl, // ← HTTPS MinIO URL!
       document_id: document_url.split('/').pop()?.split('?')[0] || "",
       source_type: "pdf",
       expires_in: 3600
