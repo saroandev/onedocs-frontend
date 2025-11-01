@@ -54,20 +54,14 @@ export const chatApi = {
   },
 
   getSourceByChat: async (data: ChatSourceDto): Promise<ChatSourceResponse> => {
-    // ✅ DİREKT MinIO presigned URL kullan
-    // Presigned URL'ler zaten kimlik doğrulamalı (X-Amz-Signature)
     const { document_url } = data;
 
-    // 🔒 Mixed Content Fix: HTTP → HTTPS
+    // Mixed Content Fix: HTTP → HTTPS
     // Frontend HTTPS üzerinde olduğu için, HTTP URL'ler tarayıcı tarafından engellenir
-    // AWS presigned URL signature protokol değişikliğinden etkilenmez
     const secureUrl = document_url.replace(/^http:\/\//i, "https://");
 
-    console.log("✅ Using presigned MinIO URL (HTTP→HTTPS for Mixed Content):", secureUrl);
-
-    // Response formatını koruyoruz (eski API ile uyumlu)
     return {
-      url: secureUrl, // ← HTTPS presigned URL!
+      url: secureUrl,
       document_id: document_url.split('/').pop()?.split('?')[0] || "",
       source_type: "pdf",
       expires_in: 3600

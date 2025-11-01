@@ -107,12 +107,6 @@ export const useCreateMessage = () => {
         metadata: citation.metadata,
       })) || [];
 
-      console.log("✅ Mapped citations to sources:", {
-        citationsCount: aiResponse.citations?.length,
-        mappedSourcesCount: mappedSources.length,
-        firstSource: mappedSources[0],
-      });
-
       const queryKey = ["chat", responseConversationId];
       queryClient.setQueryData<any>(queryKey, (old: any) => {
         if (!old) return old;

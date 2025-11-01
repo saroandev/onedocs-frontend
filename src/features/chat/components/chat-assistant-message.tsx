@@ -12,37 +12,27 @@ export const ChatAssistantMessage = (props: ChatAssistantMessageProps) => {
 
   const handleSourceByChat = useCallback(
     (sourceNumber: number) => {
-      console.log("📚 Source clicked:", { sourceNumber, sources, sourcesLength: sources?.length });
-
       const sourceIndex = sourceNumber - 1;
 
       if (!sources || sources.length === 0) {
-        console.error(`❌ Sources array boş veya undefined:`, sources);
         return;
       }
 
       if (sourceIndex < 0 || sourceIndex >= sources.length) {
-        console.error(`❌ Source ${sourceNumber} index out of bounds. Array length: ${sources.length}`);
         return;
       }
 
       const selectedSource = sources[sourceIndex];
-      console.log("📄 Selected source:", selectedSource);
 
       if (!selectedSource?.document_url) {
-        console.error(`❌ Source ${sourceNumber} için document_url bulunamadı:`, selectedSource);
         return;
       }
-
-      console.log("✅ Getting source with URL:", selectedSource.document_url);
-      console.log("📝 Highlight text:", selectedSource.text);
-      console.log("📄 Page number:", selectedSource.metadata?.page_number);
 
       getSource({
         document_url: selectedSource.document_url,
         expires_seconds: 3600,
-        highlight_text: selectedSource.text, // ← Citation text'i highlight için gönder
-        page_number: selectedSource.metadata?.page_number || 0, // ← Page number ekle
+        highlight_text: selectedSource.text,
+        page_number: selectedSource.metadata?.page_number || 0,
       });
     },
     [sources, getSource]

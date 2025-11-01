@@ -24,6 +24,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const [error, setError] = useState(false);
   const [scale, setScale] = useState<number>(1.0);
   const [showCitationInfo, setShowCitationInfo] = useState<boolean>(true);
+  const [isTextExpanded, setIsTextExpanded] = useState<boolean>(false);
   const documentRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -53,8 +54,9 @@ export const PdfViewer = (props: PdfViewerProps) => {
   useEffect(() => {
     if (!highlightText || !numPages || isLoading) return;
 
-    // Yeni citation geldiğinde info box'ı tekrar göster
+    // Yeni citation geldiğinde info box'ı tekrar göster ve collapsed hale getir
     setShowCitationInfo(true);
+    setIsTextExpanded(false);
 
     // TextLayer render olması için kısa bir delay
     const timer = setTimeout(() => {
@@ -107,12 +109,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
     const searchWords = words.slice(0, Math.min(20, words.length));
     const searchSubstring = searchWords.join(" ");
 
-    console.log("🔍 Original search text:", searchText.substring(0, 150));
-    console.log("🔍 Normalized search text (first 20 words):", searchSubstring);
-    console.log("🎯 Target page:", highlightPage + 1);
-    console.log("📊 Normalization test - before:", "i̇hale", "after:", normalizeText("i̇hale"));
-
-    textLayerDivs.forEach((textLayer, pageIndex) => {
+    textLayerDivs.forEach((textLayer, _pageIndex) => {
       // Eğer match bulunmuşsa diğer sayfaları skipple
       if (foundMatch) {
         return;
@@ -134,17 +131,11 @@ export const PdfViewer = (props: PdfViewerProps) => {
       // PDF text'ini de normalize et
       const normalizedFullText = normalizeText(fullText);
 
-      // Debug: PDF'den okunan text'i göster
-      console.log(`📄 Page ${pageIndex + 1} original text (first 150 chars):`, fullText.substring(0, 150));
-      console.log(`📄 Page ${pageIndex + 1} normalized text (first 150 chars):`, normalizedFullText.substring(0, 150));
-
       // Normalize edilmiş text'te ara
       const index = normalizedFullText.indexOf(searchSubstring);
 
       if (index !== -1) {
         foundMatch = true;
-        console.log(`✅ Match found on page ${pageIndex + 1} at index:`, index);
-        console.log("📄 PDF text snippet:", normalizedFullText.substring(index, index + 100));
 
         // Basit approach: Eşleşen kelimelerle başlayan ilk span'i bul
         const searchWords = searchSubstring.split(" ").filter(w => w.length > 2);
@@ -182,15 +173,9 @@ export const PdfViewer = (props: PdfViewerProps) => {
       setTimeout(() => {
         firstMatch?.scrollIntoView({ behavior: "smooth", block: "center" });
       }, 100);
-
-      console.log("✅ Text highlighted and scrolled");
     } else {
       // Exact match bulunamadı, page number'a göre scroll yap
-      console.warn("⚠️ Exact text match not found in PDF, scrolling to target page");
-      console.log("🔍 Search text:", searchSubstring);
-
       if (highlightPage > 0 && containerRef.current) {
-        // Page number'a göre scroll (0-indexed, bu yüzden highlightPage direk kullanılabilir)
         const targetPageElement = containerRef.current.querySelector(
           `.react-pdf__Page[data-page-number="${highlightPage + 1}"]`
         );
@@ -198,10 +183,7 @@ export const PdfViewer = (props: PdfViewerProps) => {
         if (targetPageElement) {
           setTimeout(() => {
             targetPageElement.scrollIntoView({ behavior: "smooth", block: "start" });
-            console.log(`✅ Scrolled to page ${highlightPage + 1}`);
           }, 100);
-        } else {
-          console.warn(`⚠️ Page ${highlightPage + 1} element not found`);
         }
       }
     }
@@ -318,7 +300,21 @@ export const PdfViewer = (props: PdfViewerProps) => {
                 <span className={styles.citationInfoPage}>Sayfa {highlightPage + 1}</span>
               )}
             </div>
-            <p className={styles.citationInfoText}>{highlightText}</p>
+            <p
+              className={classnames(styles.citationInfoText, {
+                [styles.expanded]: isTextExpanded,
+              })}
+            >
+              {highlightText}
+            </p>
+            {highlightText.length > 150 && (
+              <button
+                className={styles.expandButton}
+                onClick={() => setIsTextExpanded(!isTextExpanded)}
+              >
+                {isTextExpanded ? "Daha Az Gör" : "Devamını Gör"}
+              </button>
+            )}
           </div>
           <div className={styles.citationInfoClose}>
             <Button
