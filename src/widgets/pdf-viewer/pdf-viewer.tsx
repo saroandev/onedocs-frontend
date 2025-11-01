@@ -9,7 +9,6 @@ import { Alert, Button } from "@/shared/ui";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { useChatStore } from "@/features/chat";
-import { useAuthStore } from "@/features/auth/store/auth.store";
 
 // jsdelivr CDN'den worker yükle - cloudflare CDN'de versiyon yok
 // Alternatif: unpkg.com da kullanılabilir
@@ -19,7 +18,6 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const { fileUrl, pageable = false } = props;
   const setShowPdfViewer = useChatStore((state) => state.setShowPdfViewer);
   const isLoadingSourceUrl = useChatStore((state) => state.isLoadingSourceUrl);
-  const token = useAuthStore((state) => state.token);
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -30,15 +28,15 @@ export const PdfViewer = (props: PdfViewerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // PDF'i fetch ile indir ve blob URL oluştur
-  const fetchPdfAsBlob = async (url: string, authToken: string) => {
+  const fetchPdfAsBlob = async (url: string) => {
     try {
       console.log("🔄 Fetching PDF from:", url);
 
+      // ⚠️ Presigned URL'ler için Authorization header GÖNDERMEYİN!
+      // Presigned URL zaten X-Amz-Signature ile kimlik doğrulamalı
+      // Ekstra header göndermek signature'ı bozar
       const response = await fetch(url, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
         redirect: "follow", // Redirect'leri takip et (301, 302, etc.)
       });
 
@@ -96,11 +94,11 @@ export const PdfViewer = (props: PdfViewerProps) => {
 
   // fileUrl değiştiğinde PDF'i fetch et
   useEffect(() => {
-    if (fileUrl && token) {
+    if (fileUrl) {
       setIsLoading(true);
       setError(false);
       setPdfBlobUrl(null);
-      fetchPdfAsBlob(fileUrl, token);
+      fetchPdfAsBlob(fileUrl);
     }
 
     // Cleanup: blob URL'i temizle
@@ -110,12 +108,12 @@ export const PdfViewer = (props: PdfViewerProps) => {
       }
     };
     // ⚠️ pdfBlobUrl dependency'den ÇIKARILDI - infinite loop önlendi!
-  }, [fileUrl, token]);
+  }, [fileUrl]);
 
   const file = useMemo(() => {
     if (!pdfBlobUrl) return null;
 
-    // Blob URL kullan - artık authentication gerektirmez
+    // Blob URL kullan - presigned URL'ler doğrudan react-pdf ile çalışmıyor
     return { url: pdfBlobUrl };
   }, [pdfBlobUrl]);
 

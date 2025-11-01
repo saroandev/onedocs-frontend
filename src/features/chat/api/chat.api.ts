@@ -54,18 +54,15 @@ export const chatApi = {
   },
 
   getSourceByChat: async (data: ChatSourceDto): Promise<ChatSourceResponse> => {
-    // ✅ DİREKT MinIO URL kullan - Backend proxy gerekli değil!
-    // MinIO URL'i tarayıcıda zaten açılıyor, CORS sorunu yok
+    // ✅ DİREKT MinIO presigned URL kullan
+    // Presigned URL'ler zaten kimlik doğrulamalı (X-Amz-Signature)
     const { document_url } = data;
 
-    // 🔒 Mixed Content Fix: HTTP → HTTPS (frontend HTTPS üzerinden çalıştığı için)
-    const secureUrl = document_url.replace(/^http:\/\//i, "https://");
-
-    console.log("✅ Using direct MinIO URL (HTTP→HTTPS):", secureUrl);
+    console.log("✅ Using presigned MinIO URL (no modification):", document_url);
 
     // Response formatını koruyoruz (eski API ile uyumlu)
     return {
-      url: secureUrl, // ← HTTPS MinIO URL!
+      url: document_url, // ← Orjinal presigned URL!
       document_id: document_url.split('/').pop()?.split('?')[0] || "",
       source_type: "pdf",
       expires_in: 3600
