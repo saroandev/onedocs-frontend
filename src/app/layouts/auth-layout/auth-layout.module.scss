@@ -15,10 +15,25 @@
   .main {
     height: calc(100vh - 56px);
     display: flex;
+    position: relative;
   }
 
   .contentWrapper {
     width: 100%;
     height: 100%;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+
+    &.withPdfViewer {
+      width: calc(100% - 700px);
+
+      @media (max-width: 1200px) {
+        width: calc(100% - 500px);
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+    }
   }
 }

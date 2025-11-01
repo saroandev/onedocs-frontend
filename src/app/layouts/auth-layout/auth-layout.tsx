@@ -1,3 +1,5 @@
+import React from "react";
+import classnames from "classnames";
 import { useUIStore } from "@/shared/store/ui.store";
 import styles from "./auth-layout.module.scss";
 import { Header } from "@/widgets/header";
@@ -16,7 +18,13 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
       <div className={styles.mainWrapper} onClick={() => setChoosenTab("")}>
         <Header />
         <main className={styles.main}>
-          <div className={styles.contentWrapper}>{children}</div>
+          <div
+            className={classnames(styles.contentWrapper, {
+              [styles.withPdfViewer]: showPdfViewer,
+            })}
+          >
+            {children}
+          </div>
           {showPdfViewer && <PdfViewer fileUrl={sourceUrl} />}
         </main>
       </div>
